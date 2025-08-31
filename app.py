@@ -58,23 +58,23 @@ builders = st.Page(
     icon=":material/deployed_code_account:",
 )
 msl_sos = st.Page(
-    "views\merchandiser_msl_sos.py",
+    "views/merchandiser_msl_sos.py",
     title="MSL/Share of Shelf Tracking",
     icon=":material/shelves:",
 )
 outlet_onboarding = st.Page(
-    "views\merchandiser_onboard.py",
+    "views/merchandiser_onboard.py",
     title="Outlet Onboarding",
     icon=":material/add_business:",
 )
 oos = st.Page(
-    "views\merchandiser_oos.py",
+    "views/merchandiser_oos.py",
     title="OOS Tracking",
     icon=":material/production_quantity_limits:",
 )
 
 order = st.Page(
-    "views\merchandiser_order.py",
+    "views/merchandiser_order.py",
     title="Order Generation",
     icon=":material/orders:",
 )

@@ -1,4 +1,3 @@
-from tkinter import N
 import streamlit as st
 from streamlit_geolocation import streamlit_geolocation
 from db.db_utils import execute_query, add_oos_track, get_skus_grouped

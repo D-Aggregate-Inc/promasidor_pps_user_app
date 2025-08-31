@@ -1,0 +1,18 @@
+ERROR:root:Database connection error: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+
+ERROR:root:Failed to load outlet image: name 'outlet_name' is not defined
+ERROR:root:Failed to load outlet image: name 'outlet_name' is not defined
+ERROR:root:Failed to load outlet image: name 'outlet_name' is not defined
+ERROR:root:Failed to load outlet image: name 'outlet_name' is not defined
+ERROR:root:Database connection error: server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+server closed the connection unexpectedly
+	This probably means the server terminated abnormally
+	before or while processing the request.
+

@@ -1,0 +1,16 @@
+[server]
+port = 8501
+enableCORS = false
+enableXsrfProtection = false
+enableWebsocketCompression = false
+
+[theme]
+primaryColor = "#16478bff"
+backgroundColor = "#FFFFFF"
+secondaryBackgroundColor = "#f0f3f6ff"
+textColor = "#262730"
+font = "sans-serif"
+
+[client]
+showSidebarNavigation = true
+showErrorDetails = true

@@ -1,0 +1,7 @@
+bcrypt>=4.0.1
+streamlit
+psycopg2-binary
+boto3
+passlib[bcrypt]
+pillow
+streamlit_geolocation

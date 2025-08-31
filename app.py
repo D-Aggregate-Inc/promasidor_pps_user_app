@@ -80,7 +80,7 @@ order = st.Page(
 )
 
 expiry = st.Page(
-    "views\merchandiser_expiry.py",
+    "views/merchandiser_expiry.py",
     title="Expiry Tracking",
     icon=":material/timer_off:",
 )

@@ -14,3 +14,4 @@ font = "sans-serif"
 [client]
 showSidebarNavigation = true
 showErrorDetails = true
+toolbarMode = "minimal"

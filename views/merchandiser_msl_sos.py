@@ -35,7 +35,7 @@ for category, skus in skus_grouped.items():
                 sos_data[sku['id']] = facings
 msl_count = len(sos_data)
 
-image = st.file_uploader("Capture Shelf/Tray Image", type=['png', 'jpg', 'jpeg'], help="Image is required")
+image = st.camera_input("Capture Shelf/Tray Image", help="Image is required")
 
 location = streamlit_geolocation()
 if location and location['latitude'] is not None:

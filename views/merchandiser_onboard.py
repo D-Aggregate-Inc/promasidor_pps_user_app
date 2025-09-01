@@ -34,7 +34,7 @@ with st.form("Onboard Outlet"):
     contact_person=st.text_input("Contact Person", max_chars=50, help="E.g John Doe",placeholder="Enter contact person name")
     classification = st.selectbox("Channel", ['Neighborhood','Open market'])
     outlet_type = st.selectbox("Outlet Type", ['Wholesaler', 'GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 'Table Tops'])
-    image = st.file_uploader("Capture Outlet Image", type=['png', 'jpg', 'jpeg'], help="Image is required")
+    image = st.camera_input("Capture Outlet Image", help="Image is required")
     location = streamlit_geolocation()
     if location and location['latitude'] is not None:
         gps_lat = location['latitude']

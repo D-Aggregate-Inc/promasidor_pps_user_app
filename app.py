@@ -115,8 +115,8 @@ else:
         # st.page_link("pages/builder_deploy.py", label="Deploy POSM")
     elif user['role'] == 'merchandiser':
         pg3=st.navigation(
-            {":material/add_task:Merchandiser Tasks": [outlet_onboarding],
-            ":material/nest_doorbell_visitor:Merchandiser Visits":
+            {":material/add_task: Merchandiser Tasks": [outlet_onboarding],
+            ":material/nest_doorbell_visitor: Merchandiser Visits":
             [msl_sos, oos, order, expiry]
             }
                             )

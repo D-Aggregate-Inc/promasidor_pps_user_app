@@ -17,7 +17,7 @@ user_id = st.session_state['user']['id']
 
 st.markdown("""<hr class="line">""",unsafe_allow_html=True)
 st.write(f'Welcome, **:blue[{st.session_state["user"]["email"]}]**! Use the form below to onboard a new outlet.')
- location = streamlit_geolocation()
+location = streamlit_geolocation()
 if location and location['latitude'] is not None:
         gps_lat = location['latitude']
         gps_long = location['longitude']

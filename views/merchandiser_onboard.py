@@ -27,7 +27,7 @@ with st.form("Onboard Outlet"):
     region= execute_query("SELECT * FROM region")
     region_dict = {r['name']: r['id'] for r in region}  
     region_name = st.selectbox("Region", list(region_dict.keys()))
-    state=execute_query("SELECT * FROM state")
+    state=execute_query("SELECT * FROM states")
     locations_by_region=execute_query(f"SELECT l.id, l.name as loc_name, r.name as regions FROM locations_by_region l JOIN region r ON l.region_id=r.id WHERE regions={region_name}")
     loc_dict={l['loc_name']: l['regions'] for l in locations_by_region}
     loc_selection=st.selectbox("Location By Regions",list(loc_dict.keys()))

@@ -37,7 +37,7 @@ if selection == "States":
     state, statetable= st.columns([4,3], gap="small",vertical_alignment="top")
         # Manage States
     with state:
-        with st.expander("Manage and Create a state States", expanded=True):
+        with st.expander("Manage and Create States", expanded=True):
             new_state = st.text_input("Add State")
             if st.button("Add State"):
                 try:

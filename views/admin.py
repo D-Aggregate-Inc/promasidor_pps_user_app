@@ -82,7 +82,7 @@ if selection == "Locations":
                     st.caption("Click on a location to view its outlets", unsafe_allow_html=True)
                 except Exception as e:
                     st.error(f"Error fetching locations: {e}")
-if selection == "Location By Reion":
+if selection == "Location By Region":
     # Manage Locations
     location, location_table=st.columns([4,3],gap='medium',vertical_alignment='top')
     with location:

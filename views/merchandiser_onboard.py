@@ -17,8 +17,15 @@ user_id = st.session_state['user']['id']
 
 st.markdown("""<hr class="line">""",unsafe_allow_html=True)
 st.write(f'Welcome, **:blue[{st.session_state["user"]["email"]}]**! Use the form below to onboard a new outlet.')
-
-with st.expander("Input Outlet Information",expanded=True)
+ location = streamlit_geolocation()
+if location and location['latitude'] is not None:
+        gps_lat = location['latitude']
+        gps_long = location['longitude']
+        st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
+    else:
+        st.warning("Waiting for GPS location...")
+        gps_lat, gps_long = None, None
+with st.expander("Input Outlet Information",expanded=True):
     name = st.text_input("Outlet Name", max_chars=50, help="E.g DM Ventures",placeholder="Enter outlet name")
     phone_contact = st.text_input("Contact Phone", max_chars=11, help="11-digit phone number",placeholder="08012345678")
     outlet_number = st.text_input("Outlet Number", max_chars=20, help="E.g No. 12, Shop 34B")
@@ -40,14 +47,8 @@ with st.expander("Input Outlet Information",expanded=True)
     classification = st.selectbox("Channel", ['Neighborhood','Open market'])
     outlet_type = st.selectbox("Outlet Type", ['Wholesaler', 'GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 'Table Tops'])
     image = st.camera_input("Capture Outlet Image", help="Image is required")
-    location = streamlit_geolocation()
-    if location and location['latitude'] is not None:
-        gps_lat = location['latitude']
-        gps_long = location['longitude']
-        st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
-    else:
-        st.warning("Waiting for GPS location...")
-        gps_lat, gps_long = None, None
+   
+    
     
     if st.button("Submit Outlet Onboarded",type='primary') and gps_lat and image:
         image_key = upload_image(image.getvalue(), folder='outlets')

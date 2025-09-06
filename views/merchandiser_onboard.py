@@ -28,10 +28,14 @@ with st.form("Onboard Outlet"):
     region_dict = {r['name']: r['id'] for r in region}  
     region_name = st.selectbox("Region", list(region_dict.keys()))
     state=execute_query("SELECT * FROM state")
-    locations = execute_query("SELECT l.id, l.name, s.name as state FROM locations l JOIN states s ON l.state_id = s.id")
-    loc_dict = {f"{loc['state']} - {loc['name']}": loc['id'] for loc in locations}
-    loc_selection = st.selectbox("Location", list(loc_dict.keys()))
-    location_id = loc_dict[loc_selection]
+    locations_by_region=execute_query(f"SELECT l.id, l.name as loc_name, r.name as regions FROM locations_by_region l JOIN region r ON l.region_id=r.id WHERE regions={region_name}")
+    loc_dict={l['loc_name']: l['regions'] for l in locations_by_region}
+    loc_selection=st.selectbox("Location By Regions",list(loc_dict.keys()))
+    location_id=loc_dict[loc_selection]
+    # locations = execute_query("SELECT l.id, l.name, s.name as state FROM locations l JOIN states s ON l.state_id = s.id")
+    # loc_dict = {f"{loc['state']} - {loc['name']}": loc['id'] for loc in locations}
+    # loc_selection = st.selectbox("Location", list(loc_dict.keys()))
+    # location_id = loc_dict[loc_selection]
     contact_person=st.text_input("Contact Person", max_chars=50, help="E.g John Doe",placeholder="Enter contact person name")
     classification = st.selectbox("Channel", ['Neighborhood','Open market'])
     outlet_type = st.selectbox("Outlet Type", ['Wholesaler', 'GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 'Table Tops'])

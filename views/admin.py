@@ -1,4 +1,3 @@
-from turtle import setup
 import streamlit as st
 import warnings
 from datetime import date

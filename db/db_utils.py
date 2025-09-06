@@ -24,18 +24,18 @@ def init_connection_pool():
         sslmode='require'  # Ensure SSL for Digital Ocean
     )
 
-@st.cache_resource
-def init_connection_pool():
-    return SimpleConnectionPool(
-        minconn=1,
-        maxconn=10,
-        host=DB_HOST,
-        port=DB_PORT,
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        sslmode='require'
-    )
+# @st.cache_resource
+# def init_connection_pool():
+#     return SimpleConnectionPool(
+#         minconn=1,
+#         maxconn=10,
+#         host=DB_HOST,
+#         port=DB_PORT,
+#         dbname=DB_NAME,
+#         user=DB_USER,
+#         password=DB_PASSWORD,
+#         sslmode='require'
+#     )
 
 # @st.cache_data(ttl=300)
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=1, max=10), retry=retry_if_exception_type(psycopg2.OperationalError))

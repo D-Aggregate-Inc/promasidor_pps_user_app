@@ -29,7 +29,7 @@ skus_grouped = get_skus_grouped()
 order_data = []
 for category, skus in skus_grouped.items():
     with st.expander(category):
-        for sku in skus:
+        for sku in skus-000000000000000000000
             quantity = st.number_input(f"{sku['name']} Quantity", min_value=0, value=0, key=f"qty_{sku['id']}")
             if quantity > 0:
                 order_data.append({"sku_id": sku['id'], "quantity": quantity})

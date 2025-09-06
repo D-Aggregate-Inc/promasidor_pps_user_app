@@ -86,23 +86,23 @@ if selection == "Location By Region":
     # Manage Locations
     location, location_table=st.columns([4,3],gap='medium',vertical_alignment='top')
     with location:
-        with st.expander("Manage Locations", expanded=True):
-            states = execute_query("SELECT * FROM states")
-            state_dict = {s['name']: s['id'] for s in states}
-            state_name = st.selectbox("State", list(state_dict.keys()))
-            state_id = state_dict[state_name]
+        with st.expander("Manage Locations By Region", expanded=True):
+            regions = execute_query("SELECT * FROM region")
+            region_dict = {r['name']: r['id'] for r in regions}
+            region_name = st.selectbox("Region", list(region_dict.keys()))
+            region_id = region_dict[region_name]
             new_loc = st.text_input("Add Location")
             if st.button("Add Location"):
                 try:
-                    add_location(state_id, new_loc)
-                    st.success(f"Location {new_loc} added to {state_name} successfully.")
+                    add_location(region_id, new_loc)
+                    st.success(f"Location {new_loc} added to {region_name} successfully.")
                 except Exception as e:
                     st.error(f"Error adding location: {e}")
                 # add_location(state_id, new_loc)
             with location_table:
                 try:
-                    st.write(f"🗺 **:green[Locations in {state_name}]**")
-                    locs = execute_query("SELECT * FROM locations WHERE state_id = %s", (state_id,))
+                    st.write(f"🗺 **:green[Locations in {region_name}]**")
+                    locs = execute_query("SELECT * FROM locations WHERE region_id = %s", region_id,))
                     st.dataframe(locs)
                     st.caption("Click on a location to view its outlets", unsafe_allow_html=True)
                 except Exception as e:

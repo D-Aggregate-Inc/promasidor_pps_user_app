@@ -94,7 +94,7 @@ if selection == "Location By Region":
             new_loc = st.text_input("Add Location")
             if st.button("Add Location"):
                 try:
-                    add_location(region_id, new_loc)
+                    add_location_by_region(region_id, new_loc)
                     st.success(f"Location {new_loc} added to {region_name} successfully.")
                 except Exception as e:
                     st.error(f"Error adding location: {e}")

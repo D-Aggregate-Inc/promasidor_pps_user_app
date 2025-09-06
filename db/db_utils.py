@@ -87,7 +87,8 @@ def add_user(email, phone, password_hash, role):
         "INSERT INTO users (email, phone, password_hash, role) VALUES (%s, %s, %s, %s)",
         (email, phone, password_hash, role), fetch=None
     )
-
+def add_location_by_region(region_id,name):
+    execute_query("INSERT INTO location_by_region(region_id,name) VALUES (%s, %s)",(region_id,name), fetch=None)
 # Other functions (add_state, add_location, etc.) remain similar
 def add_region(name):
     execute_query("INSERT INTO region (name) VALUES (%s)", (name,), fetch=None)

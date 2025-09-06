@@ -115,7 +115,10 @@ else:
         # st.page_link("pages/builder_deploy.py", label="Deploy POSM")
     elif user['role'] == 'merchandiser':
         pg3=st.navigation(
-            {"Merchandiser Tasks": [outlet_onboarding, msl_sos, oos, order, expiry]}
+            {":material/add_task:Merchandiser Tasks": [outlet_onboarding],
+            "Merchandiser Visits":
+            [msl_sos, oos, order, expiry]
+            }
                             )
         pg3.run()
         st.sidebar.image('assets/OM Lockup Dairy and Beverage 2.png', caption="A look of success for OM Perfect Store®️", width=200)

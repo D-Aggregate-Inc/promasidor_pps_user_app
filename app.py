@@ -116,7 +116,7 @@ else:
     elif user['role'] == 'merchandiser':
         pg3=st.navigation(
             {":material/add_task:Merchandiser Tasks": [outlet_onboarding],
-            "Merchandiser Visits":
+            ":material/nest_doorbell_visitor:Merchandiser Visits":
             [msl_sos, oos, order, expiry]
             }
                             )

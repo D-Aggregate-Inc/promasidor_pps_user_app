@@ -102,7 +102,7 @@ if selection == "Location By Region":
             with location_table:
                 try:
                     st.write(f"🗺 **:green[Locations in {region_name}]**")
-                    locs = execute_query("SELECT * FROM locations WHERE region_id = %s", region_id,))
+                    locs = execute_query("SELECT * FROM locations WHERE region_id = %s", (region_id,))
                     st.dataframe(locs)
                     st.caption("Click on a location to view its outlets", unsafe_allow_html=True)
                 except Exception as e:

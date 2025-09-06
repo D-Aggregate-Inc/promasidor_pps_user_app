@@ -6,6 +6,8 @@ from utils.spaces import upload_image
 st.write(":material/local_convenience_store:**:blue[Track MSL/Share of Shelf]**")
 
 user_id = st.session_state['user']['id']
+st.info("Please click on GPS button to get your location GPS")
+location = streamlit_geolocation()
 outlets = execute_query("""
     SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.outlet_type, o.classification,o.contact_person,
            l.name AS location_name, s.name AS state_name
@@ -37,7 +39,7 @@ msl_count = len(sos_data)
 
 image = st.camera_input("Capture Shelf/Tray Image", help="Image is required")
 
-location = streamlit_geolocation()
+# location = streamlit_geolocation()
 if location and location['latitude'] is not None:
     gps_lat = location['latitude']
     gps_long = location['longitude']

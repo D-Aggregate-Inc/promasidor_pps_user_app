@@ -5,6 +5,8 @@ from db.db_utils import execute_query, add_oos_track, get_skus_grouped
 st.write(":material/local_convenience_store:**:blue[Track Out-of-Stock]**")
 
 user_id = st.session_state['user']['id']
+st.info("Please click on GPS button to get your location GPS")
+location = streamlit_geolocation()
 outlets = execute_query("""
     SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.outlet_type, o.classification,o.contact_person,
            l.name AS location_name, s.name AS state_name
@@ -33,7 +35,7 @@ for category, skus in skus_grouped.items():
                 # reason = st.text_input(f"Reason for {sku['name']}", key=f"reason_{sku['id']}", help="Owing Distributor, Dont Have Money To Stock, Low Demand, Others")
                 oos_data.append({"sku_id": sku['name'], "reason": None})
 
-location = streamlit_geolocation()
+# location = streamlit_geolocation()
 if location and location['latitude'] is not None:
     gps_lat = location['latitude']
     gps_long = location['longitude']

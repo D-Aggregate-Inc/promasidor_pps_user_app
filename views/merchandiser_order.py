@@ -5,6 +5,8 @@ from db.db_utils import execute_query, add_order_track, get_skus_grouped
 st.write(":material/local_convenience_store:**:blue[Generate Order]**")
 
 user_id = st.session_state['user']['id']
+st.info("Please click on GPS button to get your location GPS")
+location = streamlit_geolocation()
 outlets = execute_query("""
     SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.outlet_type, o.classification,o.contact_person,
            l.name AS location_name, s.name AS state_name
@@ -32,7 +34,7 @@ for category, skus in skus_grouped.items():
             if quantity > 0:
                 order_data.append({"sku_id": sku['id'], "quantity": quantity})
 
-location = streamlit_geolocation()
+# location = streamlit_geolocation()
 if location and location['latitude'] is not None:
     gps_lat = location['latitude']
     gps_long = location['longitude']

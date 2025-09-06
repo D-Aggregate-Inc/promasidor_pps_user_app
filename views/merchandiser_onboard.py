@@ -46,21 +46,18 @@ with st.expander("Input Outlet Information",expanded=True):
     contact_person=st.text_input("Contact Person", max_chars=50, help="E.g John Doe",placeholder="Enter contact person name")
     classification = st.selectbox("Channel", ['Neighborhood','Open market'])
     outlet_type = st.selectbox("Outlet Type", ['Wholesaler', 'GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 'Table Tops'])
-    image = st.camera_input("Capture Outlet Image", help="Image is required")
-   
-    
-    
-if st.button("Submit Outlet Onboarded",type='primary') and gps_lat and image:
-    image_key = upload_image(image.getvalue(), folder='outlets')
-    if image_key:
-        if get_outlet_by_phone_contact(phone_contact):
-            st.warning("An outlet with this contact phone already exists.")
-        add_outlet(name, location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,
-                    phone_contact, outlet_number, outlet_address,outlet_landmark, contact_person)
-                
-        st.success("Outlet Onboarded Successfully!")
-    else:
-        st.error("Image upload failed. Please try again.")
+    image = st.camera_input("Capture Outlet Image", help="Image is required")    
+    if st.button("Submit Outlet Onboarded",type='primary') and gps_lat and image:
+        image_key = upload_image(image.getvalue(), folder='outlets')
+        if image_key:
+            if get_outlet_by_phone_contact(phone_contact):
+                st.warning("An outlet with this contact phone already exists.")
+            add_outlet(name, location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,
+                        phone_contact, outlet_number, outlet_address,outlet_landmark, contact_person)
+                    
+            st.success("Outlet Onboarded Successfully!")
+        else:
+            st.error("Image upload failed. Please try again.")
     # elif  not gps_lat:
     #     st.warning("GPS location is required to onboard an outlet.")
     # elif not image:

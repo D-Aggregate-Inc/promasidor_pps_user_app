@@ -91,11 +91,11 @@ if selection == "Location By Region":
             region_dict = {r['name']: r['id'] for r in regions}
             region_name = st.selectbox("Region", list(region_dict.keys()))
             region_id = region_dict[region_name]
-            new_loc = st.text_input("Add Location")
+            new_locbyregion = st.text_input("Add Location")
             if st.button("Add Location"):
                 try:
-                    add_location_by_region(region_id, new_loc)
-                    st.success(f"Location {new_loc} added to {region_name} successfully.")
+                    add_location_by_region(region_id, new_locbyregion)
+                    st.success(f"Location {new_locbyregion} added to {region_name} successfully.")
                 except Exception as e:
                     st.error(f"Error adding location: {e}")
                 # add_location(state_id, new_loc)

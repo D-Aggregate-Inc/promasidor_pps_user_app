@@ -35,7 +35,7 @@ for category, skus in skus_grouped.items():
             facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
             competition_facing=st.number_input("Input Competition Facing",min_value=0,value=0,key=f"Competion_Facing_{category['id']}")
             if facings > 0:
-                sos_data[sku['id'],"competition"] = facings,competition_facing
+                sos_data[sku['id']] = facings
 msl_count = len(sos_data)
 
 image = st.camera_input("Capture Shelf/Tray Image", help="Image is required")

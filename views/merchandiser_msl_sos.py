@@ -38,7 +38,7 @@ for category, skus in skus_grouped.items():
             if facings > 0:
                 sos_data["your_skus"][str(sku['id'])] = facings
         # Competitor facings
-        competitor_facings[category] = st.number_input(f":orange[Competitor Facings for {category}]", min_value=0, value=0, key=f"comp_facing_{category}")
+        competitor_facings[category] = st.number_input(f":orange[**Competitor Facings for {category}**]", min_value=0, value=0, key=f"comp_facing_{category}")
         if competitor_facings[category] > 0:
             sos_data["competitor_facings"][category] = competitor_facings[category]
 

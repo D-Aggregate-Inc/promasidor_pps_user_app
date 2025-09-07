@@ -29,6 +29,7 @@ else:
 
 skus_grouped = get_skus_grouped()
 sos_data = {"your_skus": {}, "competitor_facings": {}}
+competitor_facings={}
 for category, skus in skus_grouped.items():
     with st.expander(category):
         # Your SKUs

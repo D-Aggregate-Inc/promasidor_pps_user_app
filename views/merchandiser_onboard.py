@@ -31,7 +31,7 @@ with st.expander("Input Outlet Information",expanded=True):
     # state=execute_query("SELECT * FROM states")
     locations_by_region=execute_query(f"SELECT l.id, l.name as loc_name, r.name as regions FROM locations_by_region l JOIN region r ON l.region_id=r.id WHERE r.name='{region}'")
     if locations_by_region:
-            loc_dict={l['loc_name']: l['regions'] for l in locations_by_region}
+            loc_dict={l['loc_name']: l['id'] for l in locations_by_region}
             loc_selection=st.selectbox("Location By Regions",list(loc_dict.keys()))
             location_id=loc_dict[loc_selection]
     else:

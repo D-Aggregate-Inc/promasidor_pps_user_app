@@ -111,10 +111,10 @@ def add_posm(name):
 def add_outlet(name, location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,phone_contact, outlet_number, outlet_address,  
                    outlet_landmark,contact_person):
     execute_query(
-        """INSERT INTO outlets (name, location_id, classification, outlet_type, onboarded_by_user_id, gps_lat, gps_long, outlet_image_key,phone_contact, outlet_number, outlet_address,  
+        """INSERT INTO outlets (name, region_name,location_id, classification, outlet_type, onboarded_by_user_id, gps_lat, gps_long, outlet_image_key,phone_contact, outlet_number, outlet_address,  
                    outlet_landmark,contact_person)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)""",
-        (name, location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,phone_contact, outlet_number, outlet_address,  
+        VALUES (%s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)""",
+        (name, region_name, location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,phone_contact, outlet_number, outlet_address,  
                    outlet_landmark,contact_person), fetch=None
     )
 

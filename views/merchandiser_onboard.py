@@ -57,7 +57,7 @@ with st.expander("Input Outlet Information",expanded=True):
         if image_key:
             if get_outlet_by_phone_contact(phone_contact):
                 st.warning("An outlet with this contact phone already exists.")
-            add_outlet(name, location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,
+            add_outlet(name, region_name,location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,
                         phone_contact, outlet_number, outlet_address,outlet_landmark, contact_person)
                     
             st.success("Outlet Onboarded Successfully!")

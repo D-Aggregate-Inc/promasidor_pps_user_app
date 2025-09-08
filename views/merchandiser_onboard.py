@@ -25,11 +25,11 @@ with st.expander("Input Outlet Information",expanded=True):
     outlet_number = st.text_input("Shop Number", max_chars=20, help="E.g No. 12, Shop 34B")
     outlet_address = st.text_area("Address", max_chars=200, help="E.g 12, Shop 34B, Tipper Garage Road")
     outlet_landmark = st.text_input("Landmark ", max_chars=50, help="E.g Opposite Tipper Garage, Near Shoprite Mall")
-    region= execute_query("SELECT * FROM region")
-    region_dict = {r['name']: r['id'] for r in region}  
-    region_name = st.selectbox("Region", list(region_dict.keys()))
+    region_query= execute_query("SELECT * FROM region")
+    region_dict = {r['name']: r['id'] for r in region_query}  
+    region = st.selectbox("Region", list(region_dict.keys()))
     # state=execute_query("SELECT * FROM states")
-    locations_by_region=execute_query(f"SELECT l.id, l.name as loc_name, r.name as regions FROM locations_by_region l JOIN region r ON l.region_id=r.id WHERE r.name='{region_name}'")
+    locations_by_region=execute_query(f"SELECT l.id, l.name as loc_name, r.name as regions FROM locations_by_region l JOIN region r ON l.region_id=r.id WHERE r.name='{region}'")
     if locations_by_region:
             loc_dict={l['loc_name']: l['regions'] for l in locations_by_region}
             loc_selection=st.selectbox("Location By Regions",list(loc_dict.keys()))
@@ -58,7 +58,7 @@ with st.expander("Input Outlet Information",expanded=True):
             if get_outlet_by_phone_contact(phone_contact):
                 st.warning("An outlet with this contact phone already exists.")
             add_outlet(name,location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,
-                        phone_contact, outlet_number, outlet_address,outlet_landmark, contact_person,region_name)
+                        phone_contact, outlet_number, outlet_address,outlet_landmark, contact_person,region)
                     
             st.success("Outlet Onboarded Successfully!")
         else:

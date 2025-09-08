@@ -22,7 +22,7 @@ location = streamlit_geolocation()
 with st.expander("Input Outlet Information",expanded=True):
     name = st.text_input("Outlet Name", max_chars=50, help="E.g DM Ventures",placeholder="Enter outlet name")
     phone_contact = st.text_input("Contact Phone", max_chars=11, help="11-digit phone number",placeholder="08012345678")
-    outlet_number = st.text_input("Outlet Number", max_chars=20, help="E.g No. 12, Shop 34B")
+    outlet_number = st.text_input("Shop Number", max_chars=20, help="E.g No. 12, Shop 34B")
     outlet_address = st.text_area("Address", max_chars=200, help="E.g 12, Shop 34B, Tipper Garage Road")
     outlet_landmark = st.text_input("Landmark ", max_chars=50, help="E.g Opposite Tipper Garage, Near Shoprite Mall")
     region= execute_query("SELECT * FROM region")

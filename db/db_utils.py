@@ -109,13 +109,13 @@ def add_posm(name):
     execute_query("INSERT INTO posms (name) VALUES (%s)", (name,), fetch=None)
 
 def add_outlet(name, location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,phone_contact, outlet_number, outlet_address,  
-                   outlet_landmark,contact_person):
+                   outlet_landmark,contact_person,region_name):
     execute_query(
-        """INSERT INTO outlets (name, region_name,location_id, classification, outlet_type, onboarded_by_user_id, gps_lat, gps_long, outlet_image_key,phone_contact, outlet_number, outlet_address,  
-                   outlet_landmark,contact_person)
+        """INSERT INTO outlets (name,location_id, classification, outlet_type, onboarded_by_user_id, gps_lat, gps_long, outlet_image_key,phone_contact, outlet_number, outlet_address,  
+                   outlet_landmark,contact_person,region_name)
         VALUES (%s, %s, %s,%s, %s, %s, %s, %s, %s, %s, %s, %s, %s,%s)""",
-        (name, region_name, location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,phone_contact, outlet_number, outlet_address,  
-                   outlet_landmark,contact_person), fetch=None
+        (name, location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,phone_contact, outlet_number, outlet_address,  
+                   outlet_landmark,contact_person,region_name), fetch=None
     )
 
 def add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long):

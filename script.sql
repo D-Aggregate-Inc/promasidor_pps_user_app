@@ -15,6 +15,11 @@ CREATE TABLE states (
     name VARCHAR(100) UNIQUE NOT NULL  -- e.g., 'Lagos', 'Abuja'
 );
 
+CREATE TABLE banks (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) UNIQUE NOT NULL  -- e.g., 'Access Bank', 'GT Bank'
+);
+
 -- Locations Table (neighborhoods/markets within states)
 CREATE TABLE locations (
     id SERIAL PRIMARY KEY,

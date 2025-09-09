@@ -96,8 +96,13 @@ def add_region(name):
 def add_state(name):
     execute_query("INSERT INTO states (name) VALUES (%s)", (name,), fetch=None)
 
+def add_bank(name):
+    execute_query("INSERT INTO banks (name) VALUES (%s)", (name,), fetch=None)
+
 def add_location(state_id, name):
     execute_query("INSERT INTO locations (state_id, name) VALUES (%s, %s)", (state_id, name), fetch=None)
+
+
 
 def add_sku(category, name, description, expiry_tracking):
     execute_query(

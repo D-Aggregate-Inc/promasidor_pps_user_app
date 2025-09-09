@@ -2,7 +2,7 @@ import streamlit as st
 import warnings
 from datetime import date
 import logging
-from db.db_utils import execute_query, add_state, add_location, add_sku, add_posm, disable_user, add_region,add_location_by_region
+from db.db_utils import execute_query, add_state, add_location, add_sku, add_posm, disable_user, add_region,add_location_by_region, add_bank
 
 logging.basicConfig(filename='app.log', level=logging.ERROR)
 
@@ -138,7 +138,31 @@ if selection == "SKUs":
                     st.error(f"Error fetching SKUs: {e}")
 
     st.markdown("""<hr class="line">""",unsafe_allow_html=True)  
+#Adding Banks
+if selection == "Banks":
+    # Manage POSMs
+    banks,banks_table=st.columns([4,3],gap='medium',vertical_alignment='top')
+    with banks:
+        with st.expander("Manage Banks", expanded=True):
+                new_bank = st.text_input("Add Banks (e.g., Access Bank)")
+                if st.button("Add Bank"):
+                    try:
+                        add_bank(new_bank)
+                        st.success(f"POSM {new_bank} added successfully.")
+                    except Exception as e:
+                        st.error(f"Error adding POSM: {e}")
+                    # add_posm(new_posm)
+                with banks_table: 
+                    try:
+                        st.write("📦 **:green[Existing Banks]**")
+                        banks_ = execute_query("SELECT * FROM banks")
+                        st.dataframe(banks_)
+                        st.caption("Click on a Banks to view details", unsafe_allow_html=True)
+                    except Exception as e:
+                        st.error(f"Error fetching POSMs: {e}")
 
+    st.markdown("""<hr class="line">""",unsafe_allow_html=True) 
+#Adding POSMs
 if selection == "POSMs":
     # Manage POSMs
     posms,posms_table=st.columns([4,3],gap='medium',vertical_alignment='top')

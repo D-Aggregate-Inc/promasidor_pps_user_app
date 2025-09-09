@@ -20,6 +20,7 @@ st.write(f'Welcome, **:blue[{st.session_state["user"]["email"]}]**! Use the form
 st.info("Please click on GPS button to get your location GPS")
 location = streamlit_geolocation()
 with st.expander("Input Outlet Information",expanded=True):
+    st.info("➕Outlet details")
     name = st.text_input("Outlet Name", max_chars=50, help="E.g DM Ventures",placeholder="Enter outlet name")
     phone_contact = st.text_input("Contact Phone", max_chars=11, help="11-digit phone number",placeholder="08012345678")
     outlet_number = st.text_input("Shop Number", max_chars=20, help="E.g No. 12, Shop 34B")
@@ -42,8 +43,12 @@ with st.expander("Input Outlet Information",expanded=True):
     # location_id = loc_dict[loc_selection]
     contact_person=st.text_input("Contact Person", max_chars=50, help="E.g John Doe",placeholder="Enter contact person name")
     classification = st.selectbox("Channel", ['Neighborhood','Open market'])
-    outlet_type = st.selectbox("Outlet Type", ['Wholesaler', 'GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 'Table Tops'])
+    outlet_type = st.selectbox("Outlet Type", ['GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 'Table Tops'])
+    
     image = st.camera_input("Capture Outlet Image", help="Image is required")
+    st.info(":material/account_balance: Account Information of Outlet Owner")
+    account_no=st.number_input("Account Number",max_chars=10, help="10-digit account number",placeholder="8012345678")
+
     if location and location['latitude'] is not None:
         gps_lat = location['latitude']
         gps_long = location['longitude']

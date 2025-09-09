@@ -50,7 +50,7 @@ with st.expander("Input Outlet Information",expanded=True):
     
     image = st.camera_input("Capture Outlet Image", help="Image is required")
     st.info(":material/account_balance: Account Information of Outlet Owner")
-    account_no=st.number_input("Account Number",min_value=0, help="10-digit account number",placeholder="8012345678")
+    account_no=st.number_input("Account Number",value=None, help="10-digit account number",placeholder="8012345678")
     bank_query=banks()
     bank_dict = {b['name']: b['id'] for b in bank_query}  
     bank_name = st.selectbox("Banks", list(bank_dict.keys()))

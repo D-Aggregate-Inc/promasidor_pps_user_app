@@ -2,7 +2,7 @@ import streamlit as st
 import warnings
 from datetime import date
 import logging
-from db.db_utils import execute_query, add_state, add_location, add_sku, add_posm, disable_user, add_region,add_location_by_region, add_bank
+from db.db_utils import execute_query, add_state, add_location, add_sku,add_posm, disable_user, add_region,add_location_by_region,add_bank
 
 logging.basicConfig(filename='app.log', level=logging.ERROR)
 

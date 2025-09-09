@@ -64,20 +64,20 @@ def upload_image(image_bytes, folder='images', gps_lat=None, gps_long=None):
         img.thumbnail((1024, 1024))  # Optimize size
         buffer = io.BytesIO()
 
-        # Add EXIF metadata
-        exif_data = get_exif(img)
+        # # Add EXIF metadata
+        # exif_data = get_exif(img)
         
-        # Set datetime
-        current_time = datetime.now().strftime('%Y:%m:%d %H:%M:%S')
-        exif_data[TAGS.get('DateTimeOriginal')] = current_time
+        # # Set datetime
+        # current_time = datetime.now().strftime('%Y:%m:%d %H:%M:%S')
+        # exif_data[TAGS.get('DateTimeOriginal')] = current_time
         
-        # Set GPS data if provided
-        if gps_lat is not None and gps_long is not None:
-            exif_data = set_gps_exif(exif_data, gps_lat, gps_long)
+        # # Set GPS data if provided
+        # if gps_lat is not None and gps_long is not None:
+        #     exif_data = set_gps_exif(exif_data, gps_lat, gps_long)
 
-        # Save image with EXIF data
-        img.save(buffer, format="JPEG", quality=85, exif=exif_data)
-        buffer.seek(0)
+        # # Save image with EXIF data
+        # img.save(buffer, format="JPEG", quality=85, exif=exif_data)
+        # buffer.seek(0)
 
         key = f"{folder}/{uuid.uuid4()}.jpg"
         client.put_object(Bucket=SPACES_BUCKET, Key=key, Body=buffer.getvalue(), ACL='public-read')

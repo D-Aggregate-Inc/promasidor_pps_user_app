@@ -65,7 +65,7 @@ with st.expander("Input Outlet Information",expanded=True):
       
     if st.button("Submit Outlet Onboarded",type='primary') and gps_lat and image:
         # image_base64 = base64.b64encode(image.getvalue()).decode('utf-8')
-        image_key = upload_image(image.getvalue(), folder='outlets',gps_lat=gps_lat,gps_long=gps_long)
+        image_key = upload_image(image.getvalue(), folder='outlets', gps_lat=gps_lat, gps_long=gps_long)
         if image_key:
             if get_outlet_by_phone_contact(phone_contact):
                 st.warning("An outlet with this contact phone already exists.")

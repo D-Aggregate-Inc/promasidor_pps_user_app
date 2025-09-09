@@ -59,3 +59,5 @@ if st.button("Submit MSL/SOS") and gps_lat and image:
     if image_key:
         add_msl_sos_track(outlet_id, user_id, sos_data, msl_count, image_key, gps_lat, gps_long)
         st.success("MSL/SOS Tracked!")
+    else:
+        st.error("Image Not Uploaded")

@@ -49,6 +49,8 @@ with st.expander("Input Outlet Information",expanded=True):
     outlet_type = st.selectbox("Outlet Type", ['GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 'Table Tops'])
     
     image = st.camera_input("Capture Outlet Image", help="Image is required")
+
+    #account detail info
     st.info(":material/account_balance: Account Information of Outlet Owner")
     account_no=st.text_input("Account Number", max_chars=10, help="10-digit account number",placeholder="8012345678")
     bank_query=banks()

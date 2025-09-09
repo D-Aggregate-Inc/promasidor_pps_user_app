@@ -13,7 +13,7 @@ warnings.filterwarnings('ignore')
 st.write(":material/local_convenience_store:**:orange[Outlet Onboarding]**")
 @st.cache_data(show_spinner=False, persist='disk')
 def banks():
-    bank=execute_query("SELECT * FROM bank")
+    bank=execute_query("SELECT * FROM banks")
     return bank
 
 user_id = st.session_state['user']['id']

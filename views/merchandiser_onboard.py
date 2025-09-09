@@ -54,6 +54,7 @@ with st.expander("Input Outlet Information",expanded=True):
     bank_query=banks()
     bank_dict = {b['name']: b['id'] for b in bank_query}  
     bank_name = st.selectbox("Banks", list(bank_dict.keys()))
+    account_name=st.text_input("Account Name", max_chars=200, help="Akeusola Chukuemeka Haruna")
     if location and location['latitude'] is not None:
         gps_lat = location['latitude']
         gps_long = location['longitude']
@@ -68,7 +69,7 @@ with st.expander("Input Outlet Information",expanded=True):
             if get_outlet_by_phone_contact(phone_contact):
                 st.warning("An outlet with this contact phone already exists.")
             add_outlet(name,location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,
-                        phone_contact, outlet_number, outlet_address,outlet_landmark, contact_person,region)
+                        phone_contact, outlet_number, outlet_address,outlet_landmark, contact_person,region,account_no,bank_name,account_name)
                     
             st.success("Outlet Onboarded Successfully!")
         else:

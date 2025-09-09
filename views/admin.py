@@ -14,7 +14,7 @@ setup_fields= st.sidebar.expander("⚙ :blue[Admin Backend Setup Fields]", expan
 with setup_fields:
         st.caption("Use this section to manage regions, states, locations, SKUs, POSMs, and user accounts.")
         selection=st.selectbox("Select Setup Section", 
-        ["Regions","States","Locations","SKUs","POSMs","Users","Location By Region"], key="admin_setup_section")
+        ["Regions","States","Locations","SKUs","POSMs","Users","Location By Region, Banks"], key="admin_setup_section")
 if selection == "Regions":
     region, regiontable= st.columns([4,3], gap="small",vertical_alignment="top")
         # Manage States

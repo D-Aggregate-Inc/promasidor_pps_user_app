@@ -9,6 +9,7 @@ from datetime import datetime
 
 logging.basicConfig(filename='app.log', level=logging.ERROR)
 
+@st.cache_resource
 def get_spaces_client():
     try:
         session = boto3.session.Session()

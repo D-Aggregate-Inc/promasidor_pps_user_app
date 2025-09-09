@@ -11,7 +11,10 @@ logging.basicConfig(level=logging.INFO)
 warnings.filterwarnings('ignore')
 
 st.write(":material/local_convenience_store:**:orange[Outlet Onboarding]**")
-
+@st.cache_data(show_spinner=False, persist='disk')
+def banks():
+    bank=execute_query("SELECT * FROM bank")
+    return bank
 
 user_id = st.session_state['user']['id']
 
@@ -48,6 +51,12 @@ with st.expander("Input Outlet Information",expanded=True):
     image = st.camera_input("Capture Outlet Image", help="Image is required")
     st.info(":material/account_balance: Account Information of Outlet Owner")
     account_no=st.number_input("Account Number",max_chars=10, help="10-digit account number",placeholder="8012345678")
+    bank_query=banks()
+    bank_dict = {b['name']: b['id'] for b in bank_query}  
+    bank_name = st.selectbox("Banks", list(bank_dict.keys()))
+    
+
+
 
     if location and location['latitude'] is not None:
         gps_lat = location['latitude']

@@ -11,7 +11,7 @@ warnings.filterwarnings('ignore')
 def signup_form(role):
     with st.form("signup"):
         email = st.text_input("Email")
-        phone = st.text_input("Phone")
+        phone = st.text_input("Phone Number", max_chars=11, help="11-digit phone number",placeholder="8012345678")
         password = st.text_input("Password", type="password")
         if st.form_submit_button("🔏Sign Up"):
             if signup(email, phone, password, role):

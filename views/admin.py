@@ -2,7 +2,7 @@ import streamlit as st
 import warnings
 from datetime import date
 import logging
-from db.db_utils import execute_query, add_state, add_location, add_sku,add_posm, disable_user, add_region,add_location_by_region,add_bank
+from db.db_utils import execute_query, add_location, add_sku,add_posm, disable_user, add_region,add_location_by_region,add_bank
 
 logging.basicConfig(filename='app.log', level=logging.ERROR)
 
@@ -32,30 +32,30 @@ if selection == "Regions":
                 region= execute_query("SELECT * FROM region")
                 st.dataframe(region)
                 st.caption("Click on a Region to view actual state", unsafe_allow_html=True)
-if selection == "States":
+# if selection == "States":
      
-    state, statetable= st.columns([4,3], gap="small",vertical_alignment="top")
-        # Manage States
-    with state:
-        with st.expander("Manage and Create States", expanded=True):
-            new_state = st.text_input("Add State")
-            if st.button("Add State"):
-                try:
-                        add_state(new_state)
-                        st.success(f"State {new_state} added successfully.")
-                except Exception as e:
-                        st.error(f"Error adding state: {e}")
-                # add_state(new_state)
-            with statetable:
-                st.write("🗺 **:green[Existing States]**")
-                try:
-                    states = execute_query("SELECT * FROM states")
-                    st.dataframe(states)
-                    st.caption("Click on a state to view its locations", unsafe_allow_html=True) 
-                except Exception as e:
-                    st.error(f"Error fetching states: {e}")     
+#     state, statetable= st.columns([4,3], gap="small",vertical_alignment="top")
+#         # Manage States
+#     with state:
+#         with st.expander("Manage and Create States", expanded=True):
+#             new_state = st.text_input("Add State")
+#             if st.button("Add State"):
+#                 try:
+#                         add_state(new_state)
+#                         st.success(f"State {new_state} added successfully.")
+#                 except Exception as e:
+#                         st.error(f"Error adding state: {e}")
+#                 # add_state(new_state)
+#             with statetable:
+#                 st.write("🗺 **:green[Existing States]**")
+#                 try:
+#                     states = execute_query("SELECT * FROM states")
+#                     st.dataframe(states)
+#                     st.caption("Click on a state to view its locations", unsafe_allow_html=True) 
+#                 except Exception as e:
+#                     st.error(f"Error fetching states: {e}")     
 
-    st.markdown("""<hr class="topline">""",unsafe_allow_html=True)  
+#     st.markdown("""<hr class="topline">""",unsafe_allow_html=True)  
 
 if selection == "Locations":
     # Manage Locations

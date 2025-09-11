@@ -105,8 +105,8 @@ else:
     gps_lat, gps_long = None, None
 
 if st.button("Deploy") and gps_lat and before_img and after_img:
-    before_key = upload_image(before_img.getvalue(), folder='posm_before')
-    after_key = upload_image(after_img.getvalue(), folder='posm_after')
+    before_key = upload_image(before_img.getvalue(), folder='posm_before',gps_lat=gps_lat,gps_long=gps_long)
+    after_key = upload_image(after_img.getvalue(), folder='posm_after',gps_lat=gps_lat,gps_long=gps_long)
     if before_key and after_key:
         add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long)
         st.success("POSM Deployed!")

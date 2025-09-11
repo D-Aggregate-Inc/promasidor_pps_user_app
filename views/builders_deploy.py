@@ -92,8 +92,8 @@ if selected_posms:
         if quantity > 0:
             deployed_posms.append({"posm_id": posm_dict[posm_name], "quantity": quantity})
 
-before_img = st.file_uploader(":orange[**Before Deployment Image**]", type=['png', 'jpg', 'jpeg'], help="Image is required")
-after_img = st.file_uploader(":blue[**After Deployment Image**]", type=['png', 'jpg', 'jpeg'], help="Image is required")
+before_img = st.camera_input(":orange[**Before Deployment Image**]", help="Image is required")
+after_img = st.camera_input(":blue[**After Deployment Image**]", help="Image is required")
 
 location = streamlit_geolocation()
 if location and location['latitude'] is not None:

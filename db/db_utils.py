@@ -38,35 +38,41 @@ def init_connection_pool():
 #     )
 
 # @st.cache_data(ttl=300)
-@retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=1, max=10), retry=retry_if_exception_type(psycopg2.OperationalError))
+@retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=1, min=1, max=10), 
+       retry=retry_if_exception_type((psycopg2.OperationalError, psycopg2.DatabaseError)))
 def execute_query(query, params=None, fetch='all'):
     pool = init_connection_pool()
     conn = None
     try:
         conn = pool.getconn()
+        conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE)
         with conn.cursor(cursor_factory=RealDictCursor) as cur:
             try:
                 cur.execute(query, params)
-            except TypeError as e:
-                logging.error(f"Query parameter error: {query}, params: {params}, error: {e}")
-                st.error(f"Invalid query parameters: {e} check your internet connectivity")
+                if fetch == 'all':
+                    return cur.fetchall()
+                elif fetch == 'one':
+                    return cur.fetchone()
+                conn.commit()
+            except psycopg2.errors.SerializationFailure as e:
+                logging.error(f"Serialization failure: {e}")
+                conn.rollback()
                 raise
-            if fetch == 'all':
-                return cur.fetchall()
-            elif fetch == 'one':
-                return cur.fetchone()
-            conn.commit()
+            except psycopg2.errors.UniqueViolation as e:
+                logging.error(f"Duplicate entry: {e}")
+                conn.rollback()
+                st.error("Submission failed: Duplicate entry detected.")
+                return None
+            except Exception as e:
+                logging.error(f"Query failed: {query}, error: {e}")
+                conn.rollback()
+                st.error(f"Query failed: {e}")
+                raise
     except psycopg2.OperationalError as e:
         logging.error(f"Database connection error: {e}")
-        st.error(f"Database connection error: {e} reach to your administrator")
+        st.error(f"Database connection error: {e}")
         if conn:
             pool.putconn(conn, close=True)
-        raise
-    except Exception as e:
-        logging.error(f"Query failed: {query}, error: {e}")
-        st.error(f"Query failed: {e} reach to your administrator")
-        if conn:
-            conn.rollback()
         raise
     finally:
         if conn:

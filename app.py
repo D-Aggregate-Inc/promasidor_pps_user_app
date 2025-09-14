@@ -37,7 +37,7 @@ coy_logo="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAANoAAADnCAMAAABPJ7iaAAAA
 coy_logo2="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSYV4MC8OOMiWO5VLq4c2ad8RHZryFF_pV4Eg&s"
 st.logo(coy_logo,link=None,icon_image=coy_logo2,size="large")
 
-st.subheader(f""":orange[RetailScope®️] :blue[Promassidor Perfect Store Management System]""")
+st.subheader(f""":orange[RetailScope®️] :blue[Promasidor Perfect Store Management System]""")
 
 # if 'logout' not in st.session_state:
 #     st.session_state['logout'] = False

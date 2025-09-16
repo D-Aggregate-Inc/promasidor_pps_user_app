@@ -79,6 +79,20 @@ def execute_query(query, params=None, fetch='all'):
             pool.putconn(conn)
 
 # User functions
+def get_regions():
+    return execute_query("SELECT id, name FROM region", fetch='all')
+
+def get_locations_by_user_region(user_id):
+    user = execute_query("SELECT region FROM users WHERE id = %s", (user_id,), fetch='one')
+    if not user or not user['region']:
+        return []
+    return execute_query(
+        """SELECT l.id, l.name, r.name AS region_name
+           FROM locations l
+           JOIN regions r ON l.region_id = r.id
+           WHERE r.name = %s""",
+        (user['region'],), fetch='all'
+    )
 def get_user_by_email(email):
     return execute_query("SELECT * FROM users WHERE email = %s", (email,), fetch='one')
 
@@ -88,10 +102,10 @@ def get_outlet_by_phone_contact(phone_contact):
 def disable_user(user_id):
     execute_query("UPDATE users SET is_active = FALSE WHERE id = %s", (user_id,), fetch=None)
 
-def add_user(email, phone, password_hash, role):
-    execute_query(
-        "INSERT INTO users (email, phone, password_hash, role) VALUES (%s, %s, %s, %s)",
-        (email, phone, password_hash, role), fetch=None
+def add_user(email, phone, password_hash, role, merchandiser_region):
+    return execute_query(
+        "INSERT INTO users (email, phone, password_hash, role, merchandiser_region) VALUES (%s, %s, %s, %s, %s) ON CONFLICT (email) DO NOTHING",
+        (email, phone, password_hash, role,merchandiser_region), fetch=None
     )
 def add_location_by_region(region_id,name):
     execute_query("INSERT INTO locations_by_region(region_id,name) VALUES (%s, %s)",(region_id,name), fetch=None)
@@ -162,6 +176,18 @@ def add_expiry_track(outlet_id, user_id, expiry_data, gps_lat, gps_long):
         """INSERT INTO expiry_tracks (outlet_id, tracked_by_user_id, expiry_data, gps_lat, gps_long)
         VALUES (%s, %s, %s, %s, %s)""",
         (outlet_id, user_id, psycopg2.extras.Json(expiry_data), gps_lat, gps_long), fetch=None
+    )
+
+
+def get_user_outlets(user_id):
+    return execute_query(
+        """SELECT o.id, o.name, o.address, o.phone_contact, o.outlet_type, o.classification, 
+                  l.name AS location_name, r.name AS region_name
+           FROM outlets o
+           JOIN locations l ON o.location_id = l.id
+           JOIN regions r ON l.region_id = r.id
+           WHERE o.onboarded_by_user_id = %s""",
+        (user_id,)
     )
 
 def get_skus_grouped():

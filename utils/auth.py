@@ -47,14 +47,14 @@ def verify_password(stored_hash, provided_password):
 #     add_user(email, phone, password_hash, role)
 #     return True
 
-def signup(email, phone, password, role='merchandiser'):   # Default to merchandiser; admin sets builders
+def signup(email, phone, password, role='merchandiser', merchandiser_region):   # Default to merchandiser; admin sets builders
     if get_user_by_email(email):
         st.error("Email already exists")
         return False
     password_hash = hash_password(password)
     if not password_hash:
         return False
-    add_user(email, phone, password_hash, role)
+    add_user(email, phone, password_hash, role,merchandiser_region)
     return True
 
 def login(email, password):

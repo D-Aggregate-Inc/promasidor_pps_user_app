@@ -52,7 +52,11 @@ with st.expander("Input Outlet Information",expanded=True):
     # location_id = loc_dict[loc_selection]
     contact_person=st.text_input("Contact Person", max_chars=50, help="E.g John Doe",placeholder="Enter contact person name")
     classification = st.selectbox("Channel", ['Neighborhood','Open market'])
-    outlet_type = st.selectbox("Outlet Type", ['GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 'Table Tops'])
+    outlet_type = st.selectbox("Outlet Type", ['GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 
+                        'Table Tops', 'Tale Top-OSC', 
+                        'Lock-Up -"Seasoning"','Lock-Up -"Dairy/Beverage"',
+                        'Kiosks -"Seasoning"','Kiosks-"Dairy/Beverages"',
+                        'Table-Top -"Seasoning"','Table-Top - "Dairy/Beverages"'])
     
     image = st.camera_input("Capture Outlet Image", help="Image is required")
 

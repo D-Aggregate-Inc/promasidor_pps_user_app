@@ -79,9 +79,9 @@ order = st.Page(
     icon=":material/orders:",
 )
 
-expiry = st.Page(
+pricing = st.Page(
     "views/merchandiser_expiry.py",
-    title="Expiry Tracking",
+    title="Price Complaince Tracking",
     icon=":material/timer_off:",
 )
 
@@ -92,7 +92,7 @@ if 'user' not in st.session_state:
     with tab1:
         login_form()
     with tab2:
-        role = st.selectbox("Role", ["merchandiser", "builder"])  # Admin manual
+        role = st.selectbox("Role", ["Merchandiser", "Builder"])  # Admin manual
         signup_form(role)
     with tab3:
         reset_form()

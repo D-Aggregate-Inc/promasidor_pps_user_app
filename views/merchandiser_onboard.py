@@ -23,7 +23,7 @@ st.write(f'Welcome, **:blue[{st.session_state["user"]["email"]}]**! Use the form
 st.info("Please click on GPS button to get your location GPS")
 location = streamlit_geolocation()
 with st.expander("Input Outlet Information",expanded=True):
-    st.warning("Outlet details")
+    st.write(f":material/add_business: :blue[Outlet Basic Information]")
     name = st.text_input("Outlet Name", max_chars=50, help="E.g DM Ventures",placeholder="Enter outlet name")
     phone_contact = st.text_input("Contact Phone", max_chars=11, help="11-digit phone number",placeholder="08012345678")
     outlet_number = st.text_input("Shop Number", max_chars=20, help="E.g No. 12, Shop 34B")

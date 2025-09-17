@@ -1,7 +1,11 @@
 from numpy import place
 import streamlit as st
 from streamlit_geolocation import streamlit_geolocation
+<<<<<<< HEAD
+from db.db_utils import execute_query, add_outlet, get_outlet_by_phone_contact,get_locations_by_user_region
+=======
 from db.db_utils import execute_query, add_outlet, get_outlet_by_phone_contact, get_locations_by_user_region
+>>>>>>> 4071a6facd3f3bd99c371b2d55833a8abc9f79f4
 from utils.spaces import upload_image
 import warnings
 import logging
@@ -29,17 +33,16 @@ with st.expander("Input Outlet Information",expanded=True):
     outlet_number = st.text_input("Shop Number", max_chars=20, help="E.g No. 12, Shop 34B")
     outlet_address = st.text_area("Address", max_chars=200, help="E.g 12, Shop 34B, Tipper Garage Road")
     outlet_landmark = st.text_input("Landmark ", max_chars=50, help="E.g Opposite Tipper Garage, Near Shoprite Mall")
-    region=execute_query(f"SELECT merchandiser_region FROM users WHERE id ='{user_id}'")
+    region=execute_query(f"SELECT merchandiser_region FROM users WHERE id = '{user_id}'")
+
     locations = get_locations_by_user_region(user_id)
     location_dict = {f"{loc['name']} ({loc['region_name']})": loc['id'] for loc in locations}
     location_name = st.selectbox("Location", list(location_dict.keys()) if location_dict else ["No locations available"])
     location_id = location_dict.get(location_name)
-    
-    
     # region_query= execute_query("SELECT * FROM region")
     # region_dict = {r['name']: r['id'] for r in region_query}  
     # region = st.selectbox("Region", list(region_dict.keys()))
-    # state=execute_query("SELECT * FROM states")
+    # # state=execute_query("SELECT * FROM states")
     # locations_by_region=execute_query(f"SELECT l.id, l.name as loc_name, r.name as regions FROM locations_by_region l JOIN region r ON l.region_id=r.id WHERE r.name='{region}'")
     # if locations_by_region:
     #         loc_dict={l['loc_name']: l['id'] for l in locations_by_region}
@@ -75,7 +78,7 @@ with st.expander("Input Outlet Information",expanded=True):
     if st.button("Submit Outlet Onboarded",type='primary') and gps_lat and image:
         # image_base64 = base64.b64encode(image.getvalue()).decode('utf-8')
         image_key = upload_image(image.getvalue(), folder='outlets', gps_lat=gps_lat, gps_long=gps_long)
-        if image_key:
+        if image_key and name and  location_id and  classification and outlet_type and gps_lat and outlet_number and phone_contact and account_no and account_name and outlet address and outlet_landmark:
             if get_outlet_by_phone_contact(phone_contact):
                 st.warning("An outlet with this contact phone already exists.")
             add_outlet(name,location_id, classification,outlet_type, user_id, gps_lat, gps_long, image_key,
@@ -83,7 +86,7 @@ with st.expander("Input Outlet Information",expanded=True):
                     
             st.success("Outlet Onboarded Successfully!")
         else:
-            st.error("Image upload failed. Please try again.")
+            st.error("⁉ Pls Ensure all the required field are properly filled and image is taking. Please try again.")
     # elif  not gps_lat:
     #     st.warning("GPS location is required to onboard an outlet.")
     # elif not image:

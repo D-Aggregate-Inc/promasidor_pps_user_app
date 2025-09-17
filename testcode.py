@@ -748,3 +748,88 @@ with st.form("signup_form"):
                 st.success("Signup successful! Please log in.")
             else:
                 st.error("Signup failed: Email already exists.")
+#-------------------------------------------------------------------------------------------------
+import streamlit as st
+from streamlit_geolocation import streamlit_geolocation
+from db.db_utils import execute_query, add_outlet, save_draft, get_drafts, sync_drafts, get_locations_by_user_region
+from utils.spaces import upload_image
+import base64
+import logging
+
+logging.basicConfig(filename='app.log', level=logging.ERROR)
+
+st.title("Merchandiser: Onboard Outlet")
+
+user_id = st.session_state['user']['id']
+
+# Offline detection
+is_online = st.components.v1.html("""
+    <script>
+        function updateConnectivity() {
+            const isOnline = navigator.onLine;
+            window.Streamlit.setComponentValue(isOnline);
+        }
+        window.addEventListener('online', updateConnectivity);
+        window.addEventListener('offline', updateConnectivity);
+        updateConnectivity();
+    </script>
+""", height=0)
+
+# Sync drafts if online
+if is_online:
+    sync_drafts(user_id)
+
+# Display drafts
+with st.expander("View Drafts"):
+    drafts = get_drafts(user_id)
+    for i, draft in enumerate(drafts):
+        if draft['form_type'] == 'onboard':
+            st.write(f"Draft {i+1}: Outlet {draft['data']['name']}")
+            if st.button("Sync Now", key=f"sync_draft_{i}"):
+                sync_drafts(user_id)
+                st.rerun()
+
+with st.form("onboard_form"):
+    name = st.text_input("Outlet Name")
+    address = st.text_area("Address")
+    phone_contact = st.text_input("Phone Contact")
+    locations = get_locations_by_user_region(user_id)
+    location_dict = {f"{loc['name']} ({loc['region_name']})": loc['id'] for loc in locations}
+    location_name = st.selectbox("Location", list(location_dict.keys()) if location_dict else ["No locations available"])
+    location_id = location_dict.get(location_name)
+    classification = st.selectbox("Classification", ["Gold", "Silver", "Bronze"])
+    outlet_type = st.selectbox("Outlet Type", ["Supermarket", "Pharmacy", "Convenience Store"])
+    image = st.camera_input("Outlet Image")
+    submit_button = st.form_submit_button("Onboard Outlet")
+
+    location = streamlit_geolocation()
+    gps_lat = location['latitude'] if location and location['latitude'] is not None else None
+    gps_long = location['longitude'] if location and location['longitude'] is not None else None
+
+    if submit_button:
+        if not (name and address and location_id and classification and outlet_type and image and gps_lat):
+            st.error("Please fill all fields, select a valid location, and ensure GPS is enabled.")
+        else:
+            image_base64 = base64.b64encode(image.getvalue()).decode('utf-8')
+            draft_data = {
+                'name': name, 'address': address, 'phone_contact': phone_contact,
+                'location_id': location_id, 'classification': classification,
+                'outlet_type': outlet_type, 'user_id': user_id,
+                'gps_lat': gps_lat, 'gps_long': gps_long, 'image_base64': image_base64
+            }
+            if is_online:
+                image_key = upload_image(image.getvalue(), folder='outlets', gps_lat=gps_lat, gps_long=gps_long)
+                if image_key:
+                    result = add_outlet(name, address, phone_contact, location_id, classification, outlet_type,
+                                        user_id, gps_lat, gps_long, image_key)
+                    if result is not None:
+                        st.success("Outlet Onboarded!")
+                    else:
+                        st.error("Submission failed, saved as draft.")
+                        save_draft('onboard', draft_data, user_id)
+                else:
+                    st.error("Image upload failed. Saving as draft.")
+                    save_draft('onboard', draft_data, user_id)
+            else:
+                st.warning("Offline. Saving as draft.")
+                save_draft('onboard', draft_data, user_id)

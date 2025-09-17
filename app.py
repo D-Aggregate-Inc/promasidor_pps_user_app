@@ -117,7 +117,7 @@ else:
         pg3=st.navigation(
             {"🏪Merchandiser Tasks": [outlet_onboarding],
             "👨👨Merchandiser Visits":
-            [msl_sos, oos, order, expiry]
+            [msl_sos, oos, order, pricing]
             }
                             )
         pg3.run()

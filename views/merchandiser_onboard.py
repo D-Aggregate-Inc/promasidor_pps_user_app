@@ -1,11 +1,7 @@
 from numpy import place
 import streamlit as st
 from streamlit_geolocation import streamlit_geolocation
-<<<<<<< HEAD
 from db.db_utils import execute_query, add_outlet, get_outlet_by_phone_contact,get_locations_by_user_region
-=======
-from db.db_utils import execute_query, add_outlet, get_outlet_by_phone_contact, get_locations_by_user_region
->>>>>>> 4071a6facd3f3bd99c371b2d55833a8abc9f79f4
 from utils.spaces import upload_image
 import warnings
 import logging

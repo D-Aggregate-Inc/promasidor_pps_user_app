@@ -88,7 +88,7 @@ def get_locations_by_user_region(user_id):
         return []
     return execute_query(
         """SELECT l.id, l.name, r.name AS region_name
-           FROM locations l
+           FROM locations_by_region l
            JOIN region r ON l.region_id = r.id
            WHERE r.name = %s""",
         (user['merchandiser_region'],), fetch='all'

@@ -80,7 +80,7 @@ order = st.Page(
 )
 
 pricing = st.Page(
-    "views/merchandiser_expiry.py",
+    "views/merchandiser_pricing.py",
     title="Price Complaince Tracking",
     icon=":material/timer_off:",
 )

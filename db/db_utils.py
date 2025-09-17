@@ -83,15 +83,15 @@ def get_regions():
     return execute_query("SELECT id, name FROM region", fetch='all')
 
 def get_locations_by_user_region(user_id):
-    user = execute_query("SELECT region FROM users WHERE id = %s", (user_id,), fetch='one')
-    if not user or not user['region']:
+    user = execute_query("SELECT merchandiser_region FROM users WHERE id = %s", (user_id,), fetch='one')
+    if not user or not user['merchandiser_region']:
         return []
     return execute_query(
         """SELECT l.id, l.name, r.name AS region_name
            FROM locations l
            JOIN regions r ON l.region_id = r.id
            WHERE r.name = %s""",
-        (user['region'],), fetch='all'
+        (user['merchandiser_region'],), fetch='all'
     )
 def get_user_by_email(email):
     return execute_query("SELECT * FROM users WHERE email = %s", (email,), fetch='one')

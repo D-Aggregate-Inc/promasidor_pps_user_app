@@ -51,15 +51,19 @@ with st.expander("Input Outlet Information",expanded=True):
     # loc_selection = st.selectbox("Location", list(loc_dict.keys()))
     # location_id = loc_dict[loc_selection]
     contact_person=st.text_input("Contact Person", max_chars=50, help="E.g John Doe",placeholder="Enter contact person name")
-    classification = st.selectbox("Channel", ['Neighborhood','Open market'])
-    outlet_type = st.selectbox("Outlet Type", ['GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 
+    classification = st.selectbox("Channel", ['Neighborhood','Open Market'])
+    if classification=="Neighborhood":
+        outlet_type = st.selectbox("Outlet Type NB", ['GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 
                         'Table Tops', 'Tale Top-OSC', 
-                        'Lock-Up -"Seasoning"','Lock-Up -"Dairy/Beverage"',
-                        'Kiosks -"Seasoning"','Kiosks-"Dairy/Beverages"',
-                        'Table-Top -"Seasoning"','Table-Top - "Dairy/Beverages"'])
+                        ],key=f'{classification}_chosen_{name}_{location_id}_NB')
+    elif classification=="Open Market":
+        outlet_type = st.selectbox("Outlet Type OM", ['Lock-Up -"Seasoning"','Lock-Up -"Dairy/Beverage"',
+                      'Kiosks -"Seasoning"','Kiosks-"Dairy/Beverages"',
+                      'Table-Top -"Seasoning"','Table-Top - "Dairy/Beverages"'
+                        ],key=f'{classification}_chosen_{name}_{location_id}_OM')
     
     image = st.camera_input("Capture Outlet Image", help="Image is required")
-
+# 
     #account detail info
     st.info(":material/account_balance: Account Information of Outlet Owner")
     account_no=st.text_input("Account Number", max_chars=10, help="10-digit account number",placeholder="8012345678")

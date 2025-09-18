@@ -92,7 +92,7 @@ if 'user' not in st.session_state:
     with tab1:
         login_form()
     with tab2:
-        role = st.selectbox("Role", ["Merchandiser", "Builder"])  # Admin manual
+        role = st.selectbox("Role", ["merchandiser", "builder"])  # Admin manual
         signup_form(role)
     with tab3:
         reset_form()

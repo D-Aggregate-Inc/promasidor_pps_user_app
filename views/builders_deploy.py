@@ -58,17 +58,8 @@ outlet_dict = {
 outlet_name = st.selectbox("Select Outlet", list(outlet_dict.keys()))
 outlet_id = outlet_dict[outlet_name]
 try:
-    selected_outlet = next(o for o in outlets if outlet_dict[outlet_name] == o['id'])  
-    if selected_outlet['outlet_image_key']:
-        image_url = f"{SPACES_ENDPOINT}/{SPACES_BUCKET}/{selected_outlet['outlet_image_key']}"
-        # st.write(image_url)
-        st.sidebar.write("### :blue[Outlet Image]")
-        st.sidebar.write(f"**:orange[{selected_outlet['name']}]**")
-        st.sidebar.write(f"**Address:** {selected_outlet['outlet_address']}")
-        st.sidebar.write(f"**Contact:** {selected_outlet['contact_person']} | {selected_outlet['phone_contact']}")
-        # st.sidebar.write(f"**Type:** {selected_outlet['outlet_type']} | {selected_outlet['classification']}")
-        # st.sidebar.write(f"**Location:** {selected_outlet['location_name']}, {selected_outlet['region_name']}")
-        st.divider()
+    selected_outlet = next(o for o in outlets if outlet_dict[outlet_name] == o['id'])
+    st.divider()
         posm_child=st.sidebar.container(border=True)
         posm_child.caption(f"⚠ See the required POSMs {selected_outlet['name']}, Please deploy appropriately")
         if selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)':
@@ -93,6 +84,16 @@ try:
             posm_child.write(":orange[Buntings, 2+ Brand Sachet Hanger, Table Cover]")
         elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Table Top-OSC':
             posm_child.write(":orange[Buntings, Onga Sachet Hanger, Onga Table Cover, Apron]")
+    if selected_outlet['outlet_image_key']:
+        image_url = f"{SPACES_ENDPOINT}/{SPACES_BUCKET}/{selected_outlet['outlet_image_key']}"
+        # st.write(image_url)
+        st.sidebar.write("### :blue[Outlet Image]")
+        st.sidebar.write(f"**:orange[{selected_outlet['name']}]**")
+        st.sidebar.write(f"**Address:** {selected_outlet['outlet_address']}")
+        st.sidebar.write(f"**Contact:** {selected_outlet['contact_person']} | {selected_outlet['phone_contact']}")
+        # st.sidebar.write(f"**Type:** {selected_outlet['outlet_type']} | {selected_outlet['classification']}")
+        # st.sidebar.write(f"**Location:** {selected_outlet['location_name']}, {selected_outlet['region_name']}")
+        
         st.sidebar.write("---")
         st.sidebar.write(Image.open(requests.get(image_url, stream=True).raw))
         st.sidebar.image(image_url, caption="Outlet Image (Captured by Recruiter/Merchandiser)", width=200)

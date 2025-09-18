@@ -40,6 +40,7 @@ st.write(":material/local_convenience_store:**:orange[Deploy POSMs and Track]**"
 #                 st.rerun()
 
 user_id = st.session_state['user']['id']
+execute_query("SELECT merchandiser_region FROM users WHERE id = %s", (user_id,), fetch='one')
 build=st.sidebar.selectbox("Builder Activities",['Take Before Image','After Deployment Image'],key=f'{user_id}_')
 outlets = execute_query("""
     SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.location_id, o.outlet_type, o.classification,o.contact_person,
@@ -47,8 +48,8 @@ outlets = execute_query("""
     FROM outlets o
     JOIN locations_by_region l ON o.location_id = l.id
     JOIN region r ON l.region_id = r.id
-    WHERE o.onboarded_by_user_id = %s
-""", (user_id,))
+    WHERE r.name = %s
+""", (user['merchandiser_region'],),fetch='all')
 outlet_dict = {
     f"{o['name']} ({o['region_name']} - {o['location_name']} | {o['outlet_address']} | {o['contact_person']} | {o['phone_contact']} | {o['outlet_type']} | {o['classification']})": o['id']
     for o in outlets

@@ -31,7 +31,7 @@ for category, skus in skus_grouped.items():
     with st.expander(category):
         for sku in skus:
             price = st.number_input(f"{sku['name']} Price", min_value=0, value=0, key=f"qty_{sku['id']}")
-            if pricing> 0:
+            if price> 0:
                 price_data.append({"sku_id": sku['id'], "price": price})
 
 # location = streamlit_geolocation()

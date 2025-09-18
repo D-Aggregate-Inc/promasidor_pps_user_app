@@ -58,6 +58,7 @@ outlet_name = st.selectbox("Select Outlet", list(outlet_dict.keys()))
 outlet_id = outlet_dict[outlet_name]
 try:
     selected_outlet = next(o for o in outlets if outlet_dict[outlet_name] == o['id'])
+    st.write
     # if selected_outlet['outlet_image_key']:
     image_url = f"{SPACES_ENDPOINT}/{SPACES_BUCKET}/{selected_outlet['outlet_image_key']}"
     st.write(image_url)
@@ -66,7 +67,7 @@ try:
     st.sidebar.write(f"**Address:** {selected_outlet['outlet_address']}")
     st.sidebar.write(f"**Contact:** {selected_outlet['contact_person']} | {selected_outlet['phone_contact']}")
     st.sidebar.write(f"**Type:** {selected_outlet['outlet_type']} | {selected_outlet['classification']}")
-    st.sidebar.write(f"**Location:** {selected_outlet['location_name']}, {selected_outlet['state_name']}")
+    st.sidebar.write(f"**Location:** {selected_outlet['location_name']}, {selected_outlet['region_name']}")
     st.sidebar.write("---")
     st.sidebar.write(Image.open(requests.get(image_url, stream=True).raw))
     st.sidebar.image(image_url, caption="Outlet Image (Captured by Recruiter/Merchandiser)", width=200)

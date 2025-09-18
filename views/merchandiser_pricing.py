@@ -44,5 +44,5 @@ else:
     gps_lat, gps_long = None, None
 
 if st.button("Submit Prices") and gps_lat:
-    add_price_track(outlet_id, user_id, price_data, gps_lat, gps_long, outlet_info)
+    add_pricing_track(outlet_id, user_id, price_data, gps_lat, gps_long, outlet_info)
     st.success("Price Compliance Submitted")

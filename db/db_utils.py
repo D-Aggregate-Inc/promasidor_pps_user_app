@@ -174,7 +174,7 @@ def add_order_track(outlet_id, user_id, order_data, gps_lat, gps_long, outlet_in
 def add_pricing_track(outlet_id, user_id,price_data, gps_lat, gps_long, outlet_info):
     execute_query(
         """INSERT INTO order_tracks (outlet_id, tracked_by_user_id, price_data, gps_lat, gps_long, outlet_info)
-        VALUES (%s, %s, %s, %s, %s,%s, %s)""",
+        VALUES (%s, %s, %s, %s, %s,%s)""",
         (outlet_id, user_id, psycopg2.extras.Json(price_data), gps_lat, gps_long, outlet_info), fetch=None
     )
 

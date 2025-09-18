@@ -40,9 +40,9 @@ st.write(":material/local_convenience_store:**:orange[Deploy POSMs and Track]**"
 #                 st.rerun()
 
 user_id = st.session_state['user']['id']
-
+location = streamlit_geolocation()
 user=execute_query("SELECT merchandiser_region FROM users WHERE id = %s", (user_id,), fetch='one')
-build=st.sidebar.selectbox("Builder Activities",['Take Before Image','After Deployment Image'],key=f'{user_id}_')
+build=st.sidebar.selectbox("Builder Activities",['Before Deployment Image','After Deployment Image'],key=f'{user_id}_')
 outlets = execute_query("""
     SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.location_id, o.outlet_image_key, o.outlet_type, o.classification,o.contact_person,
            l.name AS location_name, r.name AS region_name
@@ -104,48 +104,58 @@ except Exception as e:
                 st.sidebar.error("Error loading outlet image.")
 # else:
 #     st.warning("User is either old_user- You may need to sign up and select your PPS region")
-
-posms = get_posms()
-posm_dict = {p['name']: p['id'] for p in posms}
-selected_posms = st.multiselect("**:green[Select POSMs Deployed]**", list(posm_dict.keys()))
-
-# Collect quantities for selected POSMs
-deployed_posms = []
-if selected_posms:
-    st.write("🔢:red[**Pls Specify Quantities**]")
-    for posm_name in selected_posms:
-        quantity = st.number_input(
-            f"Quantity of {posm_name}",
-            min_value=0,
-            value=0,
-            step=1,
-            key=f"qty_{posm_name}"
-        )
-        if quantity > 1:
-            st.warning(f'{posm_name} must be 1 per outlet')
-        elif quantity == 1:
-             deployed_posms.append({"posm_id": posm_dict[posm_name], "quantity": quantity})
-
-before_img = st.camera_input(":orange[**Before Deployment Image**]", help="Image is required")
-after_img = st.camera_input(":blue[**After Deployment Image**]", help="Image is required")
-
-location = streamlit_geolocation()
-if location and location['latitude'] is not None:
-    gps_lat = location['latitude']
-    gps_long = location['longitude']
-    st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
-else:
-    st.warning("Waiting for GPS location...")
-    gps_lat, gps_long = None, None
-
-if st.button("Deploy") and gps_lat and before_img and after_img:
-    before_key = upload_image(before_img.getvalue(), folder='posm_before',gps_lat=gps_lat,gps_long=gps_long)
-    after_key = upload_image(after_img.getvalue(), folder='posm_after',gps_lat=gps_lat,gps_long=gps_long)
-    if before_key and after_key:
-        add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long,outlet_info)
-        st.success("POSM Deployed!")
+if build =="Before Deployment Image":
+    before_img = st.camera_input(":orange[**Before Image of Shelf In NB**]", help="Image is required",key=f'before_image_shelve{selected_outlet['name']}_In NB')
+    after_img= st.camera_input(":blue[**Before Image of Store Outside In NB and OMs**]", help="Image is required", key=f'before_image_outlet_outside_{selected_outlet['name']}_inNB and OM')
+    if location and location['latitude'] is not None:
+        gps_lat = location['latitude']
+        gps_long = location['longitude']
+        st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
     else:
-        st.error("Image upload failed. Please try again.")
-else:
-    if not deployed_posms and selected_posms:
-        st.warning("Please specify quantities for selected POSMs.")
+        st.warning("Waiting for GPS location...")
+        gps_lat, gps_long = None, None
+    if st.button("Before Deployment", key=f'buttn_for_before_deployment') and gps_lat and before_img and after_img:
+        before_key = upload_image(before_img.getvalue(), folder='posm_before',gps_lat=gps_lat,gps_long=gps_long)
+        after_key = upload_image(after_img.getvalue(), folder='posm_after',gps_lat=gps_lat,gps_long=gps_long)
+        if before_key and after_key:
+            add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long,outlet_info)
+            st.success("Before Deployment Picture Submitted!")
+        else:
+            st.error("Image upload failed. Please try again.")
+   
+
+elif build == "After Deployment Image":
+    posms = get_posms()
+    posm_dict = {p['name']: p['id'] for p in posms}
+    selected_posms = st.multiselect("**:green[Select POSMs Deployed]**", list(posm_dict.keys()))
+
+    # Collect quantities for selected POSMs
+    deployed_posms = []
+    if selected_posms:
+        st.write("🔢:red[**Pls Specify Quantities**]")
+        for posm_name in selected_posms:
+            quantity = st.number_input(
+                f"Quantity of {posm_name}",
+                min_value=0,
+                value=0,
+                step=1,
+                key=f"qty_{posm_name}"
+            )
+            if quantity > 1:
+                st.warning(f'{posm_name} must be 1 per outlet')
+            elif quantity == 1:
+                deployed_posms.append({"posm_id": posm_dict[posm_name], "quantity": quantity})
+
+    before_img = st.camera_input(":orange[**After Deployment Image of Shelf Branding With WallPapers & Stipes**]", help="Image is required")
+    after_img = st.camera_input(":blue[**After Deployment Image of Outlet Outside With Hangers and Stands**]", help="Image is required")
+    if st.button("Deploy",key=f'buttn for after deployment of POSMs') and gps_lat and before_img and after_img:
+        before_key = upload_image(before_img.getvalue(), folder='posm_before',gps_lat=gps_lat,gps_long=gps_long)
+        after_key = upload_image(after_img.getvalue(), folder='posm_after',gps_lat=gps_lat,gps_long=gps_long)
+        if before_key and after_key:
+            add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long,outlet_info)
+            st.success("POSM Deployed Submitted!")
+        else:
+            st.error("Image upload failed. Please try again.")
+    else:
+        if not deployed_posms and selected_posms:
+            st.warning("Please specify quantities for selected POSMs.")

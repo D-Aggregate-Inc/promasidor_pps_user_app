@@ -171,11 +171,11 @@ def add_order_track(outlet_id, user_id, order_data, gps_lat, gps_long, outlet_in
         (outlet_id, user_id, psycopg2.extras.Json(order_data), gps_lat, gps_long, outlet_info), fetch=None
     )
 
-def add_pricing_track(outlet_id, user_id,price_data, gps_lat, gps_long, outlet_info):
+def add_pricing_track(outlet_id, user_id,pricing_data, gps_lat, gps_long, outlet_info):
     execute_query(
-        """INSERT INTO price_tracks (outlet_id, tracked_by_user_id, price_data, gps_lat, gps_long, outlet_info)
+        """INSERT INTO price_tracks (outlet_id, tracked_by_user_id, pricing_data, gps_lat, gps_long, outlet_info)
         VALUES (%s, %s, %s, %s, %s,%s)""",
-        (outlet_id, user_id, psycopg2.extras.Json(price_data), gps_lat, gps_long, outlet_info), fetch=None
+        (outlet_id, user_id, psycopg2.extras.Json(pricing_data), gps_lat, gps_long, outlet_info), fetch=None
     )
 
 

@@ -26,13 +26,13 @@ else:
     st.warning("No outlets found. Please onboard an outlet first.")
     st.stop()
 skus_grouped = get_skus_grouped()
-price_data = []
+pricing_data = []
 for category, skus in skus_grouped.items():
     with st.expander(category):
         for sku in skus:
             price = st.number_input(f"{sku['name']} 🆖Price", min_value=0, value=0, key=f"qty_{sku['id']}")
             if price> 0:
-                price_data.append({"sku_id": sku['id'], "price": price})
+                pricing_data.append({"sku_id": sku['id'], "price": price})
 
 # location = streamlit_geolocation()
 if location and location['latitude'] is not None:
@@ -44,5 +44,5 @@ else:
     gps_lat, gps_long = None, None
 
 if st.button("Submit Prices") and gps_lat:
-    add_pricing_track(outlet_id, user_id, price_data, gps_lat, gps_long, outlet_info)
+    add_pricing_track(outlet_id, user_id, pricing_data, gps_lat, gps_long, outlet_info)
     st.success("Price Compliance Submitted")

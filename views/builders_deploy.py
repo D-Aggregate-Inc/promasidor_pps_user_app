@@ -41,14 +41,15 @@ st.write(":material/local_convenience_store:**:orange[Deploy POSMs and Track]**"
 
 user_id = st.session_state['user']['id']
 outlets = execute_query("""
-    SELECT o.id, o.name, o.outlet_address, o.phone_contact,o.outlet_image_key, o.outlet_type, o.classification,o.contact_person,
-           l.name AS location_name, s.name AS state_name
+    SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.location_id, o.outlet_type, o.classification,o.contact_person,
+           l.name AS location_name, r.name AS region_name
     FROM outlets o
-    JOIN locations l ON o.location_id = l.id
-    JOIN states s ON l.state_id = s.id
-""")
+    JOIN locations_by_region l ON o.location_id = l.id
+    JOIN region r ON l.region_id = r.id
+    WHERE o.onboarded_by_user_id = %s
+""", (user_id,))
 outlet_dict = {
-    f"{o['name']} ({o['state_name']} - {o['location_name']} | {o['outlet_address']} | {o['contact_person']} | {o['phone_contact']} | {o['outlet_type']} | {o['classification']})": o['id']
+    f"{o['name']} ({o['region_name']} - {o['location_name']} | {o['outlet_address']} | {o['contact_person']} | {o['phone_contact']} | {o['outlet_type']} | {o['classification']})": o['id']
     for o in outlets
 }
 outlet_name = st.selectbox("Select Outlet", list(outlet_dict.keys()))
@@ -89,8 +90,10 @@ if selected_posms:
             step=1,
             key=f"qty_{posm_name}"
         )
-        if quantity > 0:
-            deployed_posms.append({"posm_id": posm_dict[posm_name], "quantity": quantity})
+        if quantity > 1:
+            st.warning(f'{posm_name} must be 1 per outlet')
+        elif quantity == 1:
+             deployed_posms.append({"posm_id": posm_dict[posm_name], "quantity": quantity})
 
 before_img = st.camera_input(":orange[**Before Deployment Image**]", help="Image is required")
 after_img = st.camera_input(":blue[**After Deployment Image**]", help="Image is required")

@@ -54,12 +54,12 @@ outlet_dict = {
     f"{o['name']} ({o['region_name']} - {o['location_name']} | {o['outlet_address']} | {o['contact_person']} | {o['phone_contact']} | {o['outlet_type']} | {o['classification']})": o['id']
     for o in outlets
 }
-if outlets:
-    outlet_name = st.selectbox("Select Outlet", list(outlet_dict.keys()))
-    outlet_id = outlet_dict[outlet_name]
-    try:
-        selected_outlet = next(o for o in outlets if outlet_dict[outlet_name] == o['id'])
-        if selected_outlet['outlet_image_key']:
+
+outlet_name = st.selectbox("Select Outlet", list(outlet_dict.keys()))
+outlet_id = outlet_dict[outlet_name]
+try:
+    selected_outlet = next(o for o in outlets if outlet_dict[outlet_name] == o['id'])
+    if selected_outlet['outlet_image_key']:
             image_url = f"{SPACES_ENDPOINT}/{SPACES_BUCKET}/{selected_outlet['outlet_image_key']}"
             st.sidebar.write("### :blue[Outlet Image]")
             st.sidebar.write(f"**:orange[{selected_outlet['name']}]**")
@@ -70,13 +70,13 @@ if outlets:
             st.sidebar.write("---")
             st.sidebar.write(Image.open(requests.get(image_url, stream=True).raw))
             st.sidebar.image(image_url, caption="Outlet Image (Captured by Recruiter/Merchandiser)", width=200)
-        else:
-            st.sidebar.write("No image available for this outlet.")
-    except Exception as e:
+    else:
+        st.sidebar.write("No image available for this outlet.")
+except Exception as e:
                 logging.error(f"Failed to load outlet image: {e}")
                 st.sidebar.error("Error loading outlet image.")
-else:
-    st.warning("User is either old_user- You may need to sign up and select your PPS region")
+# else:
+#     st.warning("User is either old_user- You may need to sign up and select your PPS region")
 
 posms = get_posms()
 posm_dict = {p['name']: p['id'] for p in posms}

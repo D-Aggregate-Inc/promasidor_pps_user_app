@@ -69,7 +69,7 @@ if outlets:
             st.sidebar.write("---")
             st.sidebar.write(Image.open(requests.get(image_url, stream=True).raw))
             st.sidebar.image(image_url, caption="Outlet Image (Captured by Recruiter/Merchandiser)", width=200)
-            else:
+        else:
             st.sidebar.write("No image available for this outlet.")
 else:
     st.warning("User is either old_user- You may need to sign up and select your PPS region")

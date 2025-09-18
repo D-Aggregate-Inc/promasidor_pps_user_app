@@ -55,10 +55,10 @@ image = st.camera_input("Capture Shelf/Tray Image", help="Image is required",key
 image2= st.camera_input("Outside Store Image", help="Image is required",key=f'{msl_count}_outside_store_image_{gps_lat}')
 
 if st.button("Submit MSL/SOS") and gps_lat and image and sos_data and outlet_info:
-    image_key = upload_image(image.getvalue(), folder='shelves',gps_lat=gps_lat, gps_long=gps_long)
+    image_key = upload_image(image.getvalue(), folder='NB_shelves',gps_lat=gps_lat, gps_long=gps_long)
     image_key2 = upload_image(image2.getvalue(), folder='outside_NB_OM',gps_lat=gps_lat, gps_long=gps_long)
     if image_key :
         add_msl_sos_track(outlet_id, user_id, sos_data, msl_count, image_key, gps_lat, gps_long,outlet_info,image_key2)
-        st.success("MSL/SOS Tracked!")
+        st.success("MSL/SOS Tracked Submitted!")
     else:
         st.error("Image Not Uploaded")

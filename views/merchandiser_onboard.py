@@ -79,7 +79,7 @@ with st.expander("Input Outlet Information",expanded=True):
         st.warning("Waiting for GPS location...")
         gps_lat, gps_long = None, None  
       
-    if st.button("Submit Outlet Onboarded",type='primary') and gps_lat and image:
+    if st.button("Submit Outlet Onboarded",type='primary') and gps_lat and image and name and outlet_address and bank_name and account_no and outlet_number and classification and phone_contact and account_name and location_id:
         # image_base64 = base64.b64encode(image.getvalue()).decode('utf-8')
         image_key = upload_image(image.getvalue(), folder='outlets', gps_lat=gps_lat, gps_long=gps_long)
         if image_key:

@@ -60,34 +60,34 @@ outlet_id = outlet_dict[outlet_name]
 try:
     selected_outlet = next(o for o in outlets if outlet_dict[outlet_name] == o['id'])
     st.divider()
-        posm_child=st.sidebar.container(border=True)
-        posm_child.caption(f"⚠ See the required POSMs {selected_outlet['name']}, Please deploy appropriately")
-        if selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)':
+    posm_child=st.sidebar.container(border=True)
+    posm_child.caption(f"⚠ See the required POSMs {selected_outlet['name']}, Please deploy appropriately")
+    if selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)':
             posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")
-        elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Dairy/Beverages)':
+    elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Dairy/Beverages)':
             posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")
-        elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Kiosk-(Seasoning)':
+    elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Kiosk-(Seasoning)':
             posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")
-        elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Kiosk(Dairy/Beverages)':
+    elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Kiosk(Dairy/Beverages)':
             posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")
-        elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Table-Top(Seasoning)':
+    elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Table-Top(Seasoning)':
             posm_child.write(":orange[Buntings, Table Cover, Cube Display Tray, Apron]")
-        elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Table-Top(Dairy/Beverages)':
+    elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Table-Top(Dairy/Beverages)':
             posm_child.write(":orange[Buntings, Table Cover, Cube Display Tray, Apron]")
-        elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='GSM-Groceries':
+    elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='GSM-Groceries':
             posm_child.write(":orange[Buntings, 4+ Brand Shelving with Shelf strips, 1 Iron Hanger/Stand]")
-        elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='GSM-Groceries':
+    elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='GSM-Groceries':
             posm_child.write(":orange[Buntings, 4+ Brand Shelving with Shelf strips, 1 Iron Hanger/Stand]")
-        elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Kiosks':
+    elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Kiosks':
             posm_child.write(":orange[Buntings, 4+ Brand Shelving with Shelf strips, 1 Iron Hanger/Stand]")
-        elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Table Tops':
+    elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Table Tops':
             posm_child.write(":orange[Buntings, 2+ Brand Sachet Hanger, Table Cover]")
-        elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Table Top-OSC':
+    elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Table Top-OSC':
             posm_child.write(":orange[Buntings, Onga Sachet Hanger, Onga Table Cover, Apron]")
     if selected_outlet['outlet_image_key']:
         image_url = f"{SPACES_ENDPOINT}/{SPACES_BUCKET}/{selected_outlet['outlet_image_key']}"
         # st.write(image_url)
-        st.sidebar.write("### :blue[Outlet Image]")
+        st.sidebar.write("##:blue[Outlet Information]")
         st.sidebar.write(f"**:orange[{selected_outlet['name']}]**")
         st.sidebar.write(f"**Address:** {selected_outlet['outlet_address']}")
         st.sidebar.write(f"**Contact:** {selected_outlet['contact_person']} | {selected_outlet['phone_contact']}")

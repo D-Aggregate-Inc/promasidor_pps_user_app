@@ -2,7 +2,7 @@ import streamlit as st
 from streamlit_geolocation import streamlit_geolocation
 from db.db_utils import execute_query, add_order_track, get_skus_grouped,add_pricing_track
 
-st.write(":material/local_convenience_store:**:blue[Generate Order]**")
+st.write(":material/barcode_reader:**:blue[Price Compliance Check]**")
 
 user_id = st.session_state['user']['id']
 st.info("Please click on GPS button to get your location GPS")

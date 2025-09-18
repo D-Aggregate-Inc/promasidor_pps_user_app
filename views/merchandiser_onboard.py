@@ -54,12 +54,12 @@ with st.expander("Input Outlet Information",expanded=True):
     classification = st.selectbox("Channel", ['Neighborhood','Open Market'])
     if classification=="Neighborhood":
         outlet_type = st.selectbox("Outlet Type NB", ['GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 
-                        'Table Tops', 'Tale Top-OSC', 
+                        'Table Tops', 'Table Top-OSC', 
                         ],key=f'{classification}_chosen_{name}_{location_id}_NB')
     elif classification=="Open Market":
-        outlet_type = st.selectbox("Outlet Type OM", ['Lock-Up -"Seasoning"','Lock-Up -"Dairy/Beverage"',
-                      'Kiosks -"Seasoning"','Kiosks-"Dairy/Beverages"',
-                      'Table-Top -"Seasoning"','Table-Top - "Dairy/Beverages"'
+        outlet_type = st.selectbox("Outlet Type OM", ['Lock-Up Shop(Seasoning)','Lock-Up Shop(Dairy/Beverages)',
+                      'Kiosk-(Seasoning)','Kiosk(Dairy/Beverages)',
+                      'Table-Top(Seasoning)','Table-Top(Dairy/Beverages)'
                         ],key=f'{classification}_chosen_{name}_{location_id}_OM')
     
     image = st.camera_input("Capture Outlet Image", help="Image is required")

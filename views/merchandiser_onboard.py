@@ -29,8 +29,8 @@ with st.expander("Input Outlet Information",expanded=True):
     outlet_number = st.text_input("Shop Number", max_chars=20, help="E.g No. 12, Shop 34B")
     outlet_address = st.text_area("Address", max_chars=200, help="E.g 12, Shop 34B, Tipper Garage Road")
     outlet_landmark = st.text_input("Landmark ", max_chars=50, help="E.g Opposite Tipper Garage, Near Shoprite Mall")
-    region=execute_query(f"SELECT merchandiser_region FROM users WHERE id = '{user_id}'")
-    st.write(region)
+    region_query=execute_query(f"SELECT merchandiser_region FROM users WHERE id = '{user_id}'")
+    region=region_query.value()
     locations = get_locations_by_user_region(user_id)
     location_dict = {f"{loc['name']} ({loc['region_name']})": loc['id'] for loc in locations}
     location_name = st.selectbox("Location", list(location_dict.keys()) if location_dict else ["No locations available"])

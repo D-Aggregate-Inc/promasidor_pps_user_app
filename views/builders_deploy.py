@@ -73,7 +73,24 @@ try:
             posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")
         elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Dairy/Beverages)':
             posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")
-
+        elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Kiosk-(Seasoning)':
+            posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")
+        elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Kiosk(Dairy/Beverages)':
+            posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")
+        elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Table-Top(Seasoning)':
+            posm_child.write(":orange[Buntings, Table Cover, Cube Display Tray, Apron]")
+        elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Table-Top(Dairy/Beverages)':
+            posm_child.write(":orange[Buntings, Table Cover, Cube Display Tray, Apron]")
+        elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='GSM-Groceries':
+            posm_child.write(":orange[Buntings, 4+ Brand Shelving with Shelf strips, 1 Iron Hanger/Stand]")
+        elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='GSM-Groceries':
+            posm_child.write(":orange[Buntings, 4+ Brand Shelving with Shelf strips, 1 Iron Hanger/Stand]")
+        elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Kiosks':
+            posm_child.write(":orange[Buntings, 4+ Brand Shelving with Shelf strips, 1 Iron Hanger/Stand]")
+        elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Table Tops':
+            posm_child.write(":orange[Buntings, 2+ Brand Sachet Hanger, Table Cover]")
+        elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Table Top-OSC':
+            posm_child.write(":orange[Buntings, Onga Sachet Hanger, Onga Table Cover, Apron]")
         st.sidebar.write("---")
         st.sidebar.write(Image.open(requests.get(image_url, stream=True).raw))
         st.sidebar.image(image_url, caption="Outlet Image (Captured by Recruiter/Merchandiser)", width=200)

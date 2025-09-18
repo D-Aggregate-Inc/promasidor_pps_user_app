@@ -55,7 +55,7 @@ with st.expander("Input Outlet Information",expanded=True):
     contact_person=st.text_input("Contact Person", max_chars=50, help="E.g John Doe",placeholder="Enter contact person name")
     classification = st.selectbox("Channel", ['Neighborhood','Open market'])
     if classification=="Neighborhood":
-        outlet_type = st.selectbox("Outlet Type NB", ['GSM-Groceries', 'Lock-Up Shop', 'Kiosks', 
+        outlet_type = st.selectbox("Outlet Type NB", ['GSM-Groceries', 'Kiosks', 
                         'Table Tops', 'Table Top-OSC', 
                         ],key=f'{classification}_chosen_{name}_{location_id}_NB')
     elif classification=="Open Market":

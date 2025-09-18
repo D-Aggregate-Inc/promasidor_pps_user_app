@@ -171,6 +171,14 @@ def add_order_track(outlet_id, user_id, order_data, gps_lat, gps_long):
         (outlet_id, user_id, psycopg2.extras.Json(order_data), gps_lat, gps_long), fetch=None
     )
 
+def add_pricing_track(outlet_id, user_id,region_location_id, price_data, gps_lat, gps_long):
+    execute_query(
+        """INSERT INTO order_tracks (outlet_id, tracked_by_user_id,region_location_id, price_data, gps_lat, gps_long)
+        VALUES (%s, %s, %s, %s, %s,%s)""",
+        (outlet_id, user_id, region_location_id, psycopg2.extras.Json(price_data), gps_lat, gps_long), fetch=None
+    )
+
+
 def add_expiry_track(outlet_id, user_id, expiry_data, gps_lat, gps_long):
     execute_query(
         """INSERT INTO expiry_tracks (outlet_id, tracked_by_user_id, expiry_data, gps_lat, gps_long)

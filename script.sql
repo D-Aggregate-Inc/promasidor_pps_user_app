@@ -105,6 +105,18 @@ CREATE TABLE order_tracks (
     gps_long DECIMAL(11, 8)
 );
 
+-- Pricing Tracks
+CREATE TABLE price_tracks (
+    id SERIAL PRIMARY KEY,
+    outlet_id INTEGER REFERENCES outlets(id),
+    tracked_by_user_id INTEGER REFERENCES users(id),
+    region_location_id INTEGER REFERENCES locations_by_region(id)
+    tracked_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    pricing_data JSONB,  -- e.g., [{"sku_id":1, "price":10}]
+    gps_lat DECIMAL(10, 8),
+    gps_long DECIMAL(11, 8)
+);
+
 -- Expiry Tracks
 CREATE TABLE expiry_tracks (
     id SERIAL PRIMARY KEY,

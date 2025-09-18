@@ -1,8 +1,8 @@
 import streamlit as st
 from streamlit_geolocation import streamlit_geolocation
-from db.db_utils import execute_query, add_expiry_track, get_skus_grouped
+from db.db_utils import execute_query, add_order_track, get_skus_grouped,add_pricing_track
 
-st.write(":material/local_convenience_store:**:blue[Track Expiry]**")
+st.write(":material/local_convenience_store:**:blue[Generate Order]**")
 
 user_id = st.session_state['user']['id']
 st.info("Please click on GPS button to get your location GPS")
@@ -25,17 +25,14 @@ if outlets:
 else:
     st.warning("No outlets found. Please onboard an outlet first.")
     st.stop()
-
 skus_grouped = get_skus_grouped()
-expiry_data = []
+price_data = []
 for category, skus in skus_grouped.items():
     with st.expander(category):
         for sku in skus:
-            if sku['expiry_tracking']:
-                expiry_date = st.date_input(f"{sku['name']} Expiry Date", key=f"exp_{sku['id']}")
-                quantity = st.number_input(f"{sku['name']} Quantity", min_value=0, value=0, key=f"qty_{sku['id']}")
-                if quantity > 0 and expiry_date:
-                    expiry_data.append({"sku_id": sku['id'], "expiry_date": str(expiry_date), "quantity": quantity})
+            price = st.number_input(f"{sku['name']} Price", min_value=0, value=0, key=f"qty_{sku['id']}")
+            if pricing> 0:
+                price_data.append({"sku_id": sku['id'], "price": price})
 
 # location = streamlit_geolocation()
 if location and location['latitude'] is not None:
@@ -46,6 +43,6 @@ else:
     st.warning("Waiting for GPS location...")
     gps_lat, gps_long = None, None
 
-if st.button("Submit Expiry") and gps_lat:
-    add_expiry_track(outlet_id, user_id, expiry_data, gps_lat, gps_long)
-    st.success("Expiry Tracked!")
+if st.button("Submit Prices") and gps_lat:
+    add_price_track(outlet_id, user_id, region_location_id, price_data, gps_lat, gps_long)
+    st.success("Price Compliance Submitted")

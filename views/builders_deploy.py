@@ -148,7 +148,7 @@ elif build == "After Deployment Image":
 
     before_img = st.camera_input(":orange[**After Deployment Image of Shelf Branding With WallPapers & Stipes**]", help="Image is required")
     after_img = st.camera_input(":blue[**After Deployment Image of Outlet Outside With Hangers and Stands**]", help="Image is required")
-    if st.button("Deploy",key=f'buttn for after deployment of POSMs') and gps_lat and before_img and after_img:
+    if st.button("Deploy",key=f'buttn for after deployment of POSMs') and gps_lat and before_img and after_img and deployed_posms:
         before_key = upload_image(before_img.getvalue(), folder='posm_before',gps_lat=gps_lat,gps_long=gps_long)
         after_key = upload_image(after_img.getvalue(), folder='posm_after',gps_lat=gps_lat,gps_long=gps_long)
         if before_key and after_key:

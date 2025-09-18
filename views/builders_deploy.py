@@ -87,7 +87,7 @@ try:
     if selected_outlet['outlet_image_key']:
         image_url = f"{SPACES_ENDPOINT}/{SPACES_BUCKET}/{selected_outlet['outlet_image_key']}"
         # st.write(image_url)
-        st.sidebar.write("##:blue[Outlet Information]")
+        st.sidebar.write("## :blue[Outlet Information]")
         st.sidebar.write(f"**:orange[{selected_outlet['name']}]**")
         st.sidebar.write(f"**Address:** {selected_outlet['outlet_address']}")
         st.sidebar.write(f"**Contact:** {selected_outlet['contact_person']} | {selected_outlet['phone_contact']}")

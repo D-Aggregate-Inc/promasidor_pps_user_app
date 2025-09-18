@@ -32,7 +32,7 @@ with st.expander("Input Outlet Information",expanded=True):
             formatted_phone = '+234' + phone_contact[1:]
             try:
                 parsed_number = phonenumbers.parse(formatted_phone, "NG")
-                telco = st.write(f"{carrier.name_for_number(formatted_phone), "en")}") if phonenumbers.is_valid_number(parsed_number) else "Unknown"
+                telco = st.write(f"{carrier.name_for_number(formatted_phone), "en"}") if phonenumbers.is_valid_number(parsed_number) else "Unknown"
             except phonenumbers.NumberParseException:
                 telco = st.warning("Unknown")
     outlet_number = st.text_input("Shop Number", max_chars=20, help="E.g No. 12, Shop 34B")

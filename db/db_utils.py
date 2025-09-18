@@ -143,11 +143,11 @@ def add_outlet(name, location_id, classification,outlet_type, user_id, gps_lat, 
                    outlet_landmark,contact_person,region,account_no,bank_name,account_name), fetch=None
     )
 
-def add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long):
+def add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long,outlet_info):
     execute_query(
-        """INSERT INTO posm_deployments (outlet_id, deployed_by_user_id, deployed_posms, before_image_key, after_image_key, gps_lat, gps_long)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)""",
-        (outlet_id, user_id, psycopg2.extras.Json(deployed_posms), before_key, after_key, gps_lat, gps_long), fetch=None
+        """INSERT INTO posm_deployments (outlet_id, deployed_by_user_id, deployed_posms, before_image_key, after_image_key, gps_lat, gps_long,outlet_info)
+        VALUES (%s, %s, %s, %s, %s, %s, %s,%s)""",
+        (outlet_id, user_id, psycopg2.extras.Json(deployed_posms), before_key, after_key, gps_lat, gps_long,outlet_info), fetch=None
     )
 
 def add_msl_sos_track(outlet_id, user_id, sos_data, msl_count, image_key, gps_lat, gps_long,outlet_info,image_key2):

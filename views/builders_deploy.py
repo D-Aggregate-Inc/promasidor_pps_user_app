@@ -55,10 +55,10 @@ outlet_dict = {
     f"{o['name']} ({o['region_name']} - {o['location_name']} | {o['outlet_address']} | {o['contact_person']} | {o['phone_contact']} | {o['outlet_type']} | {o['classification']})": o['id']
     for o in outlets
 }
-outlet_name = st.selectbox("Select Outlet", list(outlet_dict.keys()))
-outlet_id = outlet_dict[outlet_name]
+outlet_info = st.selectbox("Select Outlet", list(outlet_dict.keys()))
+outlet_id = outlet_dict[outlet_info]
 try:
-    selected_outlet = next(o for o in outlets if outlet_dict[outlet_name] == o['id'])
+    selected_outlet = next(o for o in outlets if outlet_dict[outlet_info] == o['id'])
     st.divider()
     posm_child=st.sidebar.container(border=True)
     posm_child.caption(f"⚠ See the required POSMs {selected_outlet['name']}, Please deploy appropriately")
@@ -142,7 +142,7 @@ if st.button("Deploy") and gps_lat and before_img and after_img:
     before_key = upload_image(before_img.getvalue(), folder='posm_before',gps_lat=gps_lat,gps_long=gps_long)
     after_key = upload_image(after_img.getvalue(), folder='posm_after',gps_lat=gps_lat,gps_long=gps_long)
     if before_key and after_key:
-        add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long)
+        add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long,outlet_info)
         st.success("POSM Deployed!")
     else:
         st.error("Image upload failed. Please try again.")

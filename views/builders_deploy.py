@@ -48,7 +48,7 @@ outlets = execute_query("""
     FROM outlets o
     JOIN locations_by_region l ON o.location_id = l.id
     JOIN region r ON l.region_id = r.id
-    WHERE region_name = %s
+    WHERE r.name = %s
 """, (user['merchandiser_region'],),fetch='all')
 outlet_dict = {
     f"{o['name']} ({o['region_name']} - {o['location_name']} | {o['outlet_address']} | {o['contact_person']} | {o['phone_contact']} | {o['outlet_type']} | {o['classification']})": o['id']

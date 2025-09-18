@@ -150,11 +150,11 @@ def add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_ke
         (outlet_id, user_id, psycopg2.extras.Json(deployed_posms), before_key, after_key, gps_lat, gps_long), fetch=None
     )
 
-def add_msl_sos_track(outlet_id, user_id, sos_data, msl_count, image_key, gps_lat, gps_long,outlet_info):
+def add_msl_sos_track(outlet_id, user_id, sos_data, msl_count, image_key, gps_lat, gps_long,outlet_info,image_key2):
     execute_query(
-        """INSERT INTO msl_sos_tracks (outlet_id, tracked_by_user_id, sos_data, msl_count, shelf_image_key, gps_lat, gps_long,outlet_info)
-        VALUES (%s, %s, %s, %s, %s, %s, %s,%s)""",
-        (outlet_id, user_id, psycopg2.extras.Json(sos_data), msl_count, image_key, gps_lat, gps_long,outlet_info), fetch=None
+        """INSERT INTO msl_sos_tracks (outlet_id, tracked_by_user_id, sos_data, msl_count, shelf_image_key, gps_lat, gps_long,outlet_info, shelf_image_key2)
+        VALUES (%s, %s, %s, %s, %s, %s, %s,%s,%s)""",
+        (outlet_id, user_id, psycopg2.extras.Json(sos_data), msl_count, image_key, gps_lat, gps_long,outlet_info, image_key2), fetch=None
     )
 
 def add_oos_track(outlet_id, user_id, oos_data, gps_lat, gps_long,outlet_info):

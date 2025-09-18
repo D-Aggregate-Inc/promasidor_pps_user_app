@@ -43,7 +43,7 @@ user_id = st.session_state['user']['id']
 user=execute_query("SELECT merchandiser_region FROM users WHERE id = %s", (user_id,), fetch='one')
 build=st.sidebar.selectbox("Builder Activities",['Take Before Image','After Deployment Image'],key=f'{user_id}_')
 outlets = execute_query("""
-    SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.location_id, o.outlet_type, o.classification,o.contact_person,
+    SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.location_id, o.outlet_image_key, o.outlet_type, o.classification,o.contact_person,
            l.name AS location_name, r.name AS region_name
     FROM outlets o
     JOIN locations_by_region l ON o.location_id = l.id

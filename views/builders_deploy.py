@@ -61,7 +61,7 @@ try:
     st.write
     if selected_outlet['outlet_image_key']:
         image_url = f"{SPACES_ENDPOINT}/{SPACES_BUCKET}/{selected_outlet['outlet_image_key']}"
-        st.write(image_url)
+        # st.write(image_url)
         st.sidebar.write("### :blue[Outlet Image]")
         st.sidebar.write(f"**:orange[{selected_outlet['name']}]**")
         st.sidebar.write(f"**Address:** {selected_outlet['outlet_address']}")
@@ -71,8 +71,8 @@ try:
         st.sidebar.write("---")
         st.sidebar.write(Image.open(requests.get(image_url, stream=True).raw))
         st.sidebar.image(image_url, caption="Outlet Image (Captured by Recruiter/Merchandiser)", width=200)
-        else:
-            st.sidebar.write("No image available for this outlet.")
+    else:
+        st.sidebar.write("No image available for this outlet.")
 except Exception as e:
                 logging.error(f"Failed to load outlet image: {e}")
                 st.sidebar.error("Error loading outlet image.")

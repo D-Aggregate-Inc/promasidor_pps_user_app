@@ -60,6 +60,7 @@ try:
     selected_outlet = next(o for o in outlets if outlet_dict[outlet_name] == o['id'])
     if selected_outlet['outlet_image_key']:
             image_url = f"{SPACES_ENDPOINT}/{SPACES_BUCKET}/{selected_outlet['outlet_image_key']}"
+            st.write(image_url)
             st.sidebar.write("### :blue[Outlet Image]")
             st.sidebar.write(f"**:orange[{selected_outlet['name']}]**")
             st.sidebar.write(f"**Address:** {selected_outlet['outlet_address']}")

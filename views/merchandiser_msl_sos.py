@@ -20,9 +20,9 @@ outlet_dict = {
     f"{o['name']} ({o['region_name']} - {o['location_name']} | {o['outlet_address']} | {o['contact_person']} | {o['phone_contact']} | {o['outlet_type']} | {o['classification']})": o['id']
     for o in outlets
 }
-outlet_name = st.selectbox("Select Outlet", list(outlet_dict.keys()))
+outlet_info = st.selectbox("Select Outlet", list(outlet_dict.keys()))
 if outlets:
-    outlet_id = outlet_dict[outlet_name]
+    outlet_id = outlet_dict[outlet_info]
 else:
     st.warning("No outlets found. Please onboard an outlet first.")
     st.stop()
@@ -57,7 +57,7 @@ else:
 if st.button("Submit MSL/SOS") and gps_lat and image:
     image_key = upload_image(image.getvalue(), folder='shelves')
     if image_key:
-        add_msl_sos_track(outlet_id, user_id, sos_data, msl_count, image_key, gps_lat, gps_long)
+        add_msl_sos_track(outlet_id, user_id, sos_data, msl_count, image_key, gps_lat, gps_long,outlet_info)
         st.success("MSL/SOS Tracked!")
     else:
         st.error("Image Not Uploaded")

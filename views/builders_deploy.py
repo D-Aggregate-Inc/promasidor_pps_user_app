@@ -40,7 +40,7 @@ st.write(":material/local_convenience_store:**:orange[Deploy POSMs and Track]**"
 #                 st.rerun()
 
 user_id = st.session_state['user']['id']
-build=st.sidebar.selectbox("Builder Activities",['Take Before Image','After Deployment Image'])
+build=st.sidebar.selectbox("Builder Activities",['Take Before Image','After Deployment Image'],key=f'{user_id}_')
 outlets = execute_query("""
     SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.location_id, o.outlet_type, o.classification,o.contact_person,
            l.name AS location_name, r.name AS region_name

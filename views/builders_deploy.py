@@ -40,6 +40,7 @@ st.write(":material/local_convenience_store:**:orange[Deploy POSMs and Track]**"
 #                 st.rerun()
 
 user_id = st.session_state['user']['id']
+build=st.sidebar.selectbox("Builder Activities",['Take Before Image','After Deployment Image'])
 outlets = execute_query("""
     SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.location_id, o.outlet_type, o.classification,o.contact_person,
            l.name AS location_name, r.name AS region_name
@@ -55,10 +56,7 @@ outlet_dict = {
 if outlets:
     outlet_name = st.selectbox("Select Outlet", list(outlet_dict.keys()))
     outlet_id = outlet_dict[outlet_name]
-else:
-    st.warning("User is either old_user- You may need to sign up and select your PPS region")
-
-try:
+    try:
     selected_outlet = next(o for o in outlets if outlet_dict[outlet_name] == o['id'])
     if selected_outlet['outlet_image_key']:
         image_url = f"{SPACES_ENDPOINT}/{SPACES_BUCKET}/{selected_outlet['outlet_image_key']}"
@@ -71,8 +69,13 @@ try:
         st.sidebar.write("---")
         st.sidebar.write(Image.open(requests.get(image_url, stream=True).raw))
         st.sidebar.image(image_url, caption="Outlet Image (Captured by Recruiter/Merchandiser)", width=200)
-    else:
+        else:
         st.sidebar.write("No image available for this outlet.")
+else:
+    st.warning("User is either old_user- You may need to sign up and select your PPS region")
+
+
+    
 except Exception as e:
     logging.error(f"Failed to load outlet image: {e}")
     st.sidebar.error("Error loading outlet image.")

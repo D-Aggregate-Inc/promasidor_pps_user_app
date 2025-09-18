@@ -31,7 +31,7 @@ with st.expander("Input Outlet Information",expanded=True):
     outlet_landmark = st.text_input("Landmark ", max_chars=50, help="E.g Opposite Tipper Garage, Near Shoprite Mall")
     region_query=execute_query(f"SELECT merchandiser_region FROM users WHERE id = '{user_id}'")
     st.write(region_query)
-    region=region_query['merchandiser_region'][0]
+    region=region_query[0]
 
     locations = get_locations_by_user_region(user_id)
     location_dict = {f"{loc['name']} ({loc['region_name']})": loc['id'] for loc in locations}

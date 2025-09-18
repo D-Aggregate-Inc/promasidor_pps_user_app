@@ -146,7 +146,13 @@ elif build == "After Deployment Image":
                 st.warning(f'{posm_name} must be 1 per outlet')
             elif quantity == 1:
                 deployed_posms.append({"posm_id": posm_dict[posm_name], "quantity": quantity})
-
+    if location and location['latitude'] is not None:
+        gps_lat = location['latitude']
+        gps_long = location['longitude']
+        st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
+    else:
+        st.warning("Waiting for GPS location...")
+        gps_lat, gps_long = None, None
     before_img = st.camera_input(":orange[**After Deployment Image of Shelf Branding With WallPapers & Stipes**]", help="Image is required")
     after_img = st.camera_input(":blue[**After Deployment Image of Outlet Outside With Hangers and Stands**]", help="Image is required")
     if st.button("Deploy",key=f'buttn for after deployment of POSMs') and gps_lat and before_img and after_img and deployed_posms:

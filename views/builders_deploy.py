@@ -105,6 +105,7 @@ except Exception as e:
 # else:
 #     st.warning("User is either old_user- You may need to sign up and select your PPS region")
 if build =="Before Deployment Image":
+    deployed_posms = []
     before_img = st.camera_input(":orange[**Before Image of Shelf In NB**]", help="Image is required",key=f'before_image_shelve{selected_outlet['name']}_In NB')
     after_img= st.camera_input(":blue[**Before Image of Store Outside In NB and OMs**]", help="Image is required", key=f'before_image_outlet_outside_{selected_outlet['name']}_inNB and OM')
     if location and location['latitude'] is not None:

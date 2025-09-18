@@ -68,6 +68,7 @@ try:
         st.sidebar.write(f"**Contact:** {selected_outlet['contact_person']} | {selected_outlet['phone_contact']}")
         st.sidebar.write(f"**Type:** {selected_outlet['outlet_type']} | {selected_outlet['classification']}")
         st.sidebar.write(f"**Location:** {selected_outlet['location_name']}, {selected_outlet['region_name']}")
+        st.divider()
         if selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)':
             posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")
         elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Dairy/Beverages)':

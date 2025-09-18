@@ -40,7 +40,7 @@ st.write(":material/local_convenience_store:**:orange[Deploy POSMs and Track]**"
 #                 st.rerun()
 
 user_id = st.session_state['user']['id']
-posm_child=st.sidebar.container(border=True)
+
 user=execute_query("SELECT merchandiser_region FROM users WHERE id = %s", (user_id,), fetch='one')
 build=st.sidebar.selectbox("Builder Activities",['Take Before Image','After Deployment Image'],key=f'{user_id}_')
 outlets = execute_query("""
@@ -69,6 +69,7 @@ try:
         st.sidebar.write(f"**Type:** {selected_outlet['outlet_type']} | {selected_outlet['classification']}")
         st.sidebar.write(f"**Location:** {selected_outlet['location_name']}, {selected_outlet['region_name']}")
         st.divider()
+        posm_child=st.sidebar.container(border=True)
         if selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)':
             posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")
         elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Dairy/Beverages)':

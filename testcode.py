@@ -833,3 +833,290 @@ with st.form("onboard_form"):
             else:
                 st.warning("Offline. Saving as draft.")
                 save_draft('onboard', draft_data, user_id)
+#-------------------------------------------------------------------------------------------
+import streamlit as st
+from passlib.hash import bcrypt
+from db.db_utils import add_user, get_regions, get_all_locations, delete_locations
+
+st.title("Admin Dashboard")
+
+# User Signup Section
+with st.form("signup_form"):
+    st.subheader("Create New User")
+    email = st.text_input("Email")
+    phone = st.text_input("Phone Number")
+    password = st.text_input("Password", type="password")
+    role = st.selectbox("Role", ["merchandiser", "recruiter", "admin"])
+    regions = get_regions()
+    region_options = [r['name'] for r in regions]
+    selected_region = st.selectbox("Select Region of Work", region_options)
+    submit_button = st.form_submit_button("Create User")
+
+    if submit_button:
+        if not (email and phone and password and selected_region):
+            st.error("Please fill all fields and select a region.")
+        else:
+            password_hash = bcrypt.hash(password)
+            result = add_user(email, phone, password_hash, role, selected_region)
+            if result is not None:
+                st.success("User created successfully!")
+            else:
+                st.error("User creation failed: Email already exists.")
+
+# Location Management Section
+st.subheader("Manage Locations")
+locations = get_all_locations()
+if not locations:
+    st.warning("No locations found.")
+else:
+    st.write("Select locations to delete:")
+    with st.form("delete_locations_form"):
+        selected_location_ids = []
+        cols = st.columns([1, 3, 3])  # Checkbox, Location Name, Region
+        cols[0].write("Select")
+        cols[1].write("Location Name")
+        cols[2].write("Region")
+        for loc in locations:
+            with st.container():
+                cols = st.columns([1, 3, 3])
+                selected = cols[0].checkbox("", key=f"loc_{loc['id']}")
+                cols[1].write(loc['name'])
+                cols[2].write(loc['region_name'])
+                if selected:
+                    selected_location_ids.append(loc['id'])
+        delete_button = st.form_submit_button("Delete Selected Locations")
+
+        if delete_button:
+            if not selected_location_ids:
+                st.error("Please select at least one location to delete.")
+            else:
+                result = delete_locations(selected_location_ids)
+                if result is not None:
+                    st.success(f"Deleted {len(selected_location_ids)} location(s).")
+                    st.rerun()  # Refresh to update table
+                else:
+                    st.error("Deletion failed. Some locations may be in use by outlets.")
+#-------------------------------------------------------------------
+import psycopg2
+from psycopg2.extras import RealDictCursor
+from psycopg2.pool import SimpleConnectionPool
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
+import streamlit as st
+import logging
+import json
+import base64
+import uuid
+from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
+
+logging.basicConfig(filename='app.log', level=logging.ERROR)
+
+@st.cache_resource
+def init_connection_pool():
+    return SimpleConnectionPool(
+        minconn=5, maxconn=50,
+        host=DB_HOST, port=DB_PORT, dbname=DB_NAME,
+        user=DB_USER, password=DB_PASSWORD, sslmode='require'
+    )
+
+@retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=1, min=1, max=10), 
+       retry=retry_if_exception_type((psycopg2.OperationalError, psycopg2.DatabaseError)))
+def execute_query(query, params=None, fetch='all'):
+    pool = init_connection_pool()
+    conn = None
+    try:
+        conn = pool.getconn()
+        conn.set_isolation_level(psycopg2.extensions.ISOLATION_LEVEL_SERIALIZABLE)
+        with conn.cursor(cursor_factory=RealDictCursor) as cur:
+            try:
+                cur.execute(query, params)
+                if fetch == 'all':
+                    return cur.fetchall()
+                elif fetch == 'one':
+                    return cur.fetchone()
+                conn.commit()
+            except psycopg2.errors.SerializationFailure as e:
+                logging.error(f"Serialization failure: {e}")
+                conn.rollback()
+                raise
+            except psycopg2.errors.UniqueViolation as e:
+                logging.error(f"Duplicate entry: {e}")
+                conn.rollback()
+                st.error("Submission failed: Duplicate entry detected.")
+                return None
+            except psycopg2.errors.ForeignKeyViolation as e:
+                logging.error(f"Foreign key violation: {e}")
+                conn.rollback()
+                st.error("Cannot delete locations in use by outlets.")
+                return None
+            except Exception as e:
+                logging.error(f"Query failed: {query}, error: {e}")
+                conn.rollback()
+                st.error(f"Query failed: {e}")
+                raise
+    except psycopg2.OperationalError as e:
+        logging.error(f"Database connection error: {e}")
+        st.error(f"Database connection error: {e}")
+        if conn:
+            pool.putconn(conn, close=True)
+        raise
+    finally:
+        if conn:
+            pool.putconn(conn)
+
+def save_draft(form_type, data, user_id):
+    if 'drafts' not in st.session_state:
+        st.session_state['drafts'] = []
+    draft_id = str(uuid.uuid4())
+    draft = {'id': draft_id, 'form_type': form_type, 'data': data, 'user_id': user_id}
+    st.session_state['drafts'].append(draft)
+    js_code = f"""
+    <script>
+        localStorage.setItem('retail_app_drafts_{user_id}', JSON.stringify({json.dumps(st.session_state['drafts'])}));
+    </script>
+    """
+    st.components.v1.html(js_code, height=0)
+
+def get_drafts(user_id):
+    return [draft for draft in st.session_state.get('drafts', []) if draft['user_id'] == user_id]
+
+def clear_draft(draft_id, user_id):
+    if 'drafts' in st.session_state:
+        st.session_state['drafts'] = [d for d in st.session_state['drafts'] if d['id'] != draft_id]
+        js_code = f"""
+        <script>
+            localStorage.setItem('retail_app_drafts_{user_id}', JSON.stringify({json.dumps(st.session_state['drafts'])}));
+        </script>
+        """
+        st.components.v1.html(js_code, height=0)
+
+def sync_drafts(user_id):
+    drafts = get_drafts(user_id)
+    if not drafts:
+        return
+    for draft in drafts[:]:
+        try:
+            if draft['form_type'] == 'onboard':
+                data = draft['data']
+                image_bytes = base64.b64decode(data['image_base64']) if data['image_base64'] else None
+                image_key = upload_image(image_bytes, folder='outlets', gps_lat=data['gps_lat'], gps_long=data['gps_long']) if image_bytes else None
+                if image_key:
+                    result = add_outlet(
+                        data['name'], data['address'], data['phone_contact'], data['location_id'],
+                        data['classification'], data['outlet_type'], data['user_id'],
+                        data['gps_lat'], data['gps_long'], image_key
+                    )
+                    if result is not None:
+                        clear_draft(draft['id'], user_id)
+            elif draft['form_type'] == 'posm_deployment':
+                data = draft['data']
+                before_key = upload_image(base64.b64decode(data['before_image_base64']), folder='posm_before', gps_lat=data['gps_lat'], gps_long=data['gps_long'])
+                after_key = upload_image(base64.b64decode(data['after_image_base64']), folder='posm_after', gps_lat=data['gps_lat'], gps_long=data['gps_long'])
+                if before_key and after_key:
+                    result = add_posm_deployment(
+                        data['outlet_id'], data['user_id'], data['deployed_posms'],
+                        before_key, after_key, data['gps_lat'], data['gps_long']
+                    )
+                    if result is not None:
+                        clear_draft(draft['id'], user_id)
+            elif draft['form_type'] == 'msl_sos':
+                data = draft['data']
+                image_key = upload_image(base64.b64decode(data['image_base64']), folder='shelves', gps_lat=data['gps_lat'], gps_long=data['gps_long'])
+                if image_key:
+                    result = add_msl_sos_track(
+                        data['outlet_id'], data['user_id'], data['sos_data'],
+                        data['msl_count'], image_key, data['gps_lat'], data['gps_long']
+                    )
+                    if result is not None:
+                        clear_draft(draft['id'], user_id)
+        except Exception as e:
+            logging.error(f"Failed to sync draft {draft['form_type']}: {e}")
+            continue
+
+def get_user_by_email(email):
+    return execute_query("SELECT * FROM users WHERE email = %s", (email,), fetch='one')
+
+def add_user(email, phone, password_hash, role, region):
+    return execute_query(
+        "INSERT INTO users (email, phone, password_hash, role, region) VALUES (%s, %s, %s, %s, %s) ON CONFLICT (email) DO NOTHING",
+        (email, phone, password_hash, role, region), fetch=None
+    )
+
+def get_regions():
+    return execute_query("SELECT id, name FROM regions", fetch='all')
+
+def get_locations_by_user_region(user_id):
+    user = execute_query("SELECT region FROM users WHERE id = %s", (user_id,), fetch='one')
+    if not user or not user['region']:
+        return []
+    return execute_query(
+        """SELECT l.id, l.name, r.name AS region_name
+           FROM locations l
+           JOIN regions r ON l.region_id = r.id
+           WHERE r.name = %s""",
+        (user['region'],), fetch='all'
+    )
+
+def delete_locations(location_ids):
+    if not location_ids:
+        return False
+    return execute_query(
+        "DELETE FROM locations WHERE id = ANY(%s)",
+        (location_ids,), fetch=None
+    )
+
+def get_all_locations():
+    return execute_query(
+        """SELECT l.id, l.name, r.name AS region_name
+           FROM locations l
+           JOIN regions r ON l.region_id = r.id
+           ORDER BY r.name, l.name""",
+        fetch='all'
+    )
+
+def add_outlet(name, address, phone_contact, location_id, classification, outlet_type, user_id, gps_lat, gps_long, image_key):
+    return execute_query(
+        """INSERT INTO outlets (name, address, phone_contact, location_id, classification, outlet_type, onboarded_by_user_id, gps_lat, gps_long, outlet_image_key)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+        ON CONFLICT (name, address, location_id) DO NOTHING""",
+        (name, address, phone_contact, location_id, classification, outlet_type, user_id, gps_lat, gps_long, image_key), fetch=None
+    )
+
+def add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long):
+    return execute_query(
+        """INSERT INTO posm_deployments (outlet_id, deployed_by_user_id, deployed_posms, before_image_key, after_image_key, gps_lat, gps_long, deployed_at)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+        ON CONFLICT (outlet_id, deployed_at) DO NOTHING""",
+        (outlet_id, user_id, psycopg2.extras.Json(deployed_posms), before_key, after_key, gps_lat, gps_long), fetch=None
+    )
+
+def add_msl_sos_track(outlet_id, user_id, sos_data, msl_count, image_key, gps_lat, gps_long):
+    return execute_query(
+        """INSERT INTO msl_sos (outlet_id, tracked_by_user_id, sos_data, msl_count, shelf_image_key, gps_lat, gps_long, tracked_at)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, CURRENT_TIMESTAMP)
+        ON CONFLICT (outlet_id, tracked_at) DO NOTHING""",
+        (outlet_id, user_id, psycopg2.extras.Json(sos_data), msl_count, image_key, gps_lat, gps_long), fetch=None
+    )
+
+def get_user_outlets(user_id):
+    return execute_query(
+        """SELECT o.id, o.name, o.address, o.phone_contact, o.outlet_type, o.classification, 
+                  l.name AS location_name, r.name AS region_name
+           FROM outlets o
+           JOIN locations l ON o.location_id = l.id
+           JOIN regions r ON l.region_id = r.id
+           WHERE o.onboarded_by_user_id = %s""",
+        (user_id,)
+    )
+
+def get_posms():
+    return execute_query("SELECT * FROM posms")
+
+def get_skus_grouped():
+    skus = execute_query("SELECT s.id, s.name, c.name AS category FROM skus s JOIN categories c ON s.category_id = c.id")
+    grouped = {}
+    for sku in skus:
+        category = sku['category']
+        if category not in grouped:
+            grouped[category] = []
+        grouped[category].append({'id': sku['id'], 'name': sku['name']})
+    return grouped

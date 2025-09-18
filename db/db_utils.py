@@ -1,43 +1,24 @@
-from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from psycopg2.pool import SimpleConnectionPool
+from tenacity import retry, stop_after_attempt, wait_exponential, retry_if_exception_type
 import streamlit as st
-import warnings
-from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 import logging
+import json
+import base64
+import uuid
+from config import DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD
 
 logging.basicConfig(filename='app.log', level=logging.ERROR)
 
-warnings.filterwarnings('ignore')
-# Initialize connection pool
 @st.cache_resource
 def init_connection_pool():
     return SimpleConnectionPool(
-        minconn=1,  # Minimum connections
-        maxconn=10,  # Maximum connections (adjust based on DB plan)
-        host=DB_HOST,
-        port=DB_PORT,
-        dbname=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        sslmode='require'  # Ensure SSL for Digital Ocean
+        minconn=5, maxconn=50,
+        host=DB_HOST, port=DB_PORT, dbname=DB_NAME,
+        user=DB_USER, password=DB_PASSWORD, sslmode='require'
     )
 
-# @st.cache_resource
-# def init_connection_pool():
-#     return SimpleConnectionPool(
-#         minconn=1,
-#         maxconn=10,
-#         host=DB_HOST,
-#         port=DB_PORT,
-#         dbname=DB_NAME,
-#         user=DB_USER,
-#         password=DB_PASSWORD,
-#         sslmode='require'
-#     )
-
-# @st.cache_data(ttl=300)
 @retry(stop=stop_after_attempt(5), wait=wait_exponential(multiplier=1, min=1, max=10), 
        retry=retry_if_exception_type((psycopg2.OperationalError, psycopg2.DatabaseError)))
 def execute_query(query, params=None, fetch='all'):
@@ -63,6 +44,11 @@ def execute_query(query, params=None, fetch='all'):
                 conn.rollback()
                 st.error("Submission failed: Duplicate entry detected.")
                 return None
+            except psycopg2.errors.ForeignKeyViolation as e:
+                logging.error(f"Foreign key violation: {e}")
+                conn.rollback()
+                st.error("Cannot delete locations in use by outlets.")
+                return None
             except Exception as e:
                 logging.error(f"Query failed: {query}, error: {e}")
                 conn.rollback()
@@ -79,6 +65,24 @@ def execute_query(query, params=None, fetch='all'):
             pool.putconn(conn)
 
 # User functions
+
+def delete_locations(location_ids):
+    if not location_ids:
+        return False
+    return execute_query(
+        "DELETE FROM locations_by_region WHERE id = ANY(%s)",
+        (location_ids,), fetch=None
+    )
+
+def get_all_locations():
+    return execute_query(
+        """SELECT l.id, l.name, r.name AS region_name
+           FROM locations_by_region l
+           JOIN region r ON l.region_id = r.id
+           ORDER BY r.name, l.name""",
+        fetch='all'
+    )
+
 def get_regions():
     return execute_query("SELECT id, name FROM region", fetch='all')
 

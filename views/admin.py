@@ -2,7 +2,7 @@ import streamlit as st
 import warnings
 from datetime import date
 import logging
-from db.db_utils import execute_query,add_bank, add_location, add_sku,add_posm, disable_user, add_region,add_location_by_region
+from db.db_utils import execute_query,add_bank, add_location, add_sku,add_posm, disable_user, add_region, add_location_by_region, get_all_locations, delete_locations
 
 logging.basicConfig(filename='app.log', level=logging.ERROR)
 
@@ -57,31 +57,31 @@ if selection == "Regions":
 
 #     st.markdown("""<hr class="topline">""",unsafe_allow_html=True)  
 
-if selection == "Locations":
-    # Manage Locations
-    location, location_table=st.columns([4,3],gap='medium',vertical_alignment='top')
-    with location:
-        with st.expander("Manage Locations", expanded=True):
-            states = execute_query("SELECT * FROM states")
-            state_dict = {s['name']: s['id'] for s in states}
-            state_name = st.selectbox("State", list(state_dict.keys()))
-            state_id = state_dict[state_name]
-            new_loc = st.text_input("Add Location")
-            if st.button("Add Location"):
-                try:
-                    add_location(state_id, new_loc)
-                    st.success(f"Location {new_loc} added to {state_name} successfully.")
-                except Exception as e:
-                    st.error(f"Error adding location: {e}")
-                # add_location(state_id, new_loc)
-            with location_table:
-                try:
-                    st.write(f"🗺 **:green[Locations in {state_name}]**")
-                    locs = execute_query("SELECT * FROM locations WHERE state_id = %s", (state_id,))
-                    st.dataframe(locs)
-                    st.caption("Click on a location to view its outlets", unsafe_allow_html=True)
-                except Exception as e:
-                    st.error(f"Error fetching locations: {e}")
+# if selection == "Locations":
+#     # Manage Locations
+#     location, location_table=st.columns([4,3],gap='medium',vertical_alignment='top')
+#     with location:
+#         with st.expander("Manage Locations", expanded=True):
+#             states = execute_query("SELECT * FROM states")
+#             state_dict = {s['name']: s['id'] for s in states}
+#             state_name = st.selectbox("State", list(state_dict.keys()))
+#             state_id = state_dict[state_name]
+#             new_loc = st.text_input("Add Location")
+#             if st.button("Add Location"):
+#                 try:
+#                     add_location(state_id, new_loc)
+#                     st.success(f"Location {new_loc} added to {state_name} successfully.")
+#                 except Exception as e:
+#                     st.error(f"Error adding location: {e}")
+#                 # add_location(state_id, new_loc)
+#             with location_table:
+#                 try:
+#                     st.write(f"🗺 **:green[Locations in {state_name}]**")
+#                     locs = execute_query("SELECT * FROM locations WHERE state_id = %s", (state_id,))
+#                     st.dataframe(locs)
+#                     st.caption("Click on a location to view its outlets", unsafe_allow_html=True)
+#                 except Exception as e:
+#                     st.error(f"Error fetching locations: {e}")
 if selection == "Location By Region":
     # Manage Locations
     location, location_table=st.columns([4,3],gap='medium',vertical_alignment='top')
@@ -108,8 +108,40 @@ if selection == "Location By Region":
                 except Exception as e:
                     st.error(f"Error fetching locations: {e}")
 
-
     st.markdown("""<hr class="line">""",unsafe_allow_html=True)  
+    # Location Management Section
+    st.info("Manage Deleteion of Locations_By Region")
+    locations = get_all_locations()
+    if not locations:
+        st.warning("No locations found.")
+    else:
+        st.write("Select locations to delete:")
+        with st.form("delete_locations_form"):
+            selected_location_ids = []
+            cols = st.columns([1, 3, 3])  # Checkbox, Location Name, Region
+            cols[0].write("Select")
+            cols[1].write("Location Name")
+            cols[2].write("Region")
+            for loc in locations:
+                with st.container():
+                    cols = st.columns([1, 3, 3])
+                    selected = cols[0].checkbox("", key=f"loc_{loc['id']}")
+                    cols[1].write(loc['name'])
+                    cols[2].write(loc['region_name'])
+                    if selected:
+                        selected_location_ids.append(loc['id'])
+            delete_button = st.form_submit_button("Delete Selected Locations")
+
+            if delete_button:
+                if not selected_location_ids:
+                    st.error("Please select at least one location to delete.")
+                else:
+                    result = delete_locations(selected_location_ids)
+                    if result is not None:
+                        st.success(f"Deleted {len(selected_location_ids)} location(s).")
+                        st.rerun()  # Refresh to update table
+                    else:
+                        st.error("Deletion failed. Some locations may be in use by outlets.")
 
 if selection == "SKUs":
     # Manage SKUs (with category)

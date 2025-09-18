@@ -116,9 +116,9 @@ if build =="Before Deployment Image":
         st.warning("Waiting for GPS location...")
         gps_lat, gps_long = None, None
     if st.button("Before Deployment", key=f'buttn_for_before_deployment') and gps_lat and before_img and after_img:
-        before_key = upload_image(before_img.getvalue(), folder='posm_before',gps_lat=gps_lat,gps_long=gps_long)
-        after_key = upload_image(after_img.getvalue(), folder='posm_after',gps_lat=gps_lat,gps_long=gps_long)
-        if before_key and after_key:
+        before_key = upload_image(before_img.getvalue(), folder='posm_before_shelves',gps_lat=gps_lat,gps_long=gps_long)
+        after_key = upload_image(after_img.getvalue(), folder='posm_before_outside',gps_lat=gps_lat,gps_long=gps_long)
+        if before_key or after_key:
             add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long,outlet_info)
             st.success("Before Deployment Picture Submitted!")
         else:
@@ -150,8 +150,8 @@ elif build == "After Deployment Image":
     before_img = st.camera_input(":orange[**After Deployment Image of Shelf Branding With WallPapers & Stipes**]", help="Image is required")
     after_img = st.camera_input(":blue[**After Deployment Image of Outlet Outside With Hangers and Stands**]", help="Image is required")
     if st.button("Deploy",key=f'buttn for after deployment of POSMs') and gps_lat and before_img and after_img and deployed_posms:
-        before_key = upload_image(before_img.getvalue(), folder='posm_before',gps_lat=gps_lat,gps_long=gps_long)
-        after_key = upload_image(after_img.getvalue(), folder='posm_after',gps_lat=gps_lat,gps_long=gps_long)
+        before_key = upload_image(before_img.getvalue(), folder='posm_after_shelves',gps_lat=gps_lat,gps_long=gps_long)
+        after_key = upload_image(after_img.getvalue(), folder='posm_after_outside',gps_lat=gps_lat,gps_long=gps_long)
         if before_key and after_key:
             add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_key, gps_lat, gps_long,outlet_info)
             st.success("POSM Deployed Submitted!")

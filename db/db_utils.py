@@ -150,11 +150,11 @@ def add_posm_deployment(outlet_id, user_id, deployed_posms, before_key, after_ke
         (outlet_id, user_id, psycopg2.extras.Json(deployed_posms), before_key, after_key, gps_lat, gps_long), fetch=None
     )
 
-def add_msl_sos_track(outlet_id, user_id, sos_data, msl_count, image_key, gps_lat, gps_long):
+def add_msl_sos_track(outlet_id, user_id, sos_data, msl_count, image_key, gps_lat, gps_long,outlet_info):
     execute_query(
-        """INSERT INTO msl_sos_tracks (outlet_id, tracked_by_user_id, sos_data, msl_count, shelf_image_key, gps_lat, gps_long)
-        VALUES (%s, %s, %s, %s, %s, %s, %s)""",
-        (outlet_id, user_id, psycopg2.extras.Json(sos_data), msl_count, image_key, gps_lat, gps_long), fetch=None
+        """INSERT INTO msl_sos_tracks (outlet_id, tracked_by_user_id, sos_data, msl_count, shelf_image_key, gps_lat, gps_long,outlet_info)
+        VALUES (%s, %s, %s, %s, %s, %s, %s,%s)""",
+        (outlet_id, user_id, psycopg2.extras.Json(sos_data), msl_count, image_key, gps_lat, gps_long,outlet_info), fetch=None
     )
 
 def add_oos_track(outlet_id, user_id, oos_data, gps_lat, gps_long,outlet_info):
@@ -164,27 +164,27 @@ def add_oos_track(outlet_id, user_id, oos_data, gps_lat, gps_long,outlet_info):
         (outlet_id, user_id, psycopg2.extras.Json(oos_data), gps_lat, gps_long,outlet_info), fetch=None
     )
 
-def add_order_track(outlet_id, user_id, order_data, gps_lat, gps_long):
+def add_order_track(outlet_id, user_id, order_data, gps_lat, gps_long, outlet_info):
     execute_query(
-        """INSERT INTO order_tracks (outlet_id, tracked_by_user_id, order_data, gps_lat, gps_long)
-        VALUES (%s, %s, %s, %s, %s)""",
-        (outlet_id, user_id, psycopg2.extras.Json(order_data), gps_lat, gps_long), fetch=None
+        """INSERT INTO order_tracks (outlet_id, tracked_by_user_id, order_data, gps_lat, gps_long, outlet_info)
+        VALUES (%s, %s, %s, %s, %s, %s)""",
+        (outlet_id, user_id, psycopg2.extras.Json(order_data), gps_lat, gps_long, outlet_info), fetch=None
     )
 
-def add_pricing_track(outlet_id, user_id,region_location_id, price_data, gps_lat, gps_long):
+def add_pricing_track(outlet_id, user_id,price_data, gps_lat, gps_long, outlet_info):
     execute_query(
-        """INSERT INTO order_tracks (outlet_id, tracked_by_user_id,region_location_id, price_data, gps_lat, gps_long)
-        VALUES (%s, %s, %s, %s, %s,%s)""",
-        (outlet_id, user_id, region_location_id, psycopg2.extras.Json(price_data), gps_lat, gps_long), fetch=None
+        """INSERT INTO order_tracks (outlet_id, tracked_by_user_id, price_data, gps_lat, gps_long, outlet_info)
+        VALUES (%s, %s, %s, %s, %s,%s, %s)""",
+        (outlet_id, user_id, psycopg2.extras.Json(price_data), gps_lat, gps_long, outlet_info), fetch=None
     )
 
 
-def add_expiry_track(outlet_id, user_id, expiry_data, gps_lat, gps_long):
-    execute_query(
-        """INSERT INTO expiry_tracks (outlet_id, tracked_by_user_id, expiry_data, gps_lat, gps_long)
-        VALUES (%s, %s, %s, %s, %s)""",
-        (outlet_id, user_id, psycopg2.extras.Json(expiry_data), gps_lat, gps_long), fetch=None
-    )
+# def add_expiry_track(outlet_id, user_id, expiry_data, gps_lat, gps_long):
+#     execute_query(
+#         """INSERT INTO expiry_tracks (outlet_id, tracked_by_user_id, expiry_data, gps_lat, gps_long)
+#         VALUES (%s, %s, %s, %s, %s)""",
+#         (outlet_id, user_id, psycopg2.extras.Json(expiry_data), gps_lat, gps_long), fetch=None
+#     )
 
 
 def get_user_outlets(user_id):

@@ -19,9 +19,9 @@ outlet_dict = {
     f"{o['name']} ({o['region_name']} - {o['location_name']} | {o['outlet_address']} | {o['contact_person']} | {o['phone_contact']} | {o['outlet_type']} | {o['classification']})": o['id']
     for o in outlets
 }
-outlet_name = st.selectbox("Select Outlet", list(outlet_dict.keys()))
+outlet_info = st.selectbox("Select Outlet", list(outlet_dict.keys()))
 if outlets:
-    outlet_id = outlet_dict[outlet_name]
+    outlet_id = outlet_dict[outlet_info]
 else:
     st.warning("No outlets found. Please onboard an outlet first.")
     st.stop()
@@ -44,5 +44,5 @@ else:
     gps_lat, gps_long = None, None
 
 if st.button("Submit Prices") and gps_lat:
-    add_price_track(outlet_id, user_id, region_location_id, price_data, gps_lat, gps_long)
+    add_price_track(outlet_id, user_id, price_data, gps_lat, gps_long, outlet_info)
     st.success("Price Compliance Submitted")

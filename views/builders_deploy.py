@@ -71,14 +71,15 @@ if outlets:
             st.sidebar.image(image_url, caption="Outlet Image (Captured by Recruiter/Merchandiser)", width=200)
         else:
             st.sidebar.write("No image available for this outlet.")
+    except Exception as e:
+    logging.error(f"Failed to load outlet image: {e}")
+    st.sidebar.error("Error loading outlet image.")
 else:
     st.warning("User is either old_user- You may need to sign up and select your PPS region")
 
 
     
-except Exception as e:
-    logging.error(f"Failed to load outlet image: {e}")
-    st.sidebar.error("Error loading outlet image.")
+
 
 
 posms = get_posms()

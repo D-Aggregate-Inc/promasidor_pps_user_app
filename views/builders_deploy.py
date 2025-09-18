@@ -48,7 +48,7 @@ outlets = execute_query("""
     FROM outlets o
     JOIN locations_by_region l ON o.location_id = l.id
     JOIN region r ON l.region_id = r.id
-    WHERE r.name = %s
+    WHERE region_name = %s
 """, (user['merchandiser_region'],),fetch='all')
 outlet_dict = {
     f"{o['name']} ({o['region_name']} - {o['location_name']} | {o['outlet_address']} | {o['contact_person']} | {o['phone_contact']} | {o['outlet_type']} | {o['classification']})": o['id']
@@ -77,11 +77,6 @@ if outlets:
         st.sidebar.error("Error loading outlet image.")
 else:
     st.warning("User is either old_user- You may need to sign up and select your PPS region")
-
-
-    
-
-
 
 posms = get_posms()
 posm_dict = {p['name']: p['id'] for p in posms}

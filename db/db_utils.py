@@ -157,11 +157,11 @@ def add_msl_sos_track(outlet_id, user_id, sos_data, msl_count, image_key, gps_la
         (outlet_id, user_id, psycopg2.extras.Json(sos_data), msl_count, image_key, gps_lat, gps_long), fetch=None
     )
 
-def add_oos_track(outlet_id, user_id, oos_data, gps_lat, gps_long):
+def add_oos_track(outlet_id, user_id, oos_data, gps_lat, gps_long,outlet_info):
     execute_query(
-        """INSERT INTO oos_tracks (outlet_id, tracked_by_user_id, oos_data, gps_lat, gps_long)
-        VALUES (%s, %s, %s, %s, %s)""",
-        (outlet_id, user_id, psycopg2.extras.Json(oos_data), gps_lat, gps_long), fetch=None
+        """INSERT INTO oos_tracks (outlet_id, tracked_by_user_id, oos_data, gps_lat, gps_long,outlet_info)
+        VALUES (%s, %s, %s, %s, %s,%s)""",
+        (outlet_id, user_id, psycopg2.extras.Json(oos_data), gps_lat, gps_long,outlet_info), fetch=None
     )
 
 def add_order_track(outlet_id, user_id, order_data, gps_lat, gps_long):

@@ -59,8 +59,8 @@ outlet_info = st.selectbox("Select Outlet", list(outlet_dict.keys()))
 outlet_id = outlet_dict[outlet_info]
 try:
     selected_outlet = next(o for o in outlets if outlet_dict[outlet_info] == o['id'])
-    posm_child.divider()
     posm_child=st.sidebar.container(border=True)
+    posm_child.divider()
     posm_child.caption(f"⚠ See the required POSMs {selected_outlet['name']}, Please deploy appropriately")
     if selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)':
             posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")

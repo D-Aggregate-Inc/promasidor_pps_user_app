@@ -70,6 +70,7 @@ try:
         st.sidebar.write(f"**Location:** {selected_outlet['location_name']}, {selected_outlet['region_name']}")
         st.divider()
         posm_child=st.sidebar.container(border=True)
+        posm_child.caption(f"⚠ See the required POSMs {selected_outlet['name']}, Please deploy appropriately")
         if selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)':
             posm_child.write(":orange[Buntings, Beach Umbrella, Iron Stand, Cube Display Tray, Apron]")
         elif selected_outlet['classification']=='Open market' and selected_outlet['outlet_type']=='Lock-Up Shop(Dairy/Beverages)':

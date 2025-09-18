@@ -32,7 +32,7 @@ with st.expander("Input Outlet Information",expanded=True):
     region_query=execute_query(f"SELECT merchandiser_region FROM users WHERE id = '{user_id}'")
     region=region_query[0]['merchandiser_region']
     st.badge(F"Your PPS region is {region}", icon=":material/location_on:",color='green')
-    st.caption(":material/explore_nearby:Select Your market or neighbourhood of the outlet")
+    st.caption(":material/explore_nearby: :blue[Select Your market or neighbourhood of the outlet]")
     locations = get_locations_by_user_region(user_id)
     location_dict = {f"{loc['name']} ({loc['region_name']})": loc['id'] for loc in locations}
     location_name = st.selectbox("Location", list(location_dict.keys()) if location_dict else ["No locations available"])

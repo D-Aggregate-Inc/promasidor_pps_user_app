@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_geolocation import streamlit_geolocation
-from db.db_utils import execute_query, add_order_track, get_skus_grouped,add_pricing_track
+from db.db_utils import execute_query, add_order_track, get_skus_grouped, add_pricing_track
 
 st.write(":material/barcode_reader:**:blue[Price Compliance Check]**")
 

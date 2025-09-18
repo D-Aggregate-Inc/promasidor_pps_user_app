@@ -5,6 +5,8 @@ from db.db_utils import execute_query, add_outlet, get_outlet_by_phone_contact,g
 from utils.spaces import upload_image
 import warnings
 import logging
+import phonenumbers
+from phonenumbers import carrier
 
 logging.basicConfig(level=logging.INFO)
 
@@ -26,6 +28,11 @@ with st.expander("Input Outlet Information",expanded=True):
     st.write(f":material/add_business: :blue[Outlet Basic Information]")
     name = st.text_input("Outlet Name", max_chars=50, help="E.g DM Ventures",placeholder="Enter outlet name")
     phone_contact = st.text_input("Contact Phone", max_chars=11, help="11-digit phone number",placeholder="08012345678")
+    try:
+        parsed_number = phonenumbers.parse(phone_number, "NG")
+        telco = st.write(f"{carrier.name_for_number(parsed_number, "en")}") if phonenumbers.is_valid_number(parsed_number) else "Unknown"
+    except phonenumbers.NumberParseException:
+        telco = st.warning("Unknown")
     outlet_number = st.text_input("Shop Number", max_chars=20, help="E.g No. 12, Shop 34B")
     outlet_address = st.text_area("Address", max_chars=200, help="E.g 12, Shop 34B, Tipper Garage Road")
     outlet_landmark = st.text_input("Landmark ", max_chars=50, help="E.g Opposite Tipper Garage, Near Shoprite Mall")

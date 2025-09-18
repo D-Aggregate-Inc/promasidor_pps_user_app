@@ -5,3 +5,4 @@ boto3
 passlib[bcrypt]
 pillow
 streamlit_geolocation
+phonenumbers==8.13.30

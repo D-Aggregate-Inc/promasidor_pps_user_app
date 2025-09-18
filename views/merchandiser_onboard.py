@@ -69,7 +69,7 @@ with st.expander("Input Outlet Information",expanded=True):
         outlet_type = st.selectbox("Outlet Type NB", ['GSM-Groceries', 'Kiosks', 
                         'Table Tops', 'Table Top-OSC', 
                         ],key=f'{classification}_chosen_{name}_{location_id}_NB')
-    elif classification=="Open Market":
+    elif classification=="Open market":
         outlet_type = st.selectbox("Outlet Type OM", ['Lock-Up Shop(Seasoning)','Lock-Up Shop(Dairy/Beverages)',
                       'Kiosk-(Seasoning)','Kiosk(Dairy/Beverages)',
                       'Table-Top(Seasoning)','Table-Top(Dairy/Beverages)'

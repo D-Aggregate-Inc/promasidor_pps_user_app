@@ -57,20 +57,20 @@ if outlets:
     outlet_name = st.selectbox("Select Outlet", list(outlet_dict.keys()))
     outlet_id = outlet_dict[outlet_name]
     try:
-    selected_outlet = next(o for o in outlets if outlet_dict[outlet_name] == o['id'])
-    if selected_outlet['outlet_image_key']:
-        image_url = f"{SPACES_ENDPOINT}/{SPACES_BUCKET}/{selected_outlet['outlet_image_key']}"
-        st.sidebar.write("### :blue[Outlet Image]")
-        st.sidebar.write(f"**:orange[{selected_outlet['name']}]**")
-        st.sidebar.write(f"**Address:** {selected_outlet['outlet_address']}")
-        st.sidebar.write(f"**Contact:** {selected_outlet['contact_person']} | {selected_outlet['phone_contact']}")
-        st.sidebar.write(f"**Type:** {selected_outlet['outlet_type']} | {selected_outlet['classification']}")
-        st.sidebar.write(f"**Location:** {selected_outlet['location_name']}, {selected_outlet['state_name']}")
-        st.sidebar.write("---")
-        st.sidebar.write(Image.open(requests.get(image_url, stream=True).raw))
-        st.sidebar.image(image_url, caption="Outlet Image (Captured by Recruiter/Merchandiser)", width=200)
-        else:
-        st.sidebar.write("No image available for this outlet.")
+        selected_outlet = next(o for o in outlets if outlet_dict[outlet_name] == o['id'])
+        if selected_outlet['outlet_image_key']:
+            image_url = f"{SPACES_ENDPOINT}/{SPACES_BUCKET}/{selected_outlet['outlet_image_key']}"
+            st.sidebar.write("### :blue[Outlet Image]")
+            st.sidebar.write(f"**:orange[{selected_outlet['name']}]**")
+            st.sidebar.write(f"**Address:** {selected_outlet['outlet_address']}")
+            st.sidebar.write(f"**Contact:** {selected_outlet['contact_person']} | {selected_outlet['phone_contact']}")
+            st.sidebar.write(f"**Type:** {selected_outlet['outlet_type']} | {selected_outlet['classification']}")
+            st.sidebar.write(f"**Location:** {selected_outlet['location_name']}, {selected_outlet['state_name']}")
+            st.sidebar.write("---")
+            st.sidebar.write(Image.open(requests.get(image_url, stream=True).raw))
+            st.sidebar.image(image_url, caption="Outlet Image (Captured by Recruiter/Merchandiser)", width=200)
+            else:
+            st.sidebar.write("No image available for this outlet.")
 else:
     st.warning("User is either old_user- You may need to sign up and select your PPS region")
 

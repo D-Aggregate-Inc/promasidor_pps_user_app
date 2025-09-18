@@ -8,7 +8,7 @@ user_id = st.session_state['user']['id']
 st.info("Please click on GPS button to get your location GPS")
 location = streamlit_geolocation()
 outlets = execute_query("""
-    SELECT o.id, o.name, o.outlet_address, o.phone_contact, l.location_id, o.outlet_type, o.classification,o.contact_person,
+    SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.location_id, o.outlet_type, o.classification,o.contact_person,
            l.name AS location_name, r.name AS region_name
     FROM outlets o
     JOIN locations_by_region l ON o.location_id = l.id

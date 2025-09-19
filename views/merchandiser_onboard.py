@@ -36,7 +36,7 @@ with st.expander("Input Outlet Information",expanded=True):
             except phonenumbers.NumberParseException:
                 telco = st.caption("Phone Number Not a Nigeria Number")
     else:
-        st.caption(":yelllow[Please write a correct and accrate phone number]")
+        st.caption(":yellow[Please write a correct and accrate phone number]")
     outlet_number = st.text_input("Shop Number", max_chars=20, help="E.g No. 12, Shop 34B")
     outlet_address = st.text_area("Address", max_chars=200, help="E.g 12, Shop 34B, Tipper Garage Road")
     outlet_landmark = st.text_input("Landmark ", max_chars=50, help="E.g Opposite Tipper Garage, Near Shoprite Mall")

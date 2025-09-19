@@ -28,13 +28,13 @@ with st.expander("Input Outlet Information",expanded=True):
     st.write(f":material/add_business: :blue[Outlet Basic Information]")
     name = st.text_input("Outlet Name", max_chars=50, help="E.g DM Ventures",placeholder="Enter outlet name")
     phone_contact = st.text_input("Contact Phone", max_chars=11, help="11-digit phone number",placeholder="08012345678")
-    if phone_contact and phone_contact.startswith('0'):
+    if phone_contact and phone_contact.startswith('0') and len(phone_contact)==11:
             formatted_phone = '+234' + phone_contact[1:]
             try:
                 parsed_number = phonenumbers.parse(formatted_phone, "NG")
-                telco = st.toast(f":blue[The phone number 📲 line is {carrier.name_for_number(parsed_number, "en")}]") if phonenumbers.is_valid_number(parsed_number) else "Unknown"
+                telco = st.caption(f":blue[The phone number 📲 line is {carrier.name_for_number(parsed_number, "en")}]") if phonenumbers.is_valid_number(parsed_number) else "Unknown"
             except phonenumbers.NumberParseException:
-                telco = st.toast("Phone Number Not a Nigeria Number")
+                telco = st.caption("Phone Number Not a Nigeria Number")
     else:
         st.warning("Please write a correct and accrate phone number")
     outlet_number = st.text_input("Shop Number", max_chars=20, help="E.g No. 12, Shop 34B")

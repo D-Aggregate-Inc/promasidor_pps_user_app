@@ -11,6 +11,7 @@ location = streamlit_geolocation()
 if location and location['latitude'] is not None:
     gps_lat = location['latitude']
     gps_long = location['longitude']
+     st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
 else:
     st.warning("Waiting for GPS location...")
     gps_lat, gps_long = None, None

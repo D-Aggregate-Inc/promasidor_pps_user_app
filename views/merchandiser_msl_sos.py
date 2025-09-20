@@ -34,6 +34,7 @@ else:
     st.warning("No outlets found. Please onboard an outlet first.")
     st.stop()
 selected_outlet = next(o for o in outlets if outlet_dict[outlet_info] == o['id'])
+st.caption(f"🏪This outlet is {selected_outlet['outlet_type']}")
 if selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)' or selected_outlet['outlet_type']=='Kiosk-(Seasoning)' or selected_outlet['outlet_type']=='Table-Top(Seasoning)' or selected_outlet['outlet_type']=='Table Top-OSC':
     skus_grouped = get_seasoning_skus_grouped()
     sos_data = {"your_skus": {}, "competitor_facings": {}}

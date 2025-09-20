@@ -41,6 +41,13 @@ st.write(":material/local_convenience_store:**:orange[Deploy POSMs and Track]**"
 
 user_id = st.session_state['user']['id']
 location = streamlit_geolocation()
+if location and location['latitude'] is not None:
+        gps_lat = location['latitude']
+        gps_long = location['longitude']
+        st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
+else:
+    st.warning("Waiting for GPS location...")
+    gps_lat, gps_long = None, None
 user=execute_query("SELECT merchandiser_region FROM users WHERE id = %s", (user_id,), fetch='one')
 build=st.sidebar.selectbox("Builder Activities",['Before Deployment Image','After Deployment Image'],key=f'{user_id}_')
 outlets = execute_query("""
@@ -77,9 +84,9 @@ try:
     elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='GSM-Groceries':
             posm_child.write(":orange[Buntings, 4+ Brand Shelving with Shelf strips, 1 Iron Hanger/Stand]")
     elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='GSM-Groceries':
-            posm_child.write(":orange[Buntings, 4+ Brand Shelving with Shelf strips, 1 Iron Hanger/Stand]")
+            posm_child.write(":orange[Buntings, 4+ Brand Shelving with Shelf strips, 1 Iron Hanger]")
     elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Kiosks':
-            posm_child.write(":orange[Buntings, 4+ Brand Shelving with Shelf strips, 1 Iron Hanger/Stand]")
+            posm_child.write(":orange[Buntings, 4+ Brand Shelving with Shelf strips, 1 Iron Hanger]")
     elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Table Tops':
             posm_child.write(":orange[Buntings, 2+ Brand Sachet Hanger, Table Cover]")
     elif selected_outlet['classification']=='Neighborhood' and selected_outlet['outlet_type']=='Table Top-OSC':
@@ -108,13 +115,6 @@ if build =="Before Deployment Image":
     deployed_posms = []
     before_img = st.camera_input(":orange[**Before Image of Shelf In NB**]", help="Image is required",key=f'before_image_shelve{selected_outlet['name']}_In NB')
     after_img= st.camera_input(":blue[**Before Image of Store Outside In NB and OMs**]", help="Image is required", key=f'before_image_outlet_outside_{selected_outlet['name']}_inNB and OM')
-    if location and location['latitude'] is not None:
-        gps_lat = location['latitude']
-        gps_long = location['longitude']
-        st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
-    else:
-        st.warning("Waiting for GPS location...")
-        gps_lat, gps_long = None, None
     if st.button("Before Deployment", key=f'buttn_for_before_deployment') and gps_lat and before_img and after_img:
         before_key = upload_image(before_img.getvalue(), folder='posm_before_shelves',gps_lat=gps_lat,gps_long=gps_long)
         after_key = upload_image(after_img.getvalue(), folder='posm_before_outside',gps_lat=gps_lat,gps_long=gps_long)
@@ -146,13 +146,13 @@ elif build == "After Deployment Image":
                 st.warning(f'{posm_name} must be 1 per outlet')
             elif quantity == 1:
                 deployed_posms.append({"posm_id": posm_dict[posm_name], "quantity": quantity})
-    if location and location['latitude'] is not None:
-        gps_lat = location['latitude']
-        gps_long = location['longitude']
-        st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
-    else:
-        st.warning("Waiting for GPS location...")
-        gps_lat, gps_long = None, None
+    # if location and location['latitude'] is not None:
+    #     gps_lat = location['latitude']
+    #     gps_long = location['longitude']
+    #     st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
+    # else:
+    #     st.warning("Waiting for GPS location...")
+    #     gps_lat, gps_long = None, None
     before_img = st.camera_input(":orange[**After Deployment Image of Shelf Branding With WallPapers & Stipes**]", help="Image is required")
     after_img = st.camera_input(":blue[**After Deployment Image of Outlet Outside With Hangers and Stands**]", help="Image is required")
     if st.button("Deploy",key=f'buttn for after deployment of POSMs') and gps_lat and before_img and after_img and deployed_posms:

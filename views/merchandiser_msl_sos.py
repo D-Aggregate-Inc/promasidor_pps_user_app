@@ -8,6 +8,12 @@ st.write(":material/local_convenience_store:**:blue[Track MSL/Share of Shelf]**"
 user_id = st.session_state['user']['id']
 st.info("Please click on GPS button to get your location GPS")
 location = streamlit_geolocation()
+if location and location['latitude'] is not None:
+    gps_lat = location['latitude']
+    gps_long = location['longitude']
+else:
+    st.warning("Waiting for GPS location...")
+    gps_lat, gps_long = None, None
 outlets = execute_query("""
     SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.location_id, o.outlet_type, o.classification,o.contact_person,
            l.name AS location_name, r.name AS region_name
@@ -44,12 +50,7 @@ for category, skus in skus_grouped.items():
 
 msl_count = len(sos_data)
 # location = streamlit_geolocation()
-if location and location['latitude'] is not None:
-    gps_lat = location['latitude']
-    gps_long = location['longitude']
-else:
-    st.warning("Waiting for GPS location...")
-    gps_lat, gps_long = None, None
+
 
 image = st.camera_input("Capture Shelf/Tray Image", help="Image is required",key=f'{outlet_id}_shelf_image_{gps_long}')
 image2= st.camera_input("Outside Store Image", help="Image is required",key=f'{msl_count}_outside_store_image_{gps_lat}')

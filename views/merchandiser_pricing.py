@@ -7,6 +7,14 @@ st.write(":material/barcode_reader:**:blue[Price Compliance Check]**")
 user_id = st.session_state['user']['id']
 st.info("Please click on GPS button to get your location GPS")
 location = streamlit_geolocation()
+if location and location['latitude'] is not None:
+    gps_lat = location['latitude']
+    gps_long = location['longitude']
+    st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
+else:
+    st.warning("Waiting for GPS location...")
+    gps_lat, gps_long = None, None
+
 outlets = execute_query("""
     SELECT o.id, o.name, o.outlet_address, o.phone_contact, o.location_id, o.outlet_type, o.classification,o.contact_person,
            l.name AS location_name, r.name AS region_name
@@ -35,13 +43,13 @@ for category, skus in skus_grouped.items():
                 pricing_data.append({"sku_id": sku['id'], "price": price})
 
 # location = streamlit_geolocation()
-if location and location['latitude'] is not None:
-    gps_lat = location['latitude']
-    gps_long = location['longitude']
-    st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
-else:
-    st.warning("Waiting for GPS location...")
-    gps_lat, gps_long = None, None
+# if location and location['latitude'] is not None:
+#     gps_lat = location['latitude']
+#     gps_long = location['longitude']
+#     st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
+# else:
+#     st.warning("Waiting for GPS location...")
+#     gps_lat, gps_long = None, None
 
 if st.button("Submit Prices") and gps_lat:
     add_pricing_track(outlet_id, user_id, pricing_data, gps_lat, gps_long, outlet_info)

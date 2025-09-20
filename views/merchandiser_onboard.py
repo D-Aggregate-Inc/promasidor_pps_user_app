@@ -24,6 +24,13 @@ st.markdown("""<hr class="line">""",unsafe_allow_html=True)
 st.write(f'Welcome, **:blue[{st.session_state["user"]["email"]}]**! Use the form below to onboard a new outlet.')
 st.info("Please click on GPS button to get your location GPS")
 location = streamlit_geolocation()
+if location and location['latitude'] is not None:
+        gps_lat = location['latitude']
+        gps_long = location['longitude']
+        st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
+else:
+    st.warning("Waiting for GPS location...")
+    gps_lat, gps_long = None, None  
 with st.expander("Input Outlet Information",expanded=True):
     st.write(f":material/add_business: :blue[Outlet Basic Information]")
     name = st.text_input("Outlet Name", max_chars=50, help="E.g DM Ventures",placeholder="Enter outlet name")
@@ -84,13 +91,7 @@ with st.expander("Input Outlet Information",expanded=True):
     bank_dict = {b['name']: b['id'] for b in bank_query}  
     bank_name = st.selectbox("Banks", list(bank_dict.keys()))
     account_name=st.text_input("Account Name", max_chars=200, help="Akeusola Chukuemeka Haruna")
-    if location and location['latitude'] is not None:
-        gps_lat = location['latitude']
-        gps_long = location['longitude']
-        st.info(f"📍GPS Captured: Lat {gps_lat}, Long {gps_long}")
-    else:
-        st.warning("Waiting for GPS location...")
-        gps_lat, gps_long = None, None  
+    
       
     if st.button("Submit Outlet Onboarded",type='primary') and gps_lat and image and name and outlet_address and bank_name and account_no and outlet_number and classification and phone_contact and account_name and location_id:
         # image_base64 = base64.b64encode(image.getvalue()).decode('utf-8')

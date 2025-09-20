@@ -203,7 +203,7 @@ def get_user_outlets(user_id):
     )
 
 def get_skus_grouped():
-    skus = execute_query("SELECT * FROM skus ORDER BY category, name")
+    skus = execute_query("SELECT * FROM skus WHERE name NOT IN ('Onga Chicken-40-60G','Miksi-300GS-400GS','Top Tea-200G PP') ORDER BY category, name")
     grouped = {}
     for sku in skus:
         cat = sku['category']
@@ -211,6 +211,35 @@ def get_skus_grouped():
             grouped[cat] = []
         grouped[cat].append(sku)
     return grouped
+
+def get_seasoning_skus_grouped():
+    skus = execute_query("SELECT * FROM skus WHERE name <> 'Onga Chicken-40-60G' AND category ='Seasoning' ORDER BY name")
+    grouped = {}
+    for sku in skus:
+        cat=sku['category']
+        grouped[cat].append(sku)
+        return grouped
+def get_diary_general_skus_grouped():
+    skus = execute_query("SELECT * FROM skus WHERE category ='Dairy' AND name <> 'Top Tea-200G PP' ORDER BY name")
+    grouped ={}
+    for sku in skus:
+        cat=sku['category']
+        grouped[cat].append(sku)
+        return grouped
+def get_diary_kiosk_skus_grouped():
+    skus = execute_query("SELECT * FROM skus WHERE category ='Dairy' AND name <> 'Loya-300Gs' ORDER BY name")
+    grouped ={}
+    for sku in skus:
+        cat=sku['category']
+        grouped[cat].append(sku)
+        return grouped
+def get_diary_tabletop_skus_grouped():
+    skus = execute_query("SELECT * FROM skus WHERE category ='Dairy' AND name NOT IN ('Cowbell-300GS','Loya-300Gs','Creamer-Kremela 250-300GS','CB Choco-400g','Miksi-300GS-400GS','Twisco 400-500GS') ORDER BY name")
+    grouped ={}
+    for sku in skus:
+        cat=sku['category']
+        grouped[cat].append(sku)
+        return grouped
 
 def get_posms():
     return execute_query("SELECT * FROM posms")

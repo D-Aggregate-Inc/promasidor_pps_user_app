@@ -216,29 +216,29 @@ def get_seasoning_skus_grouped():
     skus = execute_query("SELECT * FROM skus WHERE name <> 'Onga Chicken-40-60G' AND category ='Seasoning' ORDER BY name")
     grouped = {}
     for sku in skus:
-        cat=sku['category']
-        grouped[cat].append(sku)
+        # cat=sku['category']
+        grouped.append(sku)
         return grouped
 def get_diary_general_skus_grouped():
     skus = execute_query("SELECT * FROM skus WHERE category ='Dairy' AND name <> 'Top Tea-200G PP' ORDER BY name")
     grouped ={}
     for sku in skus:
-        cat=sku['category']
-        grouped[cat].append(sku)
+        # cat=sku['category']
+        grouped.append(sku)
         return grouped
 def get_diary_kiosk_skus_grouped():
     skus = execute_query("SELECT * FROM skus WHERE category ='Dairy' AND name <> 'Loya-300Gs' ORDER BY name")
     grouped ={}
     for sku in skus:
-        cat=sku['category']
-        grouped[cat].append(sku)
+        # cat=sku['category']
+        grouped.append(sku)
         return grouped
 def get_diary_tabletop_skus_grouped():
     skus = execute_query("SELECT * FROM skus WHERE category ='Dairy' AND name NOT IN ('Cowbell-300GS','Loya-300Gs','Creamer-Kremela 250-300GS','CB Choco-400g','Miksi-300GS-400GS','Twisco 400-500GS') ORDER BY name")
     grouped ={}
     for sku in skus:
-        cat=sku['category']
-        grouped[cat].append(sku)
+        # cat=sku['category']
+        grouped.append(sku)
         return grouped
 
 def get_posms():

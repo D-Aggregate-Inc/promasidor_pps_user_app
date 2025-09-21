@@ -44,7 +44,7 @@ if selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)' or selected_outlet[
             # Your SKUs
             for sku in skus:
                 facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
-                if facings > 0:
+                if facings >= 0:
                     sos_data["your_skus"][str(sku['id'])] = facings
             # Competitor facings
             competitor_facings[category] = st.number_input(f":orange[**Competitor Facings for {category}**]", min_value=0, value=0, key=f"comp_facing_{category}")
@@ -61,7 +61,7 @@ elif selected_outlet['outlet_type']=='Lock-Up Shop(Dairy/Beverages)':
             # Your SKUs
             for sku in skus:
                 facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
-                if facings > 0:
+                if facings >= 0:
                     sos_data["your_skus"][str(sku['id'])] = facings
             # Competitor facings
             competitor_facings[category] = st.number_input(f":orange[**Competitor Facings for {category}**]", min_value=0, value=0, key=f"comp_facing_{category}")
@@ -78,7 +78,7 @@ elif selected_outlet['outlet_type']=='Kiosk(Dairy/Beverages)':
             # Your SKUs
             for sku in skus:
                 facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
-                if facings > 0:
+                if facings >= 0:
                     sos_data["your_skus"][str(sku['id'])] = facings
             # Competitor facings
             competitor_facings[category] = st.number_input(f":orange[**Competitor Facings for {category}**]", min_value=0, value=0, key=f"comp_facing_{category}")
@@ -95,7 +95,7 @@ elif selected_outlet['outlet_type']=='Table-Top(Dairy/Beverages)':
             # Your SKUs
             for sku in skus:
                 facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
-                if facings > 0:
+                if facings >= 0:
                     sos_data["your_skus"][str(sku['id'])] = facings
             # Competitor facings
             competitor_facings[category] = st.number_input(f":orange[**Competitor Facings for {category}**]", min_value=0, value=0, key=f"comp_facing_{category}")
@@ -112,7 +112,7 @@ elif selected_outlet['outlet_type']=='GSM-Groceries' or selected_outlet['outlet_
             # Your SKUs
             for sku in skus:
                 facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
-                if facings > 0:
+                if facings >= 0:
                     sos_data["your_skus"][str(sku['id'])] = facings
             # Competitor facings
             competitor_facings[category] = st.number_input(f":orange[**Competitor Facings for {category}**]", min_value=0, value=0, key=f"comp_facing_{category}")

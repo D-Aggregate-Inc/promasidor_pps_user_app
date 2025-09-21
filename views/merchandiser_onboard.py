@@ -106,7 +106,7 @@ with st.expander("Input Outlet Information",expanded=True):
         else:
             st.error("Please take the Image properly and upload")
     else:
-        st.error("⁉ Pls Ensure all the required field are properly filled and image is taking. Please try again.")
+        st.warning("⁉ Pls Ensure all the required field are properly filled and image is taking.")
     # elif  not gps_lat:
     #     st.warning("GPS location is required to onboard an outlet.")
     # elif not image:

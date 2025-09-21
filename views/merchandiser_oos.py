@@ -57,21 +57,14 @@ elif selected_outlet['outlet_type']=='Lock-Up Shop(Dairy/Beverages)':
 
 elif selected_outlet['outlet_type']=='Kiosk(Dairy/Beverages)':
     skus_grouped = get_diary_kiosk_skus_grouped()
-    sos_data = {"your_skus": {}, "competitor_facings": {}}
-    competitor_facings={}
+    oos_data = []
     for category, skus in skus_grouped.items():
         with st.expander(category):
-            # Your SKUs
             for sku in skus:
-                facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
-                if facings > 0:
-                    sos_data["your_skus"][str(sku['id'])] = facings
-            # Competitor facings
-            competitor_facings[category] = st.number_input(f":orange[**Competitor Facings for {category}**]", min_value=0, value=0, key=f"comp_facing_{category}")
-            if competitor_facings[category] > 0:
-                sos_data["competitor_facings"][category] = competitor_facings[category]
+                if st.checkbox(f"OOS: {sku['name']}", key=f"oos_{sku['id']}"):
+                    # reason = st.text_input(f"Reason for {sku['name']}", key=f"reason_{sku['id']}", help="Owing Distributor, Dont Have Money To Stock, Low Demand, Others")
+                    oos_data.append({"sku_id": sku['name'], "reason": None})
 
-    msl_count = len(sos_data)
 elif selected_outlet['outlet_type']=='Table-Top(Dairy/Beverages)':
     skus_grouped = get_diary_tabletop_skus_grouped()
     oos_data = []

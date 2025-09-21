@@ -140,3 +140,5 @@ if st.button("Submit MSL/SOS") and gps_lat and sos_data and outlet_info:
         st.success("MSL/SOS Tracked Submitted!")
     else:
         st.error("Image Not Uploaded")
+else:
+    st.warning(f"Please ensure all field are correctly filled")

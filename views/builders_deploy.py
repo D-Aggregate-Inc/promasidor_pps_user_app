@@ -10,7 +10,7 @@ from PIL import Image
 
 logging.basicConfig(filename='app.log', level=logging.ERROR)
 
-st.write(":material/local_convenience_store:**:orange[Deploy POSMs and Track]**")
+st.write(":material/local_convenience_store:**:orange[Deploy POSMs, Check and Track]**")
 
 # # Offline detection
 # is_online = st.components.v1.html("""

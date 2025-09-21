@@ -112,6 +112,7 @@ except Exception as e:
 # else:
 #     st.warning("User is either old_user- You may need to sign up and select your PPS region")
 if build =="Before Deployment Image":
+    st.write('Please check POSMs available in the outlet before new deployment')
     posms = get_posms()
     posm_dict = {p['name']: p['id'] for p in posms}
     selected_posms = st.multiselect("**:green[Select POSMs Found In the Outlet]**", list(posm_dict.keys()))

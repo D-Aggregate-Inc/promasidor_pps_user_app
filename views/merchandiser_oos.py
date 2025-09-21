@@ -48,12 +48,12 @@ if selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)' or selected_outlet[
 elif selected_outlet['outlet_type']=='Lock-Up Shop(Dairy/Beverages)':
     skus_grouped = get_diary_general_skus_grouped()
     oos_data = []
-for category, skus in skus_grouped.items():
-    with st.expander(category):
-        for sku in skus:
-            if st.checkbox(f"OOS: {sku['name']}", key=f"oos_{sku['id']}"):
-                # reason = st.text_input(f"Reason for {sku['name']}", key=f"reason_{sku['id']}", help="Owing Distributor, Dont Have Money To Stock, Low Demand, Others")
-                oos_data.append({"sku_id": sku['name'], "reason": None})
+    for category, skus in skus_grouped.items():
+        with st.expander(category):
+            for sku in skus:
+                if st.checkbox(f"OOS: {sku['name']}", key=f"oos_{sku['id']}"):
+                    # reason = st.text_input(f"Reason for {sku['name']}", key=f"reason_{sku['id']}", help="Owing Distributor, Dont Have Money To Stock, Low Demand, Others")
+                    oos_data.append({"sku_id": sku['name'], "reason": None})
 
 elif selected_outlet['outlet_type']=='Kiosk(Dairy/Beverages)':
     skus_grouped = get_diary_kiosk_skus_grouped()

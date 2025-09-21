@@ -33,9 +33,21 @@ if outlets:
 else:
     st.warning("No outlets found. Please onboard an outlet first.")
     st.stop()
+selected_outlet = next(o for o in outlets if outlet_dict[outlet_info] == o['id'])
+st.caption(f":orange[🏪This outlet is {selected_outlet['outlet_type']}]")
+if selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)' or selected_outlet['outlet_type']=='Kiosk-(Seasoning)' or selected_outlet['outlet_type']=='Table-Top(Seasoning)' or selected_outlet['outlet_type']=='Table Top-OSC':
+    skus_grouped = get_seasoning_skus_grouped()
+    oos_data = []
+    for category, skus in skus_grouped.items():
+        with st.expander(category):
+            for sku in skus:
+                if st.checkbox(f"OOS: {sku['name']}", key=f"oos_{sku['id']}"):
+                    # reason = st.text_input(f"Reason for {sku['name']}", key=f"reason_{sku['id']}", help="Owing Distributor, Dont Have Money To Stock, Low Demand, Others")
+                    oos_data.append({"sku_id": sku['name'], "reason": None})
 
-skus_grouped = get_skus_grouped()
-oos_data = []
+elif selected_outlet['outlet_type']=='Lock-Up Shop(Dairy/Beverages)':
+    skus_grouped = get_diary_general_skus_grouped()
+    oos_data = []
 for category, skus in skus_grouped.items():
     with st.expander(category):
         for sku in skus:
@@ -43,8 +55,56 @@ for category, skus in skus_grouped.items():
                 # reason = st.text_input(f"Reason for {sku['name']}", key=f"reason_{sku['id']}", help="Owing Distributor, Dont Have Money To Stock, Low Demand, Others")
                 oos_data.append({"sku_id": sku['name'], "reason": None})
 
+elif selected_outlet['outlet_type']=='Kiosk(Dairy/Beverages)':
+    skus_grouped = get_diary_kiosk_skus_grouped()
+    sos_data = {"your_skus": {}, "competitor_facings": {}}
+    competitor_facings={}
+    for category, skus in skus_grouped.items():
+        with st.expander(category):
+            # Your SKUs
+            for sku in skus:
+                facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
+                if facings > 0:
+                    sos_data["your_skus"][str(sku['id'])] = facings
+            # Competitor facings
+            competitor_facings[category] = st.number_input(f":orange[**Competitor Facings for {category}**]", min_value=0, value=0, key=f"comp_facing_{category}")
+            if competitor_facings[category] > 0:
+                sos_data["competitor_facings"][category] = competitor_facings[category]
+
+    msl_count = len(sos_data)
+elif selected_outlet['outlet_type']=='Table-Top(Dairy/Beverages)':
+    skus_grouped = get_diary_tabletop_skus_grouped()
+    oos_data = []
+    for category, skus in skus_grouped.items():
+        with st.expander(category):
+            for sku in skus:
+                if st.checkbox(f"OOS: {sku['name']}", key=f"oos_{sku['id']}"):
+                    # reason = st.text_input(f"Reason for {sku['name']}", key=f"reason_{sku['id']}", help="Owing Distributor, Dont Have Money To Stock, Low Demand, Others")
+                    oos_data.append({"sku_id": sku['name'], "reason": None})
+
+elif selected_outlet['outlet_type']=='GSM-Groceries' or selected_outlet['outlet_type']=='Kiosks' or selected_outlet['outlet_type']=='Table Tops':
+    skus_grouped = get_skus_grouped()
+    oos_data = []
+    for category, skus in skus_grouped.items():
+        with st.expander(category):
+            for sku in skus:
+                if st.checkbox(f"OOS: {sku['name']}", key=f"oos_{sku['id']}"):
+                    # reason = st.text_input(f"Reason for {sku['name']}", key=f"reason_{sku['id']}", help="Owing Distributor, Dont Have Money To Stock, Low Demand, Others")
+                    oos_data.append({"sku_id": sku['name'], "reason": None})
+# location = streamlit_geolocation()
+# skus_grouped = get_skus_grouped()
+# oos_data = []
+# for category, skus in skus_grouped.items():
+#     with st.expander(category):
+#         for sku in skus:
+#             if st.checkbox(f"OOS: {sku['name']}", key=f"oos_{sku['id']}"):
+#                 # reason = st.text_input(f"Reason for {sku['name']}", key=f"reason_{sku['id']}", help="Owing Distributor, Dont Have Money To Stock, Low Demand, Others")
+#                 oos_data.append({"sku_id": sku['name'], "reason": None})
+
 # location = streamlit_geolocation()
 
-if st.button("Submit OOS") and gps_lat:
+if st.button("Submit OOS") and gps_lat and oos_data:
     add_oos_track(outlet_id, user_id, oos_data, gps_lat, gps_long, outlet_info)
     st.success("OOS Tracked!")
+else:
+    st.error("fill your OOS SKUs")

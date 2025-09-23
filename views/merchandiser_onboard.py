@@ -35,7 +35,13 @@ with st.expander("Input Outlet Information",expanded=True):
     st.write(f":material/add_business: :blue[Outlet Basic Information]")
     name = st.text_input("Outlet Name", max_chars=50, help="E.g DM Ventures",placeholder="Enter outlet name")
     phone_contact = st.text_input("Contact Phone", max_chars=11, help="11-digit phone number",placeholder="08012345678")
-    if phone_contact and phone_contact.startswith('0') and len(phone_contact)==11:
+    prefixes=('0809',	'0817',	'0818',	'0909',	'0908',	'0701',	'0708',	'0802',	
+    '0808',	'0812',	'0901',	'0902',	'0904',	'0907',	'0912',	'0705',	'0805',	
+    '0807',	'0811',	'0815',	'0905',	'0915',	'0804',	'0703',	'0706',	'0803',	
+    '0806',	'0810',	'0813',	'0814',	'0816',	'0903',	'0906',	'0913',	'0916',	
+    '07025',	'07026',	'0704',	'07027',	
+    '0709',	'07020',	'07028',	'07029',	'0819',	'0707')
+    if phone_contact and phone_contact.startswith(prefixes) and len(phone_contact)==11:
             formatted_phone = '+234' + phone_contact[1:]
             try:
                 parsed_number = phonenumbers.parse(formatted_phone, "NG")

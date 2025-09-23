@@ -126,7 +126,7 @@ elif selected_outlet['outlet_type']=='GSM-Groceries' or selected_outlet['outlet_
 image = st.camera_input("Capture Shelf/Tray Image", help="Image is required",key=f'{outlet_id}_shelf_image_{gps_long}')
 image2= st.camera_input("Outside Store Image", help="Image is required",key=f'{msl_count}_outside_store_image_{gps_lat}')
 
-if st.button("Submit MSL/SOS") and gps_lat and sos_data and outlet_info and msl_count):
+if st.button("Submit MSL/SOS") and gps_lat and sos_data and outlet_info and msl_count:
     if image:
         image_key = upload_image(image.getvalue(), folder='NB_shelves',gps_lat=gps_lat, gps_long=gps_long)
     else:

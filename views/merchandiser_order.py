@@ -51,6 +51,6 @@ for category, skus in skus_grouped.items():
 #     st.warning("Waiting for GPS location...")
 #     gps_lat, gps_long = None, None
 
-if st.button("Submit Order") and gps_lat and order_data and quantity:
+if st.button("Submit Order") and gps_lat and order_data:
     add_order_track(outlet_id, user_id, order_data, gps_lat, gps_long, outlet_info)
     st.success("Order Generated!")

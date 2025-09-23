@@ -51,6 +51,6 @@ for category, skus in skus_grouped.items():
 #     st.warning("Waiting for GPS location...")
 #     gps_lat, gps_long = None, None
 
-if st.button("Submit Prices") and gps_lat and pricing_data and price:
+if st.button("Submit Prices") and gps_lat and pricing_data:
     add_pricing_track(outlet_id, user_id, pricing_data, gps_lat, gps_long, outlet_info)
     st.success("Price Compliance Submitted")

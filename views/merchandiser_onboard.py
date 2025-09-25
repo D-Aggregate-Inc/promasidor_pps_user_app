@@ -45,7 +45,7 @@ with st.expander("Input Outlet Information",expanded=True):
             formatted_phone = '+234' + phone_contact[1:]
             try:
                 parsed_number = phonenumbers.parse(formatted_phone, "NG")
-                telco = st.caption(f":blue[The phone number 📲 line is {carrier.name_for_number(parsed_number, "en")}]") if phonenumbers.is_valid_number(parsed_number) else "Unknown"
+                telco = st.caption(f":blue[The phone number 📲 line is {carrier.name_for_number(parsed_number, 'en')}]") if phonenumbers.is_valid_number(parsed_number) else "Unknown"
             except phonenumbers.NumberParseException:
                 telco = st.caption("Phone Number Not a Nigeria Number")
     else:

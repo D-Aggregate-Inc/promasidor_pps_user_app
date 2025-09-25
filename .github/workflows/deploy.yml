@@ -28,7 +28,7 @@ jobs:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.8.0
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{dop_v1_ac5515852207ee492d3552640849181e8bc8609d7425fcddbe3a167c3b3e612c }}
 
       - name: Deploy with Docker
         run: |

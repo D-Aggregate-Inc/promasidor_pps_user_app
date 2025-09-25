@@ -38,9 +38,12 @@ order_data = []
 for category, skus in skus_grouped.items():
     with st.expander(category):
         for sku in skus:
-            quantity = st.number_input(f"{sku['name']} Quantity", min_value=0, value=0, key=f"qty_{sku['id']}")
-            if quantity > 0:
-                order_data.append({"sku_id": sku['id'], "quantity": quantity})
+            quantity_carton = st.number_input(f"{sku['name']} Quantity in CARTONs", min_value=0, value=0, key=f"qty_carton{sku['id']}")
+            if quantity_carton > 0:
+                order_data.append({"sku_id": sku['id'], "quantity_carton": quantity_carton})
+            quantity_unit = st.number_input(f"{sku['name']} Quantity in UNITs", min_value=0, value=0, key=f"qty_unit{sku['id']}")
+            if quantity_unit > 0:
+                order_data.append({"sku_id": sku['id'], "quantity_unit": quantity_unit})
 
 # location = streamlit_geolocation()
 # if location and location['latitude'] is not None:

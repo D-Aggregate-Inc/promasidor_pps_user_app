@@ -16,7 +16,7 @@ env:
   IMAGE_NAME: pps-project-user-app
   # Replace with the path to your SSH key on the runner.
   # This should be a base64 encoded private key string added as a GitHub secret
-  SSH_PRIVATE_KEY: ${{dop_v1_ac5515852207ee492d3552640849181e8bc8609d7425fcddbe3a167c3b3e612c}}
+  SSH_PRIVATE_KEY: ${{ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHqro8PwPz3Y3lWNkO4nSnDIFrJqa3JBOXUs3oycs3Iq kareemrasheed89@outlook.com}}
 
 jobs:
   deploy:
@@ -28,7 +28,7 @@ jobs:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.8.0
         with:
-          ssh-private-key: ${{dop_v1_ac5515852207ee492d3552640849181e8bc8609d7425fcddbe3a167c3b3e612c }}
+          ssh-private-key: ${{ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHqro8PwPz3Y3lWNkO4nSnDIFrJqa3JBOXUs3oycs3Iq kareemrasheed89@outlook.com}}
 
       - name: Deploy with Docker
         run: |

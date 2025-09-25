@@ -11,12 +11,12 @@ on:
 
 env:
   # Replace with your Droplet's IP address
-  SSH_HOST: ${{167.172.246.21}}
+  SSH_HOST: ${{ secrets.SSH_HOST }}
   # Replace with the name you want for your Docker image
-  IMAGE_NAME: pps-project-user-app
+  IMAGE_NAME: my-streamlit-app
   # Replace with the path to your SSH key on the runner.
   # This should be a base64 encoded private key string added as a GitHub secret
-  SSH_PRIVATE_KEY: ${{ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHqro8PwPz3Y3lWNkO4nSnDIFrJqa3JBOXUs3oycs3Iq kareemrasheed89@outlook.com}}
+  SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
 jobs:
   deploy:
@@ -28,7 +28,7 @@ jobs:
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.8.0
         with:
-          ssh-private-key: ${{ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHqro8PwPz3Y3lWNkO4nSnDIFrJqa3JBOXUs3oycs3Iq kareemrasheed89@outlook.com}}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: Deploy with Docker
         run: |

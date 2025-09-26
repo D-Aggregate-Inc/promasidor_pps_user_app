@@ -131,8 +131,8 @@ if build =="Before Deployment Image":
                 st.warning(f'{posm_name} must be 1 per outlet')
             elif quantity == 1:
                 deployed_posms.append({"posm_id": posm_dict[posm_name], "quantity": quantity})
-    before_img = st.camera_input(":orange[**Before Image of Shelf In NB**]", help="Image is required",key=f'before_image_shelve{selected_outlet['name']}_In NB')
-    after_img= st.camera_input(":blue[**Before Image of Store Outside In NB and OMs**]", help="Image is required", key=f'before_image_outlet_outside_{selected_outlet['name']}_inNB and OM')
+    before_img = st.camera_input(":orange[**Before Image of Shelf In NB**]", help="Image is required",key=f"before_image_shelve{selected_outlet['name']}_In NB")
+    after_img= st.camera_input(":blue[**Before Image of Store Outside In NB and OMs**]", help="Image is required", key=f"before_image_outlet_outside_{selected_outlet['name']}_inNB and OM")
     if st.button("Before Deployment", key=f'buttn_for_before_deployment') and gps_lat and before_img and after_img and deployed_posms and quantity:
         before_key = upload_image(before_img.getvalue(), folder='posm_before_shelves',gps_lat=gps_lat,gps_long=gps_long)
         after_key = upload_image(after_img.getvalue(), folder='posm_before_outside',gps_lat=gps_lat,gps_long=gps_long)

@@ -40,7 +40,7 @@ for category, skus in skus_grouped.items():
         for sku in skus:
             st.write(f"{sku['name']}")
             cartn,unit=st.columns(2, gap="medium")
-            quantity_carton = cartn.number_input("CTN" min_value=0, value=0, key=f"qty_carton{sku['id']}")
+            quantity_carton = cartn.number_input("CTN", min_value=0, value=0, key=f"qty_carton{sku['id']}")
             if quantity_carton > 0:
                 order_data.append({"sku_id": sku['id'], "quantity_carton": quantity_carton})
             quantity_unit = unit.number_input(f"UNIT", min_value=0, value=0, key=f"qty_unit{sku['id']}")

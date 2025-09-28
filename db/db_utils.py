@@ -203,7 +203,7 @@ def get_user_outlets(user_id):
     )
 
 def get_skus_grouped():
-    skus = execute_query("SELECT * FROM skus WHERE name NOT IN ('Onga Chicken-40-60G','Miksi-300GS-400GS','Top Tea-200G PP') ORDER BY category, name")
+    skus = execute_query("SELECT * FROM skus WHERE name NOT IN ('Onga Chicken-40-60G') ORDER BY category, name")
     grouped = {}
     for sku in skus:
         cat = sku['category']

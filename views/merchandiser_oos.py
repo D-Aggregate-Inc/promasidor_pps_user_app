@@ -101,3 +101,4 @@ if st.button("Submit OOS") and gps_lat and oos_data:
     st.success("OOS Tracked!")
 else:
     st.error("fill your OOS SKUs")
+st.stop()

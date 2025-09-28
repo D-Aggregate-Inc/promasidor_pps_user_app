@@ -118,3 +118,4 @@ with st.expander("Input Outlet Information",expanded=True):
     #     st.warning("GPS location is required to onboard an outlet.")
     # elif not image:
     #     st.error("Outlet image is required to onboard an outlet.")
+st.stop()

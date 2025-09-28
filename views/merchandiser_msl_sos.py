@@ -42,8 +42,9 @@ if selected_outlet['outlet_type']=='Lock-Up Shop(Seasoning)' or selected_outlet[
     for category, skus in skus_grouped.items():
         with st.expander(category):
             # Your SKUs
+            st.caption(":blue[Please fill the facing/Line of the each SKU merchandised]")
             for sku in skus:
-                facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
+                facings = st.number_input(f"{sku['name']}", min_value=0, value=0, key=f"facing_{sku['id']}")
                 if facings >= 0:
                     sos_data["your_skus"][str(sku['id'])] = facings
             # Competitor facings
@@ -59,8 +60,9 @@ elif selected_outlet['outlet_type']=='Lock-Up Shop(Dairy/Beverages)':
     for category, skus in skus_grouped.items():
         with st.expander(category):
             # Your SKUs
+            st.caption(":blue[Please fill the facing/Line of the each SKU merchandised]")
             for sku in skus:
-                facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
+                facings = st.number_input(f"{sku['name']}", min_value=0, value=0, key=f"facing_{sku['id']}")
                 if facings >= 0:
                     sos_data["your_skus"][str(sku['id'])] = facings
             # Competitor facings
@@ -76,8 +78,9 @@ elif selected_outlet['outlet_type']=='Kiosk(Dairy/Beverages)':
     for category, skus in skus_grouped.items():
         with st.expander(category):
             # Your SKUs
+            st.caption(":blue[Please fill the facing/Line of the each SKU merchandised]")
             for sku in skus:
-                facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
+                facings = st.number_input(f"{sku['name']}", min_value=0, value=0, key=f"facing_{sku['id']}")
                 if facings >= 0:
                     sos_data["your_skus"][str(sku['id'])] = facings
             # Competitor facings
@@ -93,8 +96,9 @@ elif selected_outlet['outlet_type']=='Table-Top(Dairy/Beverages)':
     for category, skus in skus_grouped.items():
         with st.expander(category):
             # Your SKUs
+            st.caption(":blue[Please fill the facing/Line of the each SKU merchandised]")
             for sku in skus:
-                facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
+                facings = st.number_input(f"{sku['name']}", min_value=0, value=0, key=f"facing_{sku['id']}")
                 if facings >= 0:
                     sos_data["your_skus"][str(sku['id'])] = facings
             # Competitor facings
@@ -110,8 +114,9 @@ elif selected_outlet['outlet_type']=='GSM-Groceries' or selected_outlet['outlet_
     for category, skus in skus_grouped.items():
         with st.expander(category):
             # Your SKUs
+            st.caption(":blue[Please fill the facing/Line of the each SKU merchandised]")
             for sku in skus:
-                facings = st.number_input(f"{sku['name']} Facings", min_value=0, value=0, key=f"facing_{sku['id']}")
+                facings = st.number_input(f"{sku['name']}", min_value=0, value=0, key=f"facing_{sku['id']}")
                 if facings >= 0:
                     sos_data["your_skus"][str(sku['id'])] = facings
             # Competitor facings
@@ -142,3 +147,4 @@ if st.button("Submit MSL/SOS") and gps_lat and sos_data and outlet_info and msl_
         st.error("Image Not Uploaded")
 else:
     st.warning(f"Please ensure all field are correctly filled")
+st.stop()

@@ -59,7 +59,7 @@ outlets = execute_query("""
     WHERE r.name = %s
 """, (user['merchandiser_region'],),fetch='all')
 outlet_dict = {
-    f"{o['name']} (| {o['phone_contact']})": o['id']
+    f"{o['name']} ({o['phone_contact']})": o['id']
     for o in outlets
 }
 # placeholder='Search for outlet...'

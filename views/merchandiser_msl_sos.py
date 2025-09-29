@@ -24,7 +24,7 @@ outlets = execute_query("""
     WHERE o.onboarded_by_user_id = %s
 """, (user_id,))
 outlet_dict = {
-    f"{o['name']} ({o['location_name']} | {o['phone_contact']})": o['id']
+    f"{o['name']} ({o['phone_contact']})": o['id']
     for o in outlets
 }
 outlet_info = st.selectbox("Select Outlet", list(outlet_dict.keys()))

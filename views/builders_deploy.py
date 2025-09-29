@@ -64,7 +64,10 @@ outlet_dict = {
 }
 placeholder='Search for outlet...'
 outlet_info = st.selectbox("Select Outlet", [placeholder]+list(outlet_dict.keys()),index=0)
-outlet_id = outlet_dict[outlet_info]
+if outlet_info==placeholder:
+    st.warning("pls select real outlet to proceed")
+else:
+    outlet_id = outlet_dict[outlet_info]
 try:
     selected_outlet = next(o for o in outlets if outlet_dict[outlet_info] == o['id'])
     st.sidebar.divider()

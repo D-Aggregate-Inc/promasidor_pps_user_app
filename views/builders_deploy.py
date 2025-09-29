@@ -63,7 +63,7 @@ outlet_dict = {
     for o in outlets
 }
 # placeholder='Search for outlet...'
-outlet_info = st.selectbox("Select Outlet",list(outlet_dict.keys()),index=0)
+outlet_info = st.selectbox("Select Outlet",list(outlet_dict.keys()))
 # if outlet_info==placeholder:
 #     st.warning("pls select real outlet to proceed")
 # else:

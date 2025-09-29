@@ -40,9 +40,9 @@ def upload_image(image_bytes, folder='images', gps_lat=None, gps_long=None):
         except IOError:
             font = ImageFont.load_default()  # Fallback if arial.ttf unavailable
         current_time = datetime.now(pytz.timezone('Africa/Lagos')).strftime('%Y:%m:%d %H:%M:%S')
-        gps_text = f"Lat: {gps_lat:.6f}, Lon: {gps_long:.6f}" if gps_lat is not None and gps_long is not None else "No GPS"
+        gps_text = f"Lat: {gps_lat:.5f}, Lon: {gps_long:.5f}" if gps_lat is not None and gps_long is not None else "No GPS"
         watermark_text = f"{current_time}\n{gps_text}"
-        draw.text((10, 10), watermark_text, fill="white", font=font, stroke_width=1, stroke_fill="black")
+        draw.text((10, 10), watermark_text, fill="white", font=font, stroke_width=2, stroke_fill="black")
 
         # Save image to buffer
         buffer = io.BytesIO()

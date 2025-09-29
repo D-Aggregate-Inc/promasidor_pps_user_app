@@ -59,15 +59,15 @@ outlets = execute_query("""
     WHERE r.name = %s
 """, (user['merchandiser_region'],),fetch='all')
 outlet_dict = {
-    f"{o['name']} ({o['location_name']} | {o['phone_contact']})": o['id']
+    f"{o['name']} (| {o['phone_contact']})": o['id']
     for o in outlets
 }
-placeholder='Search for outlet...'
-outlet_info = st.selectbox("Select Outlet", [placeholder]+list(outlet_dict.keys()),index=0)
-if outlet_info==placeholder:
-    st.warning("pls select real outlet to proceed")
-else:
-    outlet_id = outlet_dict[outlet_info]
+# placeholder='Search for outlet...'
+outlet_info = st.selectbox("Select Outlet",list(outlet_dict.keys()),index=0)
+# if outlet_info==placeholder:
+#     st.warning("pls select real outlet to proceed")
+# else:
+outlet_id = outlet_dict[outlet_info]
 try:
     selected_outlet = next(o for o in outlets if outlet_dict[outlet_info] == o['id'])
     st.sidebar.divider()

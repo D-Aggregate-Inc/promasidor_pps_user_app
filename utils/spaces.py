@@ -29,7 +29,7 @@ def upload_image(image_bytes, folder='images', gps_lat=None, gps_long=None):
         img = Image.open(io.BytesIO(image_bytes))
         if img.mode == 'RGBA':
             img = img.convert('RGB')
-        max_size=(2048, 2048))
+        max_size=(2048, 2048)
         if img.size[0] > max_size[0] or img.size[1] > max_size[1]:
             img.thumbnail(max_size, Image.Resampling.LANCZOS)  # Optimize size
 

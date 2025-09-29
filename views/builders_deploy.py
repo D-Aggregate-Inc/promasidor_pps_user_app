@@ -62,7 +62,7 @@ outlet_dict = {
     f"{o['name']} ({o['location_name']} | {o['phone_contact']})": o['id']
     for o in outlets
 }
-outlet_info = st.selectbox("Select Outlet",""+list(outlet_dict.keys()),index=0)
+outlet_info = st.selectbox("Select Outlet", list(""+ outlet_dict.keys()),index=0)
 outlet_id = outlet_dict[outlet_info]
 try:
     selected_outlet = next(o for o in outlets if outlet_dict[outlet_info] == o['id'])

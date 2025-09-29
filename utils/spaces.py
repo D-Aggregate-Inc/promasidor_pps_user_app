@@ -29,7 +29,9 @@ def upload_image(image_bytes, folder='images', gps_lat=None, gps_long=None):
         img = Image.open(io.BytesIO(image_bytes))
         if img.mode == 'RGBA':
             img = img.convert('RGB')
-        img.thumbnail((1024, 1024))  # Optimize size
+        max_size=(2048, 2048))
+        if img.size[0] > max_size[0] or img.size[1] > max_size[1]:
+            img.thumbnail(max_size, Image.Resampling.LANCZOS)  # Optimize size
 
         # Add watermark with GPS and datetime
         draw = ImageDraw.Draw(img)
@@ -40,11 +42,11 @@ def upload_image(image_bytes, folder='images', gps_lat=None, gps_long=None):
         current_time = datetime.now(pytz.timezone('Africa/Lagos')).strftime('%Y:%m:%d %H:%M:%S')
         gps_text = f"Lat: {gps_lat:.6f}, Lon: {gps_long:.6f}" if gps_lat is not None and gps_long is not None else "No GPS"
         watermark_text = f"{current_time}\n{gps_text}"
-        draw.text((10, 10), watermark_text, fill="white", font=font, stroke_width=2, stroke_fill="black")
+        draw.text((10, 10), watermark_text, fill="white", font=font, stroke_width=1, stroke_fill="black")
 
         # Save image to buffer
         buffer = io.BytesIO()
-        img.save(buffer, format="JPEG", quality=85)
+        img.save(buffer, format="JPEG", quality=95, optimize=True, progressive=True)
         buffer.seek(0)
 
         key = f"{folder}/{uuid.uuid4()}.jpg"

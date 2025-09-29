@@ -24,7 +24,7 @@ outlets = execute_query("""
     WHERE o.onboarded_by_user_id = %s
 """, (user_id,))
 outlet_dict = {
-    f"{o['name']} ({o['location_name']} | {o['outlet_address']} | {o['phone_contact']} | {o['outlet_type']})": o['id']
+    f"{o['name']} ({o['location_name']} | {o['phone_contact']})": o['id']
     for o in outlets
 }
 outlet_info = st.selectbox("Select Outlet", list(outlet_dict.keys()))
@@ -38,7 +38,7 @@ order_data = []
 for category, skus in skus_grouped.items():
     with st.expander(category):
         for sku in skus:
-            st.write(f"{sku['name']}")
+            st.write(f"**{sku['name']}**")
             cartn,unit=st.columns(2, gap="medium")
             quantity_carton = cartn.number_input("CTN", min_value=0, value=0, key=f"qty_carton{sku['id']}")
             if quantity_carton > 0:

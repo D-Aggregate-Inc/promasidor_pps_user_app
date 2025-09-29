@@ -46,7 +46,7 @@ def upload_image(image_bytes, folder='images', gps_lat=None, gps_long=None):
 
         # Save image to buffer
         buffer = io.BytesIO()
-        img.save(buffer, format="JPEG", quality=95, optimize=True, progressive=True)
+        img.save(buffer, format="JPEG", quality=104, optimize=True, progressive=True)
         buffer.seek(0)
 
         key = f"{folder}/{uuid.uuid4()}.jpg"

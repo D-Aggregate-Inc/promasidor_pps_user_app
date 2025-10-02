@@ -143,3 +143,5 @@ st.markdown("""<br>""",unsafe_allow_html=True)
 st.markdown("""<br>""",unsafe_allow_html=True)
 st.markdown("""<p style="font-size:16px; text-align:center; color:darkred;"> Copyright©️ RetailScope(2025) -All right reserved</p>""",unsafe_allow_html=True)
 st.markdown("""<br>""",unsafe_allow_html=True)
+st.stop()
+
